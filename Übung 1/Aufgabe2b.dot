@@ -1,0 +1,4 @@
+digraph {
+    bcd -> a;
+    a -> e;
+}
