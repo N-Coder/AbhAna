@@ -1,0 +1,12 @@
+digraph {
+    s0[label=";"];
+    s0 -> d0, d1;
+    s1[label=";"];
+    s1 -> s0,d2;
+    s2[label=";"];
+    s2 -> s1,if;
+    if -> E1,do,d5;
+    s3[label=";"]
+    do -> s3,E2;
+    s3 -> d3,d4;
+}

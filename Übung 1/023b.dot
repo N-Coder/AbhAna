@@ -1,0 +1,18 @@
+digraph {
+    s0[label=";"];
+    d0[xlabel="100 000\n000 101"];
+    s0 -> d0, d1;
+    s1[label=";"];
+    d1[xlabel="010 000\n000 000"];
+    d2[xlabel="001 000\n000 010"];
+    s1 -> s0,d2;
+    s2[label=";"];
+    s2 -> s1,if;
+    if -> E1,do,d5;
+    s3[label=";"]
+    do -> s3,E2;
+    d3[xlabel="000 100\n100 001"];
+    d4[xlabel="000 010\n010 000"];
+    d5[xlabel="000 001\n100 100"];
+    s3 -> d3,d4;
+}
