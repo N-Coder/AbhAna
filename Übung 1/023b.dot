@@ -1,15 +1,20 @@
+// gen- und kill-Mengen
+
 digraph {
-    s0[label=";"];
+    graph [pad="0.5", nodesep="1.5", ranksep="1"];
     d0[xlabel="100 000\n000 101"];
     s0 -> d0, d1;
-    s1[label=";"];
+    s0[label=";", xlabel="110 000\n000 101"];
     d1[xlabel="010 000\n000 000"];
     d2[xlabel="001 000\n000 010"];
+    s1[label=";", xlabel="111 000\n000 111"];
     s1 -> s0,d2;
-    s2[label=";"];
+    s2[label=";", xlabel="011 111\n100 000"];
     s2 -> s1,if;
+    if[xlabel="000 111\n100 000"];
     if -> E1,do,d5;
-    s3[label=";"]
+    s3[label=";", xlabel="000 110\n110 001"];
+    do[xlabel="000 110\n110 001"];
     do -> s3,E2;
     d3[xlabel="000 100\n100 001"];
     d4[xlabel="000 010\n010 000"];

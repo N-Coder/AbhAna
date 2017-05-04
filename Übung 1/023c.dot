@@ -1,0 +1,28 @@
+// in- und out-Mengen
+
+/*
+    1. Im linkesten Ast, beginnend bei der Wurzel
+        - in-Mengen 00000000
+*/
+
+digraph {
+    graph [pad="0.5", nodesep="1.5", ranksep="1"];
+    d0[xlabel="000 000\n100 000"];
+    s0 -> d0, d1;
+    s0[label=";", xlabel="000 000\n110 000"];
+    d1[xlabel="100 000\n110 000"];
+    d2[xlabel="110 000\n111 000"];
+    s1[label=";", xlabel="000 000\n111 000"];
+    s1 -> s0,d2;
+    s2[label=";", xlabel="000 000\n011 111"];
+    s2 -> s1,if;
+    if[xlabel="111 000\n011 111"];
+    if -> E1,do,d5;
+    s3[label=";", xlabel="111 110\n001 110"];
+    do[xlabel="111 000\n001 110"];
+    do -> s3,E2;
+    d3[xlabel="111 110\n011 110"];
+    d4[xlabel="011 110\n001 110"];
+    d5[xlabel="111 000\n011 001"];
+    s3 -> d3,d4;
+}
