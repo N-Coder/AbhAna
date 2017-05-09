@@ -48,15 +48,28 @@
 \subsection*{Aufgabe 1b)}
 
 \begin{itemize}
-\item Maximale Ketten:
+    \item \textbf{Maximale Ketten:}
+    Von der $1$ an beginnend den Baum aufbauen, Knoten streichen wenn sie durch einen längeren
+    Pfad erreicht werden können. Tritt ein Knoten mehrfach mit gleicher Distanz zum Anfangsknoten
+    auf, bleiben beide Ketten bestehen. Sind alle Kanten ausgeschöpft, mit einem anderen Knoten von
+    vorne beginnen, der noch in keinem Baum aufgetaucht ist (Im Beispiel nicht der Fall).
+
+    Hier:
 \[1 \rightarrow 3 \rightarrow 6 \rightarrow 9\]
 \[1 \rightarrow 3 \rightarrow 6 \rightarrow 8 \rightarrow 10\]
 \[1 \rightarrow 2 \rightarrow 5 \rightarrow 8 \rightarrow 10\]
 \[1 \rightarrow 2 \rightarrow 4 \rightarrow 7 \rightarrow 10\]
 
-\item Maximale Antiketten:
-\[\{2,3\}, \{2,6\}, \{2,9\}, \{3, 4,5\},\{3,4,8\},\{3,7,8\}, \{3, 5, 7\},\]
-\[\{4, 5, 6\}, \{4,5,9\}, \{4,8,9\},
+\item \textbf{Maximale Antiketten:}
+    Zunächst die transitive Hülle der Relation bestimmen. Das geschieht im Beispiel idealerweise
+    bei der 10 beginnend, da Kanten nur von kleineren zu größeren Zahlen existieren. Daraus können
+    die Antiketten der Länge 2 bestimmt werden. Diese lassen sich immer dann zu längeren Antiketten
+    verbinden, wenn $\{a,b\}, \{a,c\}, \{b, c\}$ Antiketten sind: Sie bilden zusammen $\{a,b,c\}$.
+    \textit{Maximale Antiketten} sind die mit der Länge $N$, wenn die längste Antikette $N$
+    Elemente hat.
+
+    Hier:
+\[\{1\}, \{2,3\}, \{2,6\}, \{2,9\}, \{3, 4,5\}, \{3, 5, 7\}, \{4, 5, 6\}, \{4,5,9\}, \{4,8,9\},
 \{5,6,7\},\{5,7,9\}, \{7,8,9\}, \{9,10\}\]
 \end{itemize}
 

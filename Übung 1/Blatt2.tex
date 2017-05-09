@@ -1,0 +1,138 @@
+\documentclass[a4paper,10pt]{article}
+
+% IMPORTS
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\usepackage{wrapfig}
+\usepackage[ngerman]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{pdfpages}
+\usepackage{placeins}
+\usepackage{color}
+\usepackage{eurosym}
+\usepackage{xargs}
+\usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage[margin=2cm]{geometry}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+
+% CONFIG
+\clubpenalty = 9000
+\widowpenalty = 9000
+\displaywidowpenalty = 9000
+\titlespacing\section{0pt}{14pt plus 4pt minus 2pt}{2pt plus 2pt minus 1pt}
+\titlespacing\subsection{0pt}{10pt plus 4pt minus 2pt}{2pt plus 2pt minus 1pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\setcounter{tocdepth}{2}
+\newcommand{\cell}[2][c]{\begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
+\renewcommand*\arraystretch{1.3}
+
+% -----------------------------------------------------------------------------
+\begin{document}
+
+\begin{flushright}
+    Niko Fink\\
+    Fabian Knorr
+\end{flushright}
+\vspace*{-5.5em}
+
+\section*{Aufgabe 3}
+\subsection*{Aufgabe 3a)}
+
+\begin{itemize}
+    \item Hintereinanderausführungen erzeugen einen Konkatenationsoperator $(;)$ mit
+        erstem Statement als linken, zweitem Statement als rechten Kindknoten
+    \item \texttt{if}-Statements erzeugen einen if-Knoten mit drei Kindknoten:
+        der Bedingung, dem then-Zweig (links) und dem else-Zweig (rechts).
+    \item \texttt{do}-Schleifen erzeugen einen do-Knoten mit Schleifenkörper und
+        Bedingung als Kindknoten.
+\end{itemize}
+
+\begin{center}
+\includegraphics[scale=0.7]{023a.pdf}
+\end{center}
+
+\newpage
+\subsection*{Aufgabe 3b)}
+
+\begin{itemize}
+    \item Beginne bei den Blättern. Überschriebene Ausdrücke landen in der kill-Menge,
+        Geschriebene in der gen-Menge.
+    \item Bei einer Konkatenation ist die gen-Menge gen-Menge des zweiten Kindknotens
+        und die Ausdrücke der gen-Menge des ersten Knotens, die nicht in der kill-Menge
+        des zweiten liegen.
+    \item Bei einem do-Knoten sind gen- und kill-Mengen die des Schleifenkörpers.
+    \item Bei einem if-Knoten ist die gen-Menge Vereinigung der gen-Mengen der Kinder,
+        die kill-Menge Schnitt der kill-Mengen
+\end{itemize}
+
+\begin{center}
+\includegraphics[scale=0.55]{023b.pdf}
+\end{center}
+
+\newpage
+\subsection*{Aufgabe 3c)}
+
+\begin{itemize}
+    \item Beginne bei der Wurzel. Die in-Menge ist $\emptyset$.
+    \item Bei einer Konkatenation ist die in-Menge des ersten Kindes die des Elternknotens,
+        die des zweiten die out-Menge des ersten und die out-Menge des Elternknotens die des
+        zweiten Kindes.
+    \item Bei einem Blattknoten ist $out = gen \cup (in \setminus kill)$.
+    \item Bei einem if-Knoten ist die out-Menge Vereinigung der out-Mengen der Kinder.
+    \item Bei einem do-Knoten ist die out-Menge die des Schleifenkörpers.
+\end{itemize}
+
+
+\begin{center}
+\includegraphics[scale=0.55]{023c.pdf}
+\end{center}
+
+\subsection*{Aufgabe 3c)}
+
+...
+
+\newpage
+\section*{Aufgabe 4}
+
+\textbf{Liveness-Analyse:} Es soll ermittelt werden, wie lange ein Wert gebraucht wird (z.B. zur
+Registerallokation). Interessant ist also die Zeit vom Schreib- bis zum letzten Lesevorgang.
+
+Vorgehen \textit{bottom-up}: Lesezugriffe erzeugen die gen-Menge, Schreibzugriffe die kill-Menge.
+
+\vspace*{1em}
+\begin{center}
+    \begin{tabular}{cl}
+        $S: \hdots := \hdots$ & \cell{%
+            $gen[S] = vars_{read}$\\
+            $kill[S] = vars_{written} \setminus gen[S]$ \\
+            $in[S] = gen[S]\cup(out[S]\setminus kill[S])$}\\
+        \hline
+        $S: S1; S2$ & \cell{%
+            $gen[S] = (gen[S2]\setminus kill[S1]) \cup gen[S1]$\\
+            $kill[S] = (kill[S2]\setminus gen[S1]) \cup kill[S1]$\\
+            $in[S] = in[S1]$\\
+            $out[S1] = in[S2]$\\
+            $out[S2] = out[S]$}\\
+        \hline
+        $S: \mathrm{if} \hdots S1\;\mathrm{else}\;S2$ & \cell{%
+            $gen[S]=gen[S1]\cup gen[S2]$\\
+            $kill[S]=kill[S1]\cap kill[S2]$\\
+            $in[S] = in[S1]\cup in[S2]$\\
+            $out[S1] = out[S]$\\
+            $out[S2] = out[S]$}\\
+        \hline
+        $S: \mathrm{do}\;S1\;\mathrm{while}\hdots$ & \cell{%
+            $gen[S] = gen[S1]$\\
+            $kill[S]=kill[S1]$\\
+            $in[S] = in[S1]$\\
+            $out[S1] = out[S]\cup gen[S1]$}\\
+    \end{tabular}
+\end{center}
+
+\end{document}
