@@ -1,0 +1,31 @@
+0. Identifikation
+	Instanzen von Statements sind abhängig von einander.
+	Instanzen können z.B. einzelne Schleifendurchläufe (identifiziert durch Schleifenindizes) oder Aufrufe einer Rekursiven Funktion (id durch Pfad im Aufrufbaum) sein.
+1. Speicherkonflikt
+	Abhängigkeiten sind nun Zugriffe auf den gleichen Speicherbereich (Speicherkonflikte), z.B. von einem Array.
+	Finde nun die Schleifendurchläufe, in denen auf die selben Zellen zugegriffen wird.
+	=> Konfliktgleichungssystem (mit #Array-Dimensionen Gleichungen und Variablen * 2 Variablen)
+		A[3i+17,i+j] ... [5i, i] => 3i+17 = 5i' | i+j = i'
+2. Existenzproblem der Zugriffe
+	Teilweise besitzt das GS aber keine ganzzahligen Lösungen, der Zugriff existiert also nicht.
+	=> Existenz-Ungleichungssystem
+3. Ordnung
+	=> Sequenzielle Ausführungsordnung auf den Statement Instanzen
+	=> lexikographische Ordnung (erst nach Schleifen-Indizes, dann textuelle Reihenfolge im Programm)
+		bei nicht perfekter Verschachtlung
+		- entweder erst die Indizes der gemeinsam umgebenden Schleifen, dann die Reihenfolge der Schleifen auf gleicher Ebene
+		- oder die Reihenfolge der Schleifen auf gleicher Ebene als weitere Dimension einführen
+		bei rückwärts laufenden Schleifen am besten normalisieren => Schleife läuft vorwärts, Variablen im Body werden umgekehrt (alternativ negative Werte in einer Dimension)
+4. Optimierung (optional)
+	- Entferne transitive Abhängigkeiten
+5. Bernstein-Zusatz: mindestens einer schreibt (optional? caching)
+
+
+Abhängigkeit von Quelle zu Ziel
+Iterationsvektor(Quelle) - Iterationsvektor(Ziel) = diff ist lexikografisch nicht negativ
+	wenn diff = 0: schleifenunabhängige (textgetragene) Abh.
+	wenn diff konstant: uniforme Abh. ("Abhängigkeitsvektor" => "Distanzvektor")
+	wenn diff nicht konstant: Vergröberung, nur die Vorzeichen der Komponenten der Differenz betrachten ("Richtungsvektor")
+		noch gröber: Level - die Tiefe der die Abh. tragenden Schleife
+
+TODO Tabelle zu benamsung von lesen/schreibe
