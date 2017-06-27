@@ -1,0 +1,96 @@
+\setcounter{section}{1}
+\section{Polyedermodell}
+\label{sec:polymod}
+
+
+\subsection{Das ursprüngliche Modell}
+\label{sec:orig-mod}
+
+\begin{enumerate}
+\item Restriktionen:
+\begin{enumerate}
+\item perfekt verschachtelt
+\item Schleifengrenzen: affine Ausdrücke in Strukturparametern und umgebenden
+  Indizes und Maxima bzw. Minima davon (für Unter- bzw. Obergrenzen)
+\item Arrayindizes affin in den Schleifenindizes und Strukturparametern
+\item uniforme Abhängigkeiten
+\item ein Schedule und eine Allokation für den kompletten Rumpf;
+  Schedule zunächst eindimensional
+%\item Schedule und Allokation linear, voneinander lin. unabhängig,
+%  gemeinsam volle Dinensionalität
+\end{enumerate}
+%
+\item Modell:
+\begin{enumerate}
+\item $n$-dimensionaler Schleifensatz im $n$-dimensionalen Raum (je
+  Schleife eine Dimension)
+\item jeder affine Ausdruck in den Schleifengrenzen definiert einen
+  Halbraum
+\item Polyeder: der Durchschnitt endlich vieler Halbräume
+\item Polytop: beschränktes Polyeder 
+\item (Quell-)Indexraum ist ein Polytop
+\item Abhängigkeiten durch Pfeile im Indexraum repräsentiert
+\item Quellpolytop beinhaltet alle nötigen Informationen
+\end{enumerate}
+%
+\item Raum-Zeit-Abbildung:
+\begin{enumerate}
+\item Schedule: Funktion, die jeder Operation einen (logischen)
+  Ausführungszeitpunkt zuordnet, und dabei die durch die Abhängigkeiten
+  vorgegebenen Bedingungen berücksichtigt
+\item für das Modell: affine Funktion
+\item graphische Bestimmung s. Beispiel der Vorlesung
+\item mathematische Bestimmung: lineare Programmierung. Aufgabe:
+  minimiere die affine Funktion unter der Nebenbedingung, daß ihr Wert
+  für einen abhängigen Punkt größer ist als ihr Wert an dem Punkt, von
+  dem er abhängt.
+\item Allokation: Funktion, die jeder Operation einen (virtuellen)
+  Prozessor zur Ausführung zuordnet
+\item für das Modell: affine Funktion, die zum Schedule linear
+  unabhängig ist (wegen der realen Maschinen und wegen des Modells
+  nötig!)
+\item Raum-Zeit-Abbildung: die (mehrdimensionale) affine Abbildung,
+  repräsentiert durch die Transformationsmatrix, die sich aus Schedule
+  und Allokation zusammensetzt, und so jeder Operation einen
+  Raum-Zeit-Punkt der Ausführung zuweist. Zusätzliche Restriktion an die 
+  Allokation: die Raum-Zeit-Matrix muß unimodular sein (Determinante
+  betragsmäßig 1)
+\end{enumerate}
+%
+\item Transformation des Modells:
+\begin{enumerate}
+\item Problem: jede einzelne Dimension kann teilweise in Raum und
+  teilweise in der Zeit sein
+\item Ziel: Separation -- jede Dimension entweder im Raum oder in der Zeit
+\item Weg: Basiswechsel = Anwendung der Raum-Zeit-Abbildung auf den
+  Quell-Indexraum
+\item Resultat: ``verzerrtes'' Polytop: Zielpolytop
+\end{enumerate}
+%
+\item Zurück zum Programm:
+\begin{enumerate}
+\item Aufgabe: ``scanning'' der Punkte des Zielpolytops
+\item parallele Schleifen für die Raumdimensionen und sequentielle
+  Schleifen für die Zeitdimensionen
+\item Weg: im Quell-Ungleichungssystem die Indizes durch
+  ``$T^{-1}*$Zielindizes'' ersetzen und auflösen
+\item abhängig von der gewünschten Reihenfolge der Zieldimensionen:
+  (a)synchrones Programm
+\item Quellindizes durch ``$T^{-1}*$Zielindizes'' ersetzen
+\end{enumerate}
+\end{enumerate}
+
+\subsection{Das erweiterte Modell}
+\label{sec:new-mod}
+
+Erweiterungen:
+\begin{enumerate}
+\item affine Abhängigkeiten\\[-7mm]
+\item stückweise affine Schedules\\[-7mm]
+\item per-Statement-Schedule\\[-7mm]
+\item nicht-perfekte Verschachtelung\\[-7mm]
+\item nicht-unimodulare Raum-Zeit-Abbildungen\\[-7mm]
+\item beliebige (z.B. nicht-invertierbare) Raum-Zeit-Abbildungen\\[-7mm]
+\item beliebige Schleifentypen\\[-7mm]
+\item allgemeine Array-Indizes\\[-7mm]
+\end{enumerate}

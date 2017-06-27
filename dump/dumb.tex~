@@ -1,0 +1,31 @@
+\documentclass[a4paper]{article}
+
+\usepackage{ngerman,a4,ulsy}
+\usepackage[german]{algorithm2e}
+\usepackage[utf8]{inputenc}
+%\usepackage{listings,color}   %% color für Farbmarkierungen
+%\lstset{language=Java}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\setcounter{secnumdepth}{3} %% Nummerierungstiefe bis subsubsection
+\setlength\parindent{0pt}
+\def\itemize{enumerate}
+
+
+\begin{document}
+
+    \include{deckblatt}
+    \include{literatur}
+    \include{programm-modell}
+    \include{polyedermodell}
+    \include{mathematische_grundlagen}
+    \include{abhaengigkeitsanalyse_im_ueberblick}
+    \include{abhaengigkeitsanalyse_nach_banerjee}
+    \include{datenflussanalyse}
+    \include{vereinfachte_abhaengigkeitsanalyse}
+    \include{normalisierung_der_array-indizes}
+    \include{eliminieren_von_abhaengigkeiten}
+    \include{ausgewaehlte_parallelisierungstechniken}
+
+\end{document}

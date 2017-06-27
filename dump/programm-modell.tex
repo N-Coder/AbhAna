@@ -1,0 +1,113 @@
+\section{Programm-Modell}
+\label{sec:prog-mod}
+
+%Ziel der Vorlesung ist es, Programme automatisch optimal zu
+%parallelisieren. Da dieses Problem in dieser Allgemeinheit
+%unentscheidbar ist, schränken wir uns wie folgt ein:
+\begin{enumerate}
+\item Datentypen:
+  \begin{enumerate}
+  \item Als Datentypen erlauben wir nur (mehrdimensionale) Arrays
+    mit beliebigen Einträgen. Beachte: Skalare sind 0-dimensionale
+    Arrays.
+  \item Lediglich Indizes von Schleifen werden nicht als 0-dimensionale
+    Arrays, sondern wirklich als Integers betrachtet.
+  \item Darüberhinaus gibt es symbolische Konstanten vom Typ Integer,
+    die oft auch als Strukturparameter bezeichnet werden.
+  \end{enumerate}
+\item Kontrollstrukturen:
+  \begin{enumerate}
+  \item Das Basiselement ist die Zuweisung an ein Arrayelement.
+  \item Die einzige Kontrollstruktur ist die Schleife (beliebig
+    verschachtelte Anwendung willkommen).
+  \item Als Schleifenunter- bzw. -obergrenzen sind im originalen
+    Programm-Modell nur Maxima bzw. Minima affiner Ausdrücke in
+    umgebenden Schleifenindizes und in Strukturparametern
+    erlaubt; das wird auch der Schwerpunkt der Vorlesung sein,
+    wenngleich diese Restriktionen mittlerweile theoretisch aufgelöst
+    wurden.
+  \end{enumerate}
+\item Iterationen:
+  \begin{enumerate}
+  \item Durch die Schleifen entstehen verschiedene Instanzen von
+    Zuweisungen (Operations).
+  \item Identifiziert werden Operations durch Angabe des Statements und
+    des Iterationsvektors (Vektor, der sich aus den Werten der Indizes der
+    umgebenden Schleifenindizes zusammensetzt).
+  \item Der Raum aller Operations heißt Index- oder Iterationsraum aller 
+    Statements. (Manchmal werden wir die Indexräume von verschiedenen
+    Statements auch übereinanderlegen und somit nur einen Indexraum für
+    mehrere Statements erhalten, falls die Statements dieselben
+    umgebenden Schleifen besitzen.)
+  \end{enumerate}
+\item Ordnungen:
+  \begin{enumerate}
+  \item (partielle) Ordnung: reflexiv, transitiv, antisymmetrisch
+  \item minimale, maximale Elemente: fehlende Existenz von kleineren,
+    größeren Elementen
+    % komponentenweise Ordnung
+  \item größtes, kleinstes Element: alle anderen sind kleiner, größer
+    % Verband der Teilmengenrelation
+  \item totale Ordnung: beliebige zwei Elemente vergleichbar
+  \item Kette, Antikette: Menge von nur (un-)vergleichbaren Elementen,
+    genauer: $A$ Antikette $\Leftrightarrow (\forall x,y \, :\, x,y\in A
+    \land x\not= y : \neg ((x\leq y) \lor  (y\leq x)))$
+  \item maximale (Anti-) Kette: es gibt keine echte Obermenge, die eine
+    \hbox{(Anti-)} Kette ist.
+    % maximale Antiketten sind als Mengen partiell geordnet
+  \item Theorem 1.1 in \cite{Ban93}.
+  \item lexikographische, komponentenweise Ordnung: sollten bekannt sein.
+  \end{enumerate}
+\item Ausführungsreihenfolge:
+  \begin{enumerate}
+  \item Für sequentielle Schleifen gilt: In einem perfekt
+    verschachtelten Schleifensatz (die Zuweisungen stehen alle in
+    demselben Rumpf der innersten Schleife) werden verschiedene
+    Instanzen des Schleifenrumpfes gemäß der lexikographischen Ordnung
+    der Iterationsvektoren abgearbeitet.
+  \item Operation $a$ ist gemäß der sequentiellen Ausführungsordnung
+    kleiner als (also vor) Operation $b$, i.Z. $a \prec b$ gdw. ihre
+    Iterationsvektoren, eingeschränkt auf gemeinsam umgebende Schleifen,
+    lexikographisch kleiner sind, oder diese Vektoren gleich sind und
+    $a$ im Programmtext vor $b$ steht.
+    %wenn nach dem Entfernen aller gemeinsam umgebenden (äußeren) Schleifen
+  \end{enumerate}
+\item Abhängigkeiten:
+  \begin{enumerate}
+  \item geben an, für welche Operations die Ausführungsreihenfolge
+    zwingend vorgeschrieben ist. Formale Definition: später.
+  \end{enumerate}
+\item Graphen
+  \begin{enumerate}
+  \item (un)gerichtete Graphen: Knoten, Bögen/Kanten (mit/ohne Richtung)
+    (Anm: wir verwenden ``Kanten'' auch im gerichteten)
+  \item Wege, Pfade: klar; Pfad beachtet die Richtung
+  \item Zyklen, Schleifen: Weg, Pfad mit Anfang = Ende
+  \item schwach zusammenhängend: ungeachtet der Richtung
+  \item stark zusammenhängend: mit Beachtung der Richtung von jedem zu
+    jedem
+  \item $n$-fach zusammenhängend: nach dem Löschen von $n\!-\!1$ beliebigen
+    Kanten immer noch zusammenhängend
+  \item schwache, starke Zusammenhangskomponenten: Teilgraphen, die
+    schwach, stark zusammenhängend sind
+  \item azyklische Kondensation: pro starke Zusammenhangskomponente ein
+    Knoten; die ``schwachen Kanten'' übernehmen
+  \end{enumerate}
+\item Abhängigkeitsgraphen:
+  \begin{enumerate}
+  \item Iterationsabhängigkeitsgraph: je Operation (oder für jeweils
+    übereinandergelegte Operationen) ein Knoten mit Abhängigkeiten als
+    Kanten; sehr genau, aber u.U. unbeschränkt.
+  \item Statementabhängigkeitsgraph: nur je Statement ein Knoten;
+    kleiner, aber ungenauer.
+  \end{enumerate}
+\item Parallelisierung
+  \begin{enumerate}
+  \item wirklich notwendige Ordnung von den Abhängigkeiten vorgeschrieben
+  \item paralleles Programm (Herleitung später)
+  \end{enumerate}
+\end{enumerate}
+
+
+
+

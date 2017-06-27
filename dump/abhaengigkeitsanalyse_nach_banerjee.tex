@@ -1,0 +1,248 @@
+\setcounter{section}{4}
+\section{Abhängigkeitsanalyse nach Banerjee}
+
+\subsection{Normalisierung des Schleifenkopfes}
+
+Die Behandlung von Schrittweiten ungleich von eins, insbesondere von
+negativen Schrittweiten, macht die Abhängigkeitsanalyse aufwendig. Daher
+normalisiert man Schleifen oft wie folgt:
+
+
+
+  % {\sf for $i:=x$ to $y$ step $s$ do $R(i)$}
+ 
+\begin{minipage}{.4\textwidth}
+  \begin{algorithm}[H]
+      \SetKw{KwStep}{step}
+      \For{$i:=x$ \KwTo $y$ \KwStep s}{
+        \( R(i) \)
+      }
+  \end{algorithm}
+\end{minipage}
+\begin{minipage}{.5\textwidth}
+    \qquad $\to$ \qquad  
+    \begin{algorithm}[H]
+          \SetKw{KwStep}{step}
+          \For{\( i' := 0\) \KwTo \( \frac{y\!-\!x}{s} \) \KwStep 1}{
+            \( R(i' \cdot s + x) \)
+          }
+      \end{algorithm}  
+\end{minipage}
+  % {\sf for $i':=0$ to ${y\!-\!x}\over s$ step $1$ do $R(i'*s+x)$}  
+  ~\\
+(vgl. \cite{Zima90}, S. 175)
+
+\subsection{Konflikt-Gleichungssystem}
+
+Zwei Operations $o_s$ und $o_t$ müssen auf dieselbe Speicherzelle
+zugreifen, d.h., die Variablennamen und die Array-Indizes, die $o_s$ und
+$o_t$ ansprechen, müssen in allen Komponenten übereinstimmen. Für die
+entsprechenden Iterationsvektoren $i_s$ und $i_t$ muß also in
+Matrixnotation gelten: 
+$$i_s * A + a_0 = i_t * B + b_0,$$ wobei jede Spalte von $A$ ($B$) die
+Koeffizienten eines Array-indexes beinhaltet und $a_0$ ($b_0$) den
+konstanten Anteil bechreibt \cite{Ban93}.
+
+Anders notiert: $$(i_s, i_t) * \left( {A \atop -B} \right) = b_0-a_0$$
+
+Lösung wie im Abschnitt für mathematische Grundlagen
+beschrieben. 
+
+\subsection{Existenz-Ungleichungssystem}
+
+Die zwei Operations $o_s$ und $o_t$ müssen beide durch das Programm
+wirklich generiert werden, d.h., die Iterationsvektoren $i_s$ und $i_t$
+müssen im jeweiligen Indexraum der entsprechenden Statements
+sein. Matrixnotation: $$p_0 \leq i * P \hbox{\qquad bzw. \qquad} i*Q \leq
+q_0$$ für die unteren bzw. oberen Grenzen der Indexräume. Diese
+Ungleichungen müssen natürlich sowohl für $i_s$ als auch für $i_t$
+aufgestellt werden.
+
+Die -- ggfs. parametrisierten -- Lösungen des Konflikt-Gleichungssystems
+kann man in das Ungleichungssystem einsetzen und so die Lösbarkeit
+innerhalb des Indexraums überprüfen, bzw. ggfs. die Wahl der Parameter
+einschränken.
+
+\subsection{Ordnungsrelation und Abhängigkeitstypen}
+
+Bis hierher haben wir zwei Operations $o_1$ und $o_2$, die eine
+Abhängigkeit verursachen. Frage: Wer ist Quelle, wer Ziel?  Wir wissen:
+Operation $o_s$ muß gem.  der sequentiellen Ausführungsreihenfolge vor
+$o_t$ ausgeführt werden. Lösung: teile die (ggfs. parametrisierten)
+Paare von Iterationsvektoren so in zwei Mengen ein, daß in einer stets
+gilt $o_1 \prec o_2$ und in der anderen $o_2 \prec o_1$ (ggfs. unter
+Aufteilung der Räume für die Wahl der Parameter). Dadurch sind jeweils
+Quelle und Ziel identifiziert, was damit auch die Typen der
+Abhängigkeiten lt. Tabelle im vorigen Abschnitt festlegt. (Die Ordnung ist bei dem Verfahren nach Banerjee nicht a priori bekannt.)
+
+\subsection{Optimierung}
+Die Optimierung wird bei Banerjee komplett vernachlässigt.
+
+\subsection{Randbemerkung: Sonderfälle}
+Banerjee stellt Sonderfälle vor, in denen sich die Analyse etwas vereinfacht.
+\begin{enumerate}
+\item ``regulärer'' Schleifensatz: perfekt, $P=Q$ und $A=B$, dann für $d
+  = i_s-i_t$. Dadurch $$ d * A = a_0-b_0 \hbox{\qquad und \qquad} p_0-q_0 \leq
+  d*P \leq q_0-p_0$$. Die Halbierung der Variablenzahl macht das
+  Gleichungssystem einfacher und die Ordnung handlicher.
+\item ``rechteckiger'' Schleifensatz: $P=Q=I_m$ (Identität) und $A$ und
+  $B$ in Diagonalform (aber nicht unbeding identisch). Dadurch
+  unabhängige $m$ Gleichungen mit je 2 Variablen, die unabhängig
+  voneinander aufgelöst werden können. Die Zeilenstufenreduktion wird
+  daher etwas übersichtlicher, aber im Endeffekt keine spürbare
+  Erleichterung.
+\end{enumerate}
+
+% sd
+\subsection{Beispiel zur Abhängigkeitsanalyse nach Banerjee}
+\textit{Programmcode:}\\
+
+\begin{procedure}
+\SetLine
+\For{$i=10$ \KwTo $200$}{
+    \For{$j=7$ \KwTo $167$}{
+        
+        \bf{S:} $X[2i+3, 5j-1, j]$ :=...\\
+        \bf{T:} ... := ... $X[i-1,2i-6,3j+2]$
+    }
+}
+\end{procedure}
+~\\
+\textit{Konfliktgleichungssystem:} (gestrichene Var. f. T)\\
+
+\begin{align*}
+2i+3 &= i^\prime  - 1\\
+5j-1 &= 2i^\prime - 6\\
+ j   &= 3j^\prime + 2
+\end{align*}
+
+nach Banerjee:\\
+
+$A=
+\left(
+\begin{array}{ccc}
+2 & 0 & 0\\
+0 & 5 & 1
+\end{array}
+\right), a_0 = (3,-1,0)$
+
+$B=
+\left(
+\begin{array}{ccc}
+1 & 2 & 0\\
+0 & 0 & 3
+\end{array}
+\right), b_0 = (-1, -6, 2)$
+
+
+$(i,j) * A + a_0 = (i^\prime, j^\prime) * B + b_0 \\
+\Leftrightarrow
+(i,j,i^\prime,j^\prime) * 
+\left(
+\begin{array}{c}
+A\\
+-B
+\end{array}
+\right)
+= b_0 - a_0$\\
+Eingesetzt:\\
+$(i,j,i^\prime,j^\prime) * 
+\left(
+\begin{array}{ccc}
+2 & 0 & 0\\
+0 & 5 & 1\\
+-1&-2 & 0\\
+0 & 0 &-3
+\end{array}
+\right)
+= (-4,-5,2)$
+
+\textit{Lösen}
+
+$\left(
+\begin{array}{ccc|cccc}
+ 2 & 0 & 0 & 1 & 0 & 0 & 0 \\
+ 0 & 5 & 1 & 0 & 1 & 0 & 0 \\
+-1 &-2 & 0 & 0 & 0 & 1 & 0 \\
+ 0 & 0 &-3 & 0 & 0 & 0 & 1
+\end{array}
+\right) \leadsto \left(
+\begin{array}{ccc|cccc}
+-1 &-2 & 0 & 0 & 0 & 1 & 0 \\
+ 0 & 1 & 1 & 1 & 1 & 2 & 0 \\
+ 0 & 0 & 1 & 5 & 4 &10 & 1 \\
+ 0 & 0 & 0 &15 &12 &30 & 4
+\end{array}
+\right)$
+
+
+$(t_1,t_2,t_3,t_4) * S = (-4, -5, 2) \\
+\Rightarrow t_1 = 4; t_2= 3; t_3 = -1; t_4 \in \mathbb{Z} \\
+\Rightarrow (i,j,i^\prime,j^\prime) = (t_1,t_2,t_3,t_4) * U =
+(-2+15t_4; -1+12t_4; 30t_4; -1+4t_4)$
+somit kann man folgende Abhängigkeiten folgern:\\
+$\langle (-2 + 15t_4; -1+12t_4), S \rangle \stackrel{?}{\leftrightarrow}
+ \langle (30t_4;-1+4t_4), T \rangle$ für $t_4 \in \mathbb{Z}$ 
+~\\
+\textit{Existenzungleichungssystem:}\\
+
+$P = Q =
+\left(
+\begin{array}{cc}
+1 & 0 \\
+0 & 1
+\end{array}
+\right), p_0 = (10,7), q_0 = (200,167)$
+~\\
+\textit{Gleichungen:}\\
+
+$\begin{array}{cc}
+\underbrace{
+\begin{array}{ccc}
+10 &\leq -2+15t_4 &\leq 200 \\
+7  &\leq -1+12t_4 &\leq 167
+\end{array}
+}_{\text{Existenz von} (i,j) \text{bei S}} &
+\underbrace{
+\begin{array}{ccc}
+10 &\leq 30t_4 &\leq 200 \\
+ 7 &\leq-1+4t_4 &\leq 167
+\end{array}
+}_{\text{Existenz von} (i,j) \text{in T}}
+
+\end{array}$
+
+$\stackrel{FM}{\leadsto} 2 \leq t_4 \leq 6$
+~\\
+\textit{Ordnung:} Richtung der Abhängigkeit $\leftarrow$ oder $\rightarrow$ ?\\
+
+Lexikographische Ordnung: $i < i^\prime$ oder $i = i^\prime \land j < j^\prime$\\
+\begin{equation}
+\begin{split}
+i<i^\prime &\Leftrightarrow -2+15t_4 < 30t_4\\
+           &\Leftrightarrow    15t_4 > -2\\
+           &\Leftrightarrow      t_4 >-\frac{2}{15}
+\end{split}
+\end{equation}
+da $t_4 \geq 2 \Leftrightarrow true$\\
+Lösung $\underbrace{\langle (-2 + 15t_4; -1+12t_4), S \rangle}_{\text{schreibt} \Rightarrow \text{true Dependence}} \rightarrow
+ \underbrace{\langle (30t_4;-1+4t_4), T \rangle}_{\text{liest}}$ für $2 \leq t_4 \leq 6$\\
+
+Distanzvektoren: \glqq Ziel-Quelle\grqq\\
+$(30t_4; -1+4t_4) - (-2+15t_4; -1+12t_4) =\\
+(2+15t_4; -8t_4)$ für $2\leq t_4 \leq 6)$.
+
+Richtungsvektor: $(+,-)$\\
+Level: 1\\
+~\\
+\textit{Statement-Abhängigkeits-Graphen:}\\
+
+\entrymodifiers={++[o][F-]}
+\xymatrix{
+S \ar[d]^{( 2+15t_4; -8t_4 )} \\
+T 
+}
+~\\
+\textit{Optimierung:} nicht bei Banerjee.\\
+~\\
+Somit führt Banerjee zum Abhängigkeitsvektor und gibt alle Abhängigkeiten inklusive einiger eigentlich nutzloser aber für den Algorithmus notwendiger \glqq Initialisierungsabhängigkeiten\grqq\ zurück (Initialisierungsschrott).

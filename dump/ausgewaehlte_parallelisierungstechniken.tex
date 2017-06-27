@@ -1,0 +1,193 @@
+%\newpage
+\setcounter{section}{9}
+\section{Ausgewählte Parallelisierungstechniken}
+
+%Abschließend soll auf die einfachen Parallelisierungstechniken
+%eingegengen werden. Die verallgemeinerten Verfahren werden im nächsten
+%Semester noch einmal ausführlicher behandelt.
+
+\subsection{Iteration Graph Partitioning}
+\label{sec:igp}
+
+Idee: \textit{Parallel kann ausgeführt werden, was nicht voneinander
+abhängig ist}.
+
+Die schwachen Zusammenhangskomponenten des
+Iterations-Abhängigkeitsgraphen werden zueinander parallel und in sich
+sequentiell ausgeführt.
+
+Bei verschachtelten Schleifen berechnet man dazu für jede
+Schleifendimension den größten gemeinsamen Teiler {\it gcd\/} der
+Abhängigkeitsvektoren. Grund: der Abhängigkeitsgraph zerfällt in gcd
+viele unabhängige Teile (die Iterationen $i$, die durch $i$ modulo gcd
+in unterschiedliche Klassen fallen, können nie voneinander abhängig
+sein).
+
+Anschließend kann man mechanisch jede Schleife durch ein Paar von
+Schleifen ersetzen: eine parallele Schleife zählt die möglichen Werte
+für ``Index modulo gcd'' auf und eine sequentielle die jeweils
+auftretenden Resultate der ganzzahligen Division ``Index / gcd'' (\cite{Ban94},
+124ff).
+
+{\sf for $i:=x$ to $y$ do $R(i)$ enddo} wird, wenn der größte
+gemeinsame Teiler der Abhängigkeitsvektoren der Dimension $i$ gleich
+$g$ ist, zu
+
+% {\sf\begin{tabbing}
+% \ins\=\ins\=\ins\=\ins\=\ins\=\kill
+%   forall $m := 0$ to $g-1$ do\\
+%   \> for $d := \lceil{x-m\over g}\rceil$ to $\lfloor{y-m\over g}\rfloor$ do\\
+%   \>\> $R(m+g*d)$\\
+%   \> enddo\\
+%   enddo
+% \end{tabbing}}
+
+\begin{algorithm}[H]
+    \ForAll{\( m:=0 \) \KwTo \( g-1 \)}{
+        \For{\( d:= \lceil{x-m\over g}\rceil \) \KwTo \( \lfloor{y-m\over g}\rfloor \)}{
+            \( R(m+g \cdot d) \)
+        }
+    }
+\end{algorithm}
+
+
+\bigskip
+
+Im folgenden nehmen wir der Einfachheit halber an, daß der zu
+parallelisierende Schleifensatz perfekt verschachtelt ist.
+
+\subsection{Schleifenpermutation}
+
+Ideen: \textit{Eine Schleife kann parallel ausgeführt werden, wenn sie keine
+Abhängigkeiten trägt}, und: \textit{Abhängigkeitsvektoren dürfen nie
+negativ sein}.
+
+Damit kann man zwei Schleifen genau dann vertauschen, wenn durch die
+entsprechende Permutation im Richtungsvektor kein lexikographisch
+negativer Richtungsvektor entsteht. 
+
+Wenn alle Abhängigkeiten (ggf. nach Permutation) durch eine Anzahl von
+äußeren Schleifen getragen wird, dann kann man die inneren alle parallel
+ausführen.
+
+\subsection{Unimodulare Transformationen}
+
+Idee: \textit{Durch Mischen (Scheren, ``skewing'') von einer (inneren)
+Schleife in
+eine andere (äußere) kann man die tragende Schleife einer Abhängigkeit
+verändern}.
+
+Im folgenden sei $m$ die Dimensionalität des Schleifensatzes. Um
+konsistent mit dem Space-Time-Mapping-Ansatz zu sein
+(Kapitel~\ref{sec:polymod}), multiplizieren wir Vektoren nun wieder von
+rechts an die Transformationsmatrix (im Gegensatz zu \cite{Ban93, Ban94}
+und dem Beschluß in Kapitel~\ref{sec:math:i}). Damit werden auch die
+Abhängigkeitsvektoren zu Spaltenvektoren (im Gegensatz zur
+vorangegangenen Abhängigkeits-Vorlesung).  Die \emph{Distanzmatrix}
+(=\emph{Abhängigkeitsmatrix}) $\cal D$ ist dann eine
+$m\!\times\!r$-Matrix, die spaltenweise aus den Distanzvektoren
+(=Abhängigkeitsvektoren) $d_1,\cdots,d_r$ aufgebaut ist.
+
+\subsubsection{Parallelisierung innerer Schleifen}
+
+Im Fall von uniformen Abhängigkeiten kann man jedes Schleifenprogramm so
+transformieren, daß alle Schleifen außer der äußersten Schleife parallel
+sind. Die dazu nötige Transformationsmatrix wird so konstruiert, daß
+alle Abhängigkeiten von der äußersten Schleife getragen werden.
+
+Etwas präziser: es wird ein Vektor $u$ (erste Zeile der
+Transformationsmatrix) gesucht, so daß
+\begin{enumerate}
+\item $gcd(u_1,\cdots,u_m) = 1$\\[-7mm]
+\item $u_1*{\cal D}_{1k} + \cdots + {\cal D}_{mk}*u_m \geq 1$ für alle
+  Abhängigkeitsvektoren $1\!\leq\!k\!\leq\!r$\\[-7mm]
+\item $\max_{I\in \textrm{\small Indexraum}}(u*I) - \min_{I\in
+    \textrm{\small Indexraum}}(u*I) + 1$ minimal
+\end{enumerate}
+
+Eine greedy-Heuristik, die sog. Hyperebenenmethode von Lamport,
+berücksichtigt nur das erste und zweite Kriterium exakt und nähert das
+dritte an.
+
+\smallskip 
+
+Die gesamte Matrix wird dann konstruiert, indem man sie unimodular
+ergänzt: trage den Vektor $u$ als erste Zeile in eine
+$m\!\times\!m$-Matrix ein, streiche dann eine Spalte mit Eintrag eins in
+der ersten Zeile (existiert bei Lamport's Verfahren) und die erste Zeile
+selbst, und fülle den Rest mit der Einheitsmatrix der Dimension
+$m\!-\!1$ auf. Zusammen mit den gestrichenen Einträgen ergibt sich dann
+eine unimodulare Matrix (Determinante ist $\pm 1$).
+
+
+\subsubsection{Parallelisierung äußerer Schleifen}
+\label{sec:pas}
+
+Wenn $\rho$ der Zeilenrang der Abhängigkeitsmatrix ist, dann kann man
+nur $m\!-\!\rho$ viele äußere Schleifen in parallele Schleifen umwandeln.
+Grund: da äußere Parallelschleifen keine Abhängigkeit tragen können,
+dürfen alle transformierten Abhängigkeitsvektoren in den ersten Zeilen
+nur Null-Einträge haben, d.h., $T*\cal D$ muß mit $m\!-\!\rho$
+Nullzeilen beginnen. Da der Rang von $\cal D$ wegen der Unimodularität
+von $T$ gleich dem Rang von $T*\cal D$ ist, muß $\cal D$ schon $m\!-\!\rho$
+linear abhängige Zeilen besitzen.
+
+Es ist dann allerdings möglich, alle Abhängigkeiten von der
+$m\!-\!\rho\!+\!1$-ten Schleife tragen zu lassen, so daß wieder nur eine
+einzige sequentielle Schleife im Zielprogramm nötig ist.
+
+\subsubsection{Asynchronität}
+
+Die soeben gemachte Feststellung scheint im Widerspruch zu der Aussage
+zu stehen, daß man durch Wahl der Zielschleifenreihenfolge im
+Space-Time-Mapping-Ansatz synchrone oder asynchrone (also jederzeit auch
+$m\!-\!1$ äußere Parallelschleifen!) erreichen kann. Auflösung: beim
+Space-Time-Mapping-Ansatz ist Kommunikation und/oder Synchronisation von
+asynchron parallel arbeitenden Prozessoren erlaubt (``DOACROSS''), bei allen
+anderen vorgestellten Methoden arbeiten parallele Prozessoren stets
+unabhängig voneinander (``DOALL''). 
+%---die einzig mögliche Synchronisation die durch eine
+% gemeinsam umgebende sequentielle Schleife (im Fall~\ref{sec:pas} nicht
+% bedingt die äußerste).
+
+
+\subsection{Loop Distribution}
+
+Idee: \textit{Man gibt bei Bedarf jedem Statement seine eigenen
+  Schleifen}.
+
+Loop Distribution arbeitet als einziges der hier vorgestellten Verfahren
+mit dem Statement-Abhängigkeitsgraphen. Im Gegensatz zu den unimodularen
+Transformationen (aber ähnlich dem Iteration Graph Partitioning)
+beinhaltet die Methode bereits die Code-Generierung. Diese Methode
+arbeitet sehr effizient und liefert gute Ergebnisse.
+
+Vorgehen (rekursiv über die Schleifendimensionen):\\[-3ex]
+\begin{enumerate}
+\item Berechne den Statement-Abhängigkeitsgraphen.\\[-4ex]
+\item Berechne die \emph{azyklische Kondensation}, d.h. die starken
+  Zusammenhangskomponenten und die darauf geltende Halbordnung.\\[-4ex]
+\item Für jede starke Zusammenhangskomponente baue eine neue Schleife:
+  sequentiell, falls eine Abhängigkeit existiert, parallel sonst.\\[-4ex]
+\item Diese Schleifen werden gemäß der Halbordnung auf den
+  Zusammenhangskomponenten sequentiell komponiert.\\[-4ex]
+\item Entferne alle bereits berücksichtigten (von den soeben
+  eingeführten sequentiellen Schleifen getragenen) Abhängigkeiten und
+  fahre mit dem Restgraphen (und damit der nächst-inneren Dimension) bei
+  2. fort.
+\end{enumerate}
+
+\subsection{Polyedermodell}
+
+Das Polyedermodell stellt eine Vereinigung aller Verfahren innerhalb
+eines mathematischen Frameworks dar. Etwas genauer: das Polyedermodell
+ist eine Erweiterung des ursprünglichen Polytopmodells (des
+Space-Time-Mapping-Ansatzes), allerdings mit stark erweiterter
+Anwendbarkeit, z.B.  nicht-perfekte Verschachtelung, separate
+Transformationen je Statement, die stückweise linear sein können,
+allgemeine {\sf for}- und {\sf while}-Schleifen, {\sf if}-Anweisungen,
+affine Abhängigkeiten, Ab\-schät\-zung der Abhängigkeiten bei nicht-affinen
+Array-Indizes (s.~Kapitel~\ref{sec:polymod}). Der wesentliche Nachteil,
+den man sich durch diese Flexibilität erkauft, ist eine aufwendige
+Zielcodegenerierung (aufwendig sowohl zur Übersetzungs-, als auch zur
+Laufzeit).
