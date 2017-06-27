@@ -1,0 +1,40 @@
+Mathematische Grundlagen
+	Ordnungen:
+	Graphen
+	Matrizen
+	Fourier-Motzkin-Algorithmus
+
+Abhängigkeitsanalyse im Überblick
+	Programm-Modell
+		Datentypen:
+		Kontrollstrukturen:
+		Iterationen:
+		Ausführungsreihenfolge:
+		Abhängigkeiten:
+		Abhängigkeitsgraphen:
+		Parallelisierung
+	Abhängigkeiten im allgemeinen
+		Bedingungen (Speicherkonflikt, Existenz, Ordnung, Optimierung, Bernsteinzusatz)
+	Abhängigkeiten in Schleifenprogrammen
+	Typen von Abhängigkeiten
+
+Methoden zur Abhängigkeitsanalyse
+	Konventionelle Abhängigkeitsanalyse
+
+	Polyedermodell
+		Abhängigkeitsanalyse nach Banerjee
+
+		Datenflußanalyse
+			Verfahren von Feautrier
+			Verfahren via CfFada
+			Single-Assignment-Konversion
+
+		Vereinfachte Abhängigkeitsanalyse
+			GCD (einfach und erweitert)
+			Extreme-Value-Test
+
+		Normalisierung der Array-Indizes
+
+Eliminieren von Abhängigkeiten
+
+Ausgewählte Parallelisierungstechniken
