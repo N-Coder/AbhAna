@@ -29,7 +29,7 @@ Wenn gcd($a_1,\cdots,a_m,b_1,\cdots,b_n$) die Differenz $(b_0-a_0)$
 nicht teilt, dann kann es die vermutete Abhängigkeit nicht geben
 (Kapitel 3, Punkt 2.(g)).
 
-\smallskip 
+\smallskip
 
 Mehrdimensionale Arrays: Führe den einfachen GCD-Test unabhängig für
 alle Gleichungen (=Arraydimensionen) durch. Unabhängig, sobald
@@ -49,13 +49,13 @@ Folgende Beispiele eins und zwei sind garantiert lösbar jedoch leider nur poten
       \end{align*}
     }
   \item {\[x_1 + 6 \cdot x_2 = 9 \rightarrow \text{Lösbar, da } ggT = 1 \]}
-  \item { 
-      \[ \left. 
+  \item {
+      \[ \left.
           \begin{split}
             4 \cdot x_1 + 6 \cdot x_2 &= 8 &\leftarrow \text{lösbar}\\
             x_1 + 6 \cdot x_3 &= 9 &\leftarrow \text{lösbar}
           \end{split}
-       \right\rbrace{\text{potentiell lösbar}} \] 
+       \right\rbrace{\text{potentiell lösbar}} \]
        Ein System von Gleichungen.\\
 \\
        Lösungsansatz:
@@ -77,7 +77,7 @@ Wir hatten: Statt \(x \cdot A = b  \) \\
           löse \( t \cdot S = b \) \\
           mit S ist Zeilenstufenform von A.
           Dann \( x = t \cdot U \Rightarrow S = U \cdot A \)
-        }         
+        }
 
 \end{enumerate}
 
@@ -90,9 +90,9 @@ Berechnung der Abhängigkeiten. (Damit werden auch die Räume nicht
 GCD-Tests für sämtliche Arraydimensionen.
 
 \subsubsection{Beispiel}
-Kein Interesse an den Werten von x, somit Abbruch nach Berechnung von t. Das ist erlaubt, da U unimodular und damit \glqq ganzzahligkeitserhaltend\grqq . 
+Kein Interesse an den Werten von x, somit Abbruch nach Berechnung von t. Das ist erlaubt, da U unimodular und damit \glqq ganzzahligkeitserhaltend\grqq .
 Im obigen Beispiel:\\
-\[ A \leadsto 
+\[ A \leadsto
 \begin{pmatrix}
 2 &  -1 \\
 0 & 3 \\
@@ -116,7 +116,7 @@ erweiterter GCD-Test ist (voll) Korrekt (aber berücksichtigt nicht die Existenz
 
 Voraussetzung: je Gleichung kommt nur eine Schleifenvariable vor.  Der
 Test ist exakt und stellt im wesentlichen eine optimierte, d.h., auf die
-Voraussetzung zugeschnittene Version der allgemeinen Lösung dar. 
+Voraussetzung zugeschnittene Version der allgemeinen Lösung dar.
 \( a \cdot i + b \cdot i^\prime = \text{...} \) \\
 Vorgehen:\\
 Teste \(a \stackrel{?}{=} 0 \stackrel{ja}{\rightarrow} \) Lösung durch Einsetzen in vorberechnete Formel\\
@@ -137,8 +137,8 @@ sonst 2. Existenzungleichung lösbar ? nein \( \rightarrow \) fertig. \\
 sonst 3. Ordnung lösbar ? nein \( \rightarrow \) fertig.
 
 
-\subsection{Extreme-Value-Test (\cite{Wol95}, S. 236   ff.)} 
-% Bounds-Test ?? oder 
+\subsection{Extreme-Value-Test (\cite{Wol95}, S. 236   ff.)}
+% Bounds-Test ?? oder
 %------------------------------------------------------------
 
 Grobidee: Die Unter- bzw. Obergrenzen werden für die Schleifenindizes in
@@ -153,21 +153,21 @@ Konstante im Wertebereich liegt.
 
 Verallgemeinerung auf mehrere Schleifen: Wenn Test auf $(*,*,\cdots)$
 nicht reicht, dann Aufteilen in $(<,*,\cdots)$, $(=,*,\cdots)$ und
-$(>,*,\cdots)$. Idee: $<$, $=$ und $>$ schränken die erlaubten Werte für 
+$(>,*,\cdots)$. Idee: $<$, $=$ und $>$ schränken die erlaubten Werte für
 die Indizes $i_s$ und $i_t$ in der aktuellen Schleifendimension ein (im
 Bsp. Dim. 1). Damit: für jeden der drei Fälle neu testen und ggfs. in
 die nächsten Dimensionen weiterverfeinern.
 
 \subsubsection{Beispiel}
 Konfliktlgiechung: \( -M + i - i^\prime = 0 \) \\
-Grenzen: 
-\begin{align*} 
-   1 & \leq M \\ 
+Grenzen:
+\begin{align*}
+   1 & \leq M \\
    0 & \leq i & \leq 9 \\
    0 & \leq i & \leq 9
 \end{align*}
 
-Vorgehen: 
+Vorgehen:
 1) Eliminiere in der Konfliktgleichung eine Variable (auflösen eine nach der anderen, indem die Grenzen maximiert bzw. minimiert wird.)\\
 2) Teste, ob die rechte Seite von der Konfliktgleichung in den Grenzen liegt.\\
 
@@ -193,9 +193,9 @@ Beschränkungen: \\
 \end{enumerate}
 
 Erweiterung: Hinzunahme der Ordnung \\
-wir nehmen 
+wir nehmen
 
-\begin{align*} 
+\begin{align*}
 \text{ } & i &< i^\prime \\
 \text{oder } & i &= i^\prime \\
 \text{oder } & i &> i^\prime
@@ -210,16 +210,16 @@ In unserem Beispiel angewandt:
 0 \leq i \\
 \end{align*}
 \[
-\left. 
+\left.
 \begin{array}{cc}
-i & < i^\prime \\ 
-i & \leq  9 
+i & < i^\prime \\
+i & \leq  9
 \end{array}
-\right \} \text{ \blitza } 
+\right \} \lightning
 \]
 
 \[
-\text{ \blitza } \left\{
+\lightning \left\{
 \begin{array}{rl}
 	0 &\leq i^\prime \\
 	i^\prime &\leq 9 \\
@@ -238,7 +238,7 @@ Wegen (2) darf man nur bei einem Konfliktpaar \( i < i^\prime \) verwenden.
 	 & i & < i^\prime & \leq 9  \\
 	\Leftrightarrow & i + 1 & \leq i^\prime &
 \end{array}
-& 
+&
 \left(
 \begin{array}{ccc}
 0 & \leq i & < i^\prime \\
@@ -279,7 +279,7 @@ Führe die Abschätzung nicht auf der in Normalform gebrachten
 Konflikt-Gleichung durch, sondern mache die Abschätzung auf den beiden
 Array-Zugriffen separat und teste dann auf Überlappung. Vorteil: die
 Semantik ist klarer, was eine verbesserte von-Hand Analyser erlaubt
-(s. Übung). 
+(s. Übung).
 
 \subsection{Omega-Test (\cite{Pugh95a})}
 %------------------------------------------------------------
@@ -287,14 +287,14 @@ Semantik ist klarer, was eine verbesserte von-Hand Analyser erlaubt
 \def\MOD{\widehat{\textrm{\ mod\ }}}
 Der Omega-Test kombiniert ein eigenständiges Eliminationsverfahren für
 ganzzahlige Gleichungen mit einer Erweiterung des Fourier-Motzkin
-Verfahrens. 
+Verfahrens.
 
 \begin{enumerate}
 \item Wenn in einer Gleichung ein Koeffizient einer Variablen
   betragsmäßig gleich eins ist, dann löse nach dieser Variablen auf
   und setze sie in allen anderen Gleichungen ein. Dadurch reduziert
   sich die Zahl der Gleichungen um eins. Gehe zu 1.
-\item Ansonsten: 
+\item Ansonsten:
   \begin{enumerate}
   \item Sei $k$ der Index der Variablen mit dem betragsmäßig kleinsten
     Koeffizienten $|a_k|$ mit $a_k\not=0$.
@@ -307,13 +307,13 @@ Verfahrens.
     $$-|a_k|\sigma + \sum_{i\in V\backslash\{k\}}\left(\left\lfloor{a_i\over
         m} + {1\over 2}\right\rfloor + (a_i\MOD m)\right) * x_i = 0,$$
     wobei $\sigma$ eine neue Variable ist, die $x_k$ ersetzt.
-    
+
     Folge: Die nicht-ersetzten Variablen haben echt kleinere
     Koeffizienten (max. 2/3 des ursprünglichen Wertes), wodurch nach
     einigen Iterationen Koeffizienten vom Betrag eins entstehen.
   \item Das neue System entsteht, indem man die Gleichung, in der $a_k$
     steht, durch die soeben berechnete Gleichung ersetzt und in allen
-    anderen (Un-)Gleichungen $x_k$ durch den soeben berechneten Ausdruck 
+    anderen (Un-)Gleichungen $x_k$ durch den soeben berechneten Ausdruck
     für die Substitution ersetzt (und dann vereinfacht).
   \item Falls noch Gleichungen vorhanden sind, gehe zu 1. \\
     Ansonsten gibt es nur noch Ungleichungen!
@@ -337,7 +337,7 @@ Verfahrens.
     $b*\alpha - a*\beta \geq (a\!-\!1)*(b\!-\!1)$ für jedes der Paare
     $a*x\leq \alpha$ und $b*x\geq \beta$. [Anmerkung: $a*(x\!+\!1)\leq \alpha$ und
     $b*(x\!-\!1)\geq \beta$, also umgeformt $b*\alpha - a*\beta \geq 2*a*b$,
-    produzieren einen ``noch dunkleren Schatten''.] 
+    produzieren einen ``noch dunkleren Schatten''.]
   \item Wenn ganzzahlige Lösungen im dunklen Schatten, dann ganzzahlig
     lösbar. Stop.
   \item Wenn reeller und dunkler Schatten identisch (\emph{exakte
@@ -370,7 +370,7 @@ Lösungsvariante, auch für parametrische Probleme.
 \( \Rightarrow a_k = 3 \Rightarrow m = 4\) \\
 \[
 \begin{split}
- 5 \MOD 4 = 5-4 \cdot \underbrace{\lfloor \frac{5}{4} + \frac{1}{2} \rfloor}_{1} = 1 \\ 
+ 5 \MOD 4 = 5-4 \cdot \underbrace{\lfloor \frac{5}{4} + \frac{1}{2} \rfloor}_{1} = 1 \\
   14 \MOD 4 = 14-4 \cdot \underbrace{\lfloor \frac{14}{4} + \frac{1}{2} \rfloor}_{4} = -2 \\
    -7 \MOD 4 = -7-4 \cdot \underbrace{ \lfloor \frac{-7}{4} + \frac{1}{2} \rfloor }_{-2}= 1
 \end{split}
@@ -380,7 +380,7 @@ alte Variable \(x\), neue Variable \( \sigma \) \\
 \[
 \begin{split}
  x = -4 \sigma + y - 2 \cdot z + 1 \\
-  7\cdot x = -28 \sigma + 7 \cdot y - 14 \cdot z + 7 
+  7\cdot x = -28 \sigma + 7 \cdot y - 14 \cdot z + 7
 \end{split}
 \]
 
@@ -392,7 +392,7 @@ alte Variable \(x\), neue Variable \( \sigma \) \\
 
 \( a_k = 2, m=3, \text{ alte Variable: } y, \text{ neue Variable: } \tau \)
 
-\[ 
+\[
 -2 \MOD 3 = 2 - 3 \cdot 1 = -1 \\
 -1 \MOD 3 = -1 -3 \cdot 0 = -1 \\
 \Rightarrow y = -1 \cdot 3 \cdot \tau - z - 1

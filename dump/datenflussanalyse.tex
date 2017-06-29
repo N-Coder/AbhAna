@@ -1,7 +1,7 @@
 \section{Datenflußanalyse und \\Single-Assignment-Konversion}
 %----------------------------------------------------------------------
 Die Datenflußanalyse nach Feautrier \cite{Fea91} ist aufwendiger als die von
-Banerjee, berücksichtigt aber auch die Optimierung. 
+Banerjee, berücksichtigt aber auch die Optimierung.
 
 \subsection{Ansatz}
 Im Gegensatz zu Banerjee werden nicht alle Abhängigkeiten gesucht,
@@ -36,13 +36,13 @@ Resultat: für Polyeder: eindeutige Quellen je Lesezugriff.
 Bei Feautrier ist die Ordnung das \emph{Input Kriterium}. Damit sind alle Gleichungen in ein System pro Dimension aufstellbar. (Für die Antiabhängigkeiten (wg. der Inputvernachlässigung) gibt es keine derartige Optimierung, da man nicht überlesen kann.)
 \entrymodifiers={++[][]}
 
-\xymatrix{ 
-*+[F]{x = \dots} \ar[d] |{Datenfluss} 
+\xymatrix{
+*+[F]{x = \dots} \ar[d] |{Datenfluss}
           \ar@/^6pc/[ddd]|{Banerjee-Abh.}\\
 *+[F]{\dots = x} \ar[d] |{Anti-Abh.} \\
 *+[F]{x = \dots} \ar[d] |{Datenfluss}\\
-*+[F]{\dots = x} 
-} 
+*+[F]{\dots = x}
+}
 
 ~\\[0.5cm]
 \emph{Konfliktgleichungssystem:} gleich Banerjee\\[0.2cm]
@@ -86,7 +86,7 @@ als Ungleichungssysteme (je Fall für die lexikographiesche Ordnung eine)
         \end{array}
         \end{array}$
 
-        
+
     \item \textit{Existenzungleichungen:} nur für $i^\prime, j^\prime, k^\prime$\\
         \begin{align*}
         0 &\leq i^\prime \leq n \\
@@ -127,8 +127,8 @@ i^\prime & j^\prime & k^\prime & i & n & 1  \\
 % \end{array} \right\} & Kontext\\
 % \left.
 % \begin{array}{cccccc}
--1       & 0        & 0        & 1 & 0 &-1	
-% \end{array} \right\} & Ordnung i^\prime < i\\ 
+-1       & 0        & 0        & 1 & 0 &-1
+% \end{array} \right\} & Ordnung i^\prime < i\\
 \end{array}
 & \geq 0
 \end{array}$\\
@@ -151,7 +151,7 @@ Zwischenergebnis: \\$\langle (i^\prime, 1, i-i^\prime+1), T \rangle \rightarrow 
     \item $0=i \land 0 = 0$
     \item $0 \leq i^\prime \leq n \text{ im Kontext } 0 \leq i \leq n$
     \item $i^\prime < i \lor (i^\prime = i \land \text{ R vor S}) \Leftrightarrow i^\prime \leq i$
-    \item $i^\prime = i \\ 
+    \item $i^\prime = i \\
         \Rightarrow \langle (i),R \rangle \rightarrow \langle (i), S \rangle \text{ für } i=0 \\
         \Rightarrow \langle (0),R \rangle \rightarrow \langle (0), S \rangle$
 
@@ -215,7 +215,7 @@ Dieses weiteres Verfahren wird motiviert durch die Existenz von \glqq if-Stateme
         \caption{Ablaufgraph}
         \vspace{+40pt}
     \end{flushright}
-    
+
 \end{wrapfigure}
 
 \textit{Programmcode:}\\
@@ -231,7 +231,7 @@ Dieses weiteres Verfahren wird motiviert durch die Existenz von \glqq if-Stateme
 
         }
     }
-    \end{procedure}    
+    \end{procedure}
 
 ~\\[6cm]
 \textbf{Kontext}\\
@@ -254,19 +254,19 @@ Operationen: \dots\\
                   Keine neuen Quellen\\
                   \(scr_{4}^{(1)} = \lbrace \perp \rbrace\)
             \item die 6 hoch: (überprüfe Existenzun- und Konfliktgleichungen)\\
-                  \(src_{6}^{(1)} = src^{(0)} \Box W(6) = \) 
+                  \(src_{6}^{(1)} = src^{(0)} \Box W(6) = \)
     \(\begin{cases}  \langle (i,j), 6 \rangle , & \mbox{ für } P^\prime(i,j) \\
                      \perp ,                    & \mbox{ sonst }
     \end{cases}  \)
 
             \item bei n1 Mischen:\\
-                \(scr_{n1}^{(1)} = 
+                \(scr_{n1}^{(1)} =
     \begin{cases} \langle (i,j),6 \rangle, & \mbox{ für } p^\prime(i,j) \\
-                  \perp,                   & \mbox{ sonst } 
+                  \perp,                   & \mbox{ sonst }
                 \end{cases} \)
 
             \item die 3 hoch:\\
-                  Keine neuen Quellen, da die aktuelle Ordnung \blitza Konfliktgleichung. (Wäre P immer true, könnte man an n1 abbrechen.)
+                  Keine neuen Quellen, da die aktuelle Ordnung $\lightning$ Konfliktgleichung. (Wäre P immer true, könnte man an n1 abbrechen.)
             \item die 13 hoch \(\Rightarrow\)
 
         \end{enumerate}
@@ -275,14 +275,14 @@ Operationen: \dots\\
       \begin{enumerate}
          \item die Kanten 7, 4 bringen nichts neues.
          \item die 6 hoch: \\
-           Keine neuen Quellen, da die aktuelle Ordnung \blitza Konfliktgleichung.
+           Keine neuen Quellen, da die aktuelle Ordnung $\lightning$ Konfliktgleichung.
          \item n1: nichts neues zu mischen \(\Rightarrow\) alles bleibt
          \item die 3 hoch: \\
            \(src^{(2)} = src^{(1)} \Box W(3) = \) \\ \( =
            \begin{cases} \langle ( i^\prime, j^\prime), 3) \rangle, & \mbox{ für } i^\prime + j^\prime + 1 = i + j \land \neg P^\prime(i,j) \land 0 \leq i^\prime \leq N \land 0 \leq j^\prime \leq N \\ & \mbox{ mit aktueller Ordnung}\\
              \langle (i,j),6 \rangle , & \mbox{ für } P^\prime(i,j) \\
              \perp, & \mbox{sonst}
-           \end{cases} 
+           \end{cases}
 \)
            \\ \(\stackrel{j^\prime+1=j}{=}
            \begin{cases}
@@ -297,7 +297,7 @@ Operationen: \dots\\
          \item Kante 12: -
       \end{enumerate}
       }
-      
+
       \item {Ordnung: \(i^\prime < i, j^\prime\) beliebig
           \begin{enumerate}
             \item Kante 9,13,7,4: -
@@ -308,7 +308,7 @@ Operationen: \dots\\
               Existenz: \( P^\prime(i^\prime, j^\prime) \) \\
               neue Quellen: \( \langle ( i^\prime, i-i^\prime ), 6 \rangle \text{ für } j=0, i^\prime < i , P(i^\prime, i - i ^\prime) \land \neg P(T, i-T) \text{ für } i^\prime < T \leq i \) \\
 
-\( src^{(3)}_{n1} = 
+\( src^{(3)}_{n1} =
 \begin{cases}
   \langle (i,j), 6 \rangle, & \mbox{ für } P(i,j) \\
   \langle (i,j-1), 3 \rangle, & \mbox{ für } j \geq 1 \land \neg P (i,j) \\
@@ -319,7 +319,7 @@ Operationen: \dots\\
 \item Kante 3:\\
   wegen Optimierung: \( i^\prime = i - 1, j=0 \stackrel{Konfl. Gl.}{\Rightarrow} j^\prime = 0\) \\
   neue Quelle: \( \langle (i-1,0), 3 \rangle \text{für} j=0 \land i \geq 1 \land \neg P(i,0) \land \neg P(i-1,1) \) \\
-\( \Rightarrow src = 
+\( \Rightarrow src =
 \begin{cases}
   \langle (i, j), 6 \rangle, & \mbox{für } P(i,j) \\
   \langle (i, j-1), 3 \rangle, & \mbox{für } j \geq 1 \land \neg P(i,j) \\
@@ -330,7 +330,7 @@ Operationen: \dots\\
 \)
 \item Kanten 8, 2, 10, 1: -
            \end{enumerate}
-           }          
+           }
 
 \end{enumerate}
 Da die Quelle für \( (0,0) \) nicht gefunden wird, kann nicht vorab abgebrochen werden und der Algorithmus terminiert erst mit dem vollständigen Durchlauf.
