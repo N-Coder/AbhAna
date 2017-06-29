@@ -1,8 +1,10 @@
 %!TEX root = Zusammenfassung.tex
 
 \section{Mathematische Grundlagen}
+
 % ---------------------------------------------------------------------------------------------------------------------
 \subsection{Ordnungen}
+
 \begin{description}
 	\item[(partielle) Ordnung] reflexiv, transitiv, antisymmetrisch
 	\item[minimale, maximale Elemente] fehlende Existenz von kleineren, größeren Elementen
@@ -32,10 +34,12 @@
 	\item[azyklische Kondensation] pro starke Zusammenhangskomponente ein Knoten;\\die ``schwachen Kanten'' übernehmen
 \end{description}
 
-\subsubsection*{Beispielgraph:}
+
+\paragraph{Beispielgraph}\\
 \begin{center}
 \includegraphics[scale=0.7]{images/BeispielgraphGraphentheorie.pdf}
 \end{center}
+
 
 \subsubsection{Bestimmung maximaler Ketten}
 Von der $1$ an beginnend den Baum aufbauen, Knoten streichen wenn sie durch einen längeren
@@ -49,6 +53,7 @@ Hier:
 \[1 \rightarrow 2 \rightarrow 5 \rightarrow 8 \rightarrow 10\]
 \[1 \rightarrow 2 \rightarrow 4 \rightarrow 7 \rightarrow 10\]
 
+
 \subsubsection{Bestimmung maximaler Antiketten}
 Zunächst die transitive Hülle der Relation bestimmen. Das geschieht im Beispiel idealerweise
 bei der 10 beginnend, da Kanten nur von kleineren zu größeren Zahlen existieren. Daraus können
@@ -60,6 +65,7 @@ Elemente hat.
 Hier:
 \[\{1\}, \{2,3\}, \{2,6\}, \{2,9\}, \{3, 4,5\}, \{3, 5, 7\}, \{4, 5, 6\}, \{4,5,9\}, \{4,8,9\},
 \{5,6,7\},\{5,7,9\}, \{7,8,9\}, \{9,10\}\]
+
 
 \subsubsection{Stark und schwach zusammenhängend}
 \begin{description}
@@ -89,6 +95,7 @@ Hier:
 	% \item keine Permutationsmatrizen
 \end{enumerate}
 
+
 \subsubsection{ganzzahlig-lineare Gleichungssysteme}
 \begin{enumerate}
 	\item ``normale'' Gauß-Elimination liefert alle rationalen Lösungen
@@ -108,7 +115,8 @@ Hier:
 	% \item keine 2 Variables mit \psi_- und \psi_+
 \end{enumerate}
 
-\textbf{Beispiel}\\
+
+\paragraph{Beispiel}\\
 Ziel: Eine ganzzahlige Lösung ist gewünscht \\
 Erinnerung: $U*A = S$ und $x = t*U$
 
@@ -178,6 +186,7 @@ Damit ergibt sich als ggT die 2 und als Lösung des Ursprungssystems:
 \right)
 = (-19-6t_3, 14+4t_3, t_3)\]
 
+
 \subsubsection{lineare Ungleichungssysteme (Fourier-Motzkin-Elimination)}
 sukzessive Elimination der einzelnen Variablen: sei $x_j$ die zu eliminierende Variable
 \begin{enumerate}
@@ -190,8 +199,9 @@ sukzessive Elimination der einzelnen Variablen: sei $x_j$ die zu eliminierende V
 	\item erfolglose Termination: die letzte Ungleichung (ohne Variable!!) ist nicht erfüllt
 \end{enumerate}
 
-\textbf{Beispiel}\\
-Lösung mit Fourier-Motskin-Algorithmus:
+
+\paragraph{Beispiel}\\
+Lösung mit Fourier-Motzkin-Algorithmus:
 \begin{align*}
 0   & \leq t-p   \\
 t-p & \leq n     \\
@@ -212,7 +222,6 @@ Somit:
       \For{$(t=\lceil max(p,2p-2) \rceil ; t \leq \lfloor min(n+p,n+p) \rfloor ; t++)$}{}
     \end{procedure}
 
-
 \item t eliminiert\\
     $\left.
     0 \leq p \leq n+2
@@ -227,10 +236,11 @@ Somit:
     $\left. 0 \leq n+2 \right\}$ lösbar, aber nur im Rationalen.
 \end{enumerate}
 
+
 \subsubsection{affine anstatt linearer Transformationen}
 \begin{enumerate}
 \item Strukturparameter werden wie zusätzliche Variablen behandelt, die ``zufällig'' nur einen einzigen Wert zur Laufzeit annehmen.
-	Um sicherzustellen, daß sich ihr Wert nicht ändert, werden in den Transformationsmatrizen Zeilen eingefügt, die jeden Strukturparameter auf sich selbst abbilden.
+	Um sicherzustellen, dass sich ihr Wert nicht ändert, werden in den Transformationsmatrizen Zeilen eingefügt, die jeden Strukturparameter auf sich selbst abbilden.
 \item Eine additive Konstante wird wie ein zusätzlicher Strukturparameter behandelt, der zufällig nur den Wert 1 annimmt.
 \item Mathematischer Hintergrund: homogene Koordinaten.
 	Der Vektor $(x_1,\cdots,x_n,\lambda)$ in homogenen Koordinaten entspricht für $\lambda\not=0$ dem Vektor $({x_1\over \lambda},\cdots,{x_n\over \lambda})$ in den üblichen kartesischen Koordinaten. Für $\lambda=0$ entspricht der Vektor $(x_1,\cdots,x_n,\lambda)$ einem Punkt im Unendlichen in Richtung $(x_1,\cdots,x_n)$.
