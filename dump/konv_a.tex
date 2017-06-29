@@ -14,6 +14,12 @@
 \end{itemize}
 
 
+\begin{description}
+\item[Basisfall] Synthetisierte Attribute für Zuweisungen im Parsebaum
+\item[gen$\lbrack S \rbrack$] die Definitionen eines Statements S
+\item[kill$\lbrack S \rbrack$] solche Definitionen, die von Statement S überschrieben werden.
+\end{description}
+
 
 \paragraph{zusammengesetzte Anweisungen} % (fold)
 \label{par:zusammengesetzte_anweisungen}
@@ -34,8 +40,8 @@ Die Berechnung erfolgt entlang des Parsebaums (bootom-up) durch \emph{Datenfluss
 
 \begin{figure}[!ht]
     \centering
-    % \includegraphics[scale=0.2]{images/bild0-2.png}
-    \includegraphics[scale=0.2]{images/b02.epsi}
+    \includegraphics[scale=0.2]{images/bild0-2.png}
+    % \includegraphics[scale=0.2]{images/b02.epsi}
     \caption{Datenflussgleichungen für zusammengesetzte Anweisungen}
 \end{figure}
 
