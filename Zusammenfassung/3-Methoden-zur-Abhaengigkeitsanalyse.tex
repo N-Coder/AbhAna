@@ -1,7 +1,66 @@
 %!TEX root = Zusammenfassung.tex
 
 \section{Methoden zur Abhängigkeitsanalyse}
-\subsection{Konventionelle Abhängigkeitsanalyse}
+% ---------------------------------------------------------------------------------------------------------------------
+\subsection{Konventionelle Abhängigkeitsanalyse} %2017-05-02
+\label{sec:konventionelle_abhaengigkeitsanalyse}
+
+\subsubsection{Prinzipielles Vorgehen am Beispiel (\Cref{fig:datenflussgleichungen,fig:beispielprogramm,fig:resultat})}
+\label{ssub:prinzipielles_vorgehen_am_beispiel}
+
+\begin{description}
+\item[Basisfall] Synthetisierte Attribute für Zuweisungen im Parsebaum
+\item[gen$\lbrack S \rbrack$] die Definitionen eines Statements $S$
+\item[kill$\lbrack S \rbrack$] solche Definitionen, die von Statement $S$ überschrieben werden.
+\item[zusammengesetzte Anweisungen] Verallgemeinerung von $gen[S]$ und $kill[S]$ auf zusammengesetzte Anweisungen wie Sequenz, Konditional und Schleife.
+  Dafür ist eine Abschätzung notwendig:
+  \begin{description}
+    \item[$gen$] es \emph{könnte} generiert worden sein.
+    \item[$kill$] es ist \emph{garantiert} gelöscht worden.
+  \end{description}
+\end{description}
+
+Die Berechnung erfolgt entlang des Parsebaums (bottom-up) durch \emph{Datenflussgleichungen} -- oder allgemein durch Fixpunktiteration.
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.2]{images/bild1-3.png}
+  % \caption{Datenflussgleichungen für \glqq erreichende Definitionen\grqq\ }
+  \caption{Datenflussgleichungen für zusammengesetzte Anweisungen}
+  \label{fig:datenflussgleichungen}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.2]{images/bild3-1.png}
+  \caption{Beispielprogramm}
+  \label{fig:beispielprogramm}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.2]{images/bild2-1.png}
+  \caption{Resultat der konventionellen Abhängigkeitsanalyse}
+  \label{fig:resultat}
+\end{figure}
+
+\subsubsection{Nachteile dieses Verfahrens}
+\label{ssub:nachteile_dieses_verfahrens}
+
+\begin{itemize}
+  \item Bitvektor-Darstellung ungeeignet für Arrays (benötigt ein bit pro Arrayzelle)
+  \item teure Mengenoperationen bei sehr großen Bitvektoren
+  \item Konflikte, z.\,B. für kill, nur ungenau:
+    \begin{itemize}
+    \item auf Variablennamen basiert (für Array ungeeignet)
+    \item keine Berücksichtigung von eventuell bekannten Schleifengrenzen
+    \item keine Berücksichtigung der sequentiellen Ausführungsordnung
+    \end{itemize}
+  \item für jedes Analyseziel ein neues Datenflussgleichungssystem von Grund auf neu berechnen
+  \item im allgemeinen Fall Fixpunktiteration nötig
+\end{itemize}
+
+% ---------------------------------------------------------------------------------------------------------------------
 \subsection{Polyedermodell}
 
 \subsubsection{Das ursprüngliche Modell}
@@ -28,7 +87,7 @@
 \item jeder affine Ausdruck in den Schleifengrenzen definiert einen
   Halbraum
 \item Polyeder: der Durchschnitt endlich vieler Halbräume
-\item Polytop: beschränktes Polyeder 
+\item Polytop: beschränktes Polyeder
 \item (Quell-)Indexraum ist ein Polytop
 \item Abhängigkeiten durch Pfeile im Indexraum repräsentiert
 \item Quellpolytop beinhaltet alle nötigen Informationen
@@ -53,7 +112,7 @@
 \item Raum-Zeit-Abbildung: die (mehrdimensionale) affine Abbildung,
   repräsentiert durch die Transformationsmatrix, die sich aus Schedule
   und Allokation zusammensetzt, und so jeder Operation einen
-  Raum-Zeit-Punkt der Ausführung zuweist. Zusätzliche Restriktion an die 
+  Raum-Zeit-Punkt der Ausführung zuweist. Zusätzliche Restriktion an die
   Allokation: die Raum-Zeit-Matrix muß unimodular sein (Determinante
   betragsmäßig 1)
 \end{enumerate}
@@ -108,7 +167,7 @@ normalisiert man Schleifen oft wie folgt:
 
 
   % {\sf for $i:=x$ to $y$ step $s$ do $R(i)$}
- 
+
 \begin{minipage}{.4\textwidth}
   \begin{algorithm}[H]
       \SetKw{KwStep}{step}
@@ -118,15 +177,15 @@ normalisiert man Schleifen oft wie folgt:
   \end{algorithm}
 \end{minipage}
 \begin{minipage}{.5\textwidth}
-    \qquad $\to$ \qquad  
+    \qquad $\to$ \qquad
     \begin{algorithm}[H]
           \SetKw{KwStep}{step}
           \For{\( i' := 0\) \KwTo \( \frac{y\!-\!x}{s} \) \KwStep 1}{
             \( R(i' \cdot s + x) \)
           }
-      \end{algorithm}  
+      \end{algorithm}
 \end{minipage}
-  % {\sf for $i':=0$ to ${y\!-\!x}\over s$ step $1$ do $R(i'*s+x)$}  
+  % {\sf for $i':=0$ to ${y\!-\!x}\over s$ step $1$ do $R(i'*s+x)$}
   ~\\
 (vgl. \cite{Zima90}, S. 175)
 
@@ -136,7 +195,7 @@ Zwei Operations $o_s$ und $o_t$ müssen auf dieselbe Speicherzelle
 zugreifen, d.h., die Variablennamen und die Array-Indizes, die $o_s$ und
 $o_t$ ansprechen, müssen in allen Komponenten übereinstimmen. Für die
 entsprechenden Iterationsvektoren $i_s$ und $i_t$ muß also in
-Matrixnotation gelten: 
+Matrixnotation gelten:
 $$i_s * A + a_0 = i_t * B + b_0,$$ wobei jede Spalte von $A$ ($B$) die
 Koeffizienten eines Array-indexes beinhaltet und $a_0$ ($b_0$) den
 konstanten Anteil bechreibt \cite{Ban93}.
@@ -144,7 +203,7 @@ konstanten Anteil bechreibt \cite{Ban93}.
 Anders notiert: $$(i_s, i_t) * \left( {A \atop -B} \right) = b_0-a_0$$
 
 Lösung wie im Abschnitt für mathematische Grundlagen
-beschrieben. 
+beschrieben.
 
 \paragraph{Existenz-Ungleichungssystem}
 
@@ -199,7 +258,7 @@ Banerjee stellt Sonderfälle vor, in denen sich die Analyse etwas vereinfacht.
 \SetAlgoLined
 \For{$i=10$ \KwTo $200$}{
     \For{$j=7$ \KwTo $167$}{
-        
+
         \textbf{S:} $X[2i+3, 5j-1, j]$ :=...\\
         \textbf{T:} ... := ... $X[i-1,2i-6,3j+2]$
     }
@@ -235,7 +294,7 @@ $B=
 
 $(i,j) * A + a_0 = (i^\prime, j^\prime) * B + b_0 \\
 \Leftrightarrow
-(i,j,i^\prime,j^\prime) * 
+(i,j,i^\prime,j^\prime) *
 \left(
 \begin{array}{c}
 A\\
@@ -244,7 +303,7 @@ A\\
 \right)
 = b_0 - a_0$\\
 Eingesetzt:\\
-$(i,j,i^\prime,j^\prime) * 
+$(i,j,i^\prime,j^\prime) *
 \left(
 \begin{array}{ccc}
 2 & 0 & 0\\
@@ -280,7 +339,7 @@ $(t_1,t_2,t_3,t_4) * S = (-4, -5, 2) \\
 (-2+15t_4; -1+12t_4; 30t_4; -1+4t_4)$
 somit kann man folgende Abhängigkeiten folgern:\\
 $\langle (-2 + 15t_4; -1+12t_4), S \rangle \stackrel{?}{\leftrightarrow}
- \langle (30t_4;-1+4t_4), T \rangle$ für $t_4 \in \mathbb{Z}$ 
+ \langle (30t_4;-1+4t_4), T \rangle$ für $t_4 \in \mathbb{Z}$
 ~\\
 \textit{Existenzungleichungssystem:}\\
 
@@ -338,7 +397,7 @@ Level: 1\\
 \entrymodifiers={++[o][F-]}
 \xymatrix{
 S \ar[d]^{( 2+15t_4; -8t_4 )} \\
-T 
+T
 }
 ~\\
 \textit{Optimierung:} nicht bei Banerjee.\\
@@ -714,7 +773,7 @@ angenommen wird:
 \SetAlgoLined
 \For{$i:= 1$ \KwTo $n$}{
      $x := 2 \cdot i+4$;\\
-     $A[x] := ...$;\\	
+     $A[x] := ...$;\\
 }
 \end{procedure}
 
@@ -731,14 +790,14 @@ $i+1$ \emph{verboten} (vgl. \cite{Zima90}, S.~178 f.):\\[1cm]
                $x := 2 \cdot i+4$;\\
                $A[2 \cdot i+4] := ...$;\\
         }
-    \end{algorithm}    
+    \end{algorithm}
 \end{minipage}
 \begin{minipage}{.4\textwidth}
     \begin{algorithm}[H]
     $j := i+1$;\\
     $i := 0$;\\
     $A[j] := ...$;\\
-    \end{algorithm}    
+    \end{algorithm}
 \end{minipage}
 
 \paragraph{Beispiel}
@@ -757,7 +816,7 @@ $\leadsto$
 \begin{procedure}[H]
 \SetAlgoLined
 \For{$i=1$ \KwTo $1000$}{
-	 	   ... = \(A[2i+4]\) 
+	 	   ... = \(A[2i+4]\)
 }
 \end{procedure}
 
@@ -767,7 +826,7 @@ $\Rightarrow$ keine Abhängigkeit
 \label{sec:wave}
 
 Ähnlich zu Fall \ref{sec:sve}; allerdings ist die Skalar-Definitioin
-textuell nach dem Arrayzugriff. 
+textuell nach dem Arrayzugriff.
 
 Das Problem ist einfach mit \emph{loop rerolling} zu lösen, wenn die
 Initialisierung ``zum Schleifenprogramm paßt''; im allgemeinen ist aber
@@ -887,7 +946,7 @@ Anschließend an \ref{sec:wave} und \ref{sec:ive} kann man \ref{sec:sve}
 anwenden, und schließlich kann man das entstandene Programm mit Hilfe von
 \emph{Dead-Code-Eliminierung} noch vereinfachen.
 
- 
+
 \def\ins{\hspace{.5cm}}
 
 \subsection{Eliminieren von Abhängigkeiten}
@@ -932,7 +991,7 @@ Schleifengetragene Anti- und Output-Abhängigkeiten von nicht voll
 indizierten Variablen können durch volle Indizierung der Variablen
 eliminiert werden (vgl. Single-Assignment-Konversion).
 
-%\mg{Bsp: zweifach verschachtelt, einmal unwirksam, einmal gut, die volle 
+%\mg{Bsp: zweifach verschachtelt, einmal unwirksam, einmal gut, die volle
 %  Indizierung}
 
 \paragraph{Beispiel}
@@ -953,7 +1012,7 @@ eliminiert werden (vgl. Single-Assignment-Konversion).
 \For{$i=1$ \KwTo $1000$}{
         \(A[i]\) = ... \\
 		   = \(A[i]\)  \\
-	 	   = \(A[i]\) 
+	 	   = \(A[i]\)
 }
 \end{algorithm}
 \end{minipage}
@@ -1001,7 +1060,7 @@ schleifengetragene Abhängigkeiten eliminiert werden.
 \begin{enumerate}
 	\item Feautriers Abhängigkeitanalyse laufen lassen  \( \leadsto \) \glqq Datenfluss\grqq
 	\item Jedes \glqq write\grqq\ wird zu einem neuen \glqq write\grqq\ in ein neues, voll indiziertes Array.
-	\item Jedes \glqq read\grqq\ wird ersetzt durch sein \dots %fehlt 
+	\item Jedes \glqq read\grqq\ wird ersetzt durch sein \dots %fehlt
 	gemäß Datenfluss
 \end{enumerate}
 
@@ -1081,7 +1140,7 @@ negativ sein}.
 
 Damit kann man zwei Schleifen genau dann vertauschen, wenn durch die
 entsprechende Permutation im Richtungsvektor kein lexikographisch
-negativer Richtungsvektor entsteht. 
+negativer Richtungsvektor entsteht.
 
 Wenn alle Abhängigkeiten (ggf. nach Permutation) durch eine Anzahl von
 äußeren Schleifen getragen wird, dann kann man die inneren alle parallel
@@ -1126,7 +1185,7 @@ Eine greedy-Heuristik, die sog. Hyperebenenmethode von Lamport,
 berücksichtigt nur das erste und zweite Kriterium exakt und nähert das
 dritte an.
 
-\smallskip 
+\smallskip
 
 Die gesamte Matrix wird dann konstruiert, indem man sie unimodular
 ergänzt: trage den Vektor $u$ als erste Zeile in eine
@@ -1162,7 +1221,7 @@ $m\!-\!1$ äußere Parallelschleifen!) erreichen kann. Auflösung: beim
 Space-Time-Mapping-Ansatz ist Kommunikation und/oder Synchronisation von
 asynchron parallel arbeitenden Prozessoren erlaubt (``DOACROSS''), bei allen
 anderen vorgestellten Methoden arbeiten parallele Prozessoren stets
-unabhängig voneinander (``DOALL''). 
+unabhängig voneinander (``DOALL'').
 %---die einzig mögliche Synchronisation die durch eine
 % gemeinsam umgebende sequentielle Schleife (im Fall~\ref{sec:pas} nicht
 % bedingt die äußerste).
