@@ -21,21 +21,21 @@
 \end{description}
 
 % ---------------------------------------------------------------------------------------------------------------------
-\subsection{Graphen}
+\subsection{Graphen} % 2017-04-25
 
 \begin{description}
 	\item[(un)gerichtete Graphen] Knoten, Bögen/Kanten (mit/ohne Richtung)\\(Anm: wir verwenden ``Kanten'' auch im gerichteten)
 	\item[Wege, Pfade] klar; Pfad beachtet die Richtung
 	\item[Zyklen, Schleifen] Weg, Pfad mit Anfang = Ende
-	\item[schwach zusammenhängend] ungeachtet der Richtung
-	\item[stark zusammenhängend] mit Beachtung der Richtung von jedem zu jedem
+	\item[schwach zusammenhängend] ungeachtet der Richtung kommt man von jedem Knoten zu jedem anderen Knoten
+	\item[stark zusammenhängend] mit Beachtung der Richtung von jedem zu jedem Knoten
 	\item[$n$-fach zusammenhängend] nach dem Löschen von $n\!-\!1$ beliebigen Kanten immer noch zusammenhängend
-	\item[schwache, starke Zusammenhangskomponenten] Teilgraphen, die schwach, stark zusammenhängend sind
-	\item[azyklische Kondensation] pro starke Zusammenhangskomponente ein Knoten;\\die ``schwachen Kanten'' übernehmen
+	\item[schwache / starke Zusammenhangskomponenten] Teilgraphen, die schwach / stark zusammenhängend sind
+	\item[azyklische Kondensation] pro starke Zusammenhangskomponente ein Knoten;\\die ``schwachen Kanten'' zwischen den Komponenten übernehmen
 \end{description}
 
 
-\paragraph{Beispielgraph}\\
+\paragraph{Beispielgraph}~\\
 \begin{center}
 \includegraphics[scale=0.7]{images/BeispielgraphGraphentheorie.pdf}
 \end{center}
@@ -116,8 +116,8 @@ Hier:
 \end{enumerate}
 
 
-\paragraph{Beispiel}\\
-Ziel: Eine ganzzahlige Lösung ist gewünscht \\
+\paragraph{Beispiel}~\\
+Ziel: Eine ganzzahlige Lösung ist gewünscht~\\
 Erinnerung: $U*A = S$ und $x = t*U$
 
 Gleichungssystem:
@@ -200,7 +200,7 @@ sukzessive Elimination der einzelnen Variablen: sei $x_j$ die zu eliminierende V
 \end{enumerate}
 
 
-\paragraph{Beispiel}\\
+\paragraph{Beispiel} ~\\
 Lösung mit Fourier-Motzkin-Algorithmus:
 \begin{align*}
 0   & \leq t-p   \\
