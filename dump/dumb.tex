@@ -15,6 +15,7 @@
 
 \ifpdf
 \usepackage[pdftex]{graphicx}
+\usepackage{hyperref}
 \else
 \usepackage{graphicx}
 \fi
@@ -33,17 +34,19 @@
 \begin{document}
 
     \include{deckblatt}
+    \tableofcontents
+    \newpage
     \include{literatur}
-    % \include{konv_a} % done (Niko, 2017-07-04)
-    % \include{programm-modell}% done (Fabian, 2017-06-29)
-    %\include{polyedermodell}% done (Fabian, 2017-06-29)
-    % \include{mathematische_grundlagen} % done (Niko, 2017-06-29)
-    % \include{abhaengigkeitsanalyse_im_ueberblick} % done (Fabian, 2017-06-29)
-    % \include{abhaengigkeitsanalyse_nach_banerjee} % done (Fabian, 2017-06-29)
-    % \include{datenflussanalyse}% done (Fabian, 2017-06-29)
-    % \include{vereinfachte_abhaengigkeitsanalyse}% done (Fabian, 2017-06-29)
-    % \include{normalisierung_der_array-indizes}% done (Fabian, 2017-06-29)
-    % \include{eliminieren_von_abhaengigkeiten}% done (Fabian, 2017-06-29)
-    % \include{ausgewaehlte_parallelisierungstechniken}% done (Fabian, 2017-06-29)
+    \include{konv_a} % done (Niko, 2017-07-04)
+    \include{programm-modell}% done (Fabian, 2017-06-29)
+    \include{polyedermodell}% done (Fabian, 2017-06-29)
+    \include{mathematische_grundlagen} % done (Niko, 2017-06-29)
+    \include{abhaengigkeitsanalyse_im_ueberblick} % done (Fabian, 2017-06-29)
+    \include{abhaengigkeitsanalyse_nach_banerjee} % done (Fabian, 2017-06-29)
+    \include{datenflussanalyse}% done (Fabian, 2017-06-29)
+    \include{vereinfachte_abhaengigkeitsanalyse}% done (Fabian, 2017-06-29)
+    \include{normalisierung_der_array-indizes}% done (Fabian, 2017-06-29)
+    \include{eliminieren_von_abhaengigkeiten}% done (Fabian, 2017-06-29)
+    \include{ausgewaehlte_parallelisierungstechniken}% done (Fabian, 2017-06-29)
 
 \end{document}
