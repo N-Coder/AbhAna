@@ -1,0 +1,117 @@
+%!TEX root = Zusammenfassung.tex
+\section{Eliminieren von Abhängigkeiten}
+
+\subsection{Scalar Renaming}
+Anti- und Output-Abhängigkeiten können u.U. durch einfaches Umbenennen
+von Variablen eliminiert werden. Zentrale Technik: Ermitteln der
+``erreichenden Definitionen''.
+
+\paragraph{Beispiel}
+\[
+\begin{array}{ccc}
+\begin{aligned}
+A &= ... \\
+   &= A \\
+   &= A \\
+A &= ... \\
+   &= A
+\end{aligned}
+&
+\leadsto
+&
+\begin{aligned}
+A &= ... \\
+   &= A \\
+   &= A \\
+A^\prime &= ... \\
+   &= A^\prime
+\end{aligned}
+\end{array}
+\]
+
+
+\subsection{Scalar Expansion}
+Schleifengetragene Anti- und Output-Abhängigkeiten von nicht voll
+indizierten Variablen können durch volle Indizierung der Variablen
+eliminiert werden (vgl. Single-Assignment-Konversion).
+
+%\mg{Bsp: zweifach verschachtelt, einmal unwirksam, einmal gut, die volle
+%  Indizierung}
+
+\paragraph{Beispiel}
+\begin{minipage}{.4\textwidth}
+\begin{algorithm}[H]
+\SetAlgoLined
+\For{$i=1$ \KwTo $1000$}{
+        A = ... \\
+		   = A \\
+	 	   = A
+}
+\end{algorithm}
+\end{minipage}
+\begin{minipage}{.5\textwidth}
+\qquad $\leadsto$ \qquad
+\begin{algorithm}[H]
+\SetAlgoLined
+\For{$i=1$ \KwTo $1000$}{
+        \(A[i]\) = ... \\
+		   = \(A[i]\)  \\
+	 	   = \(A[i]\)
+}
+\end{algorithm}
+\end{minipage}
+
+
+\subsection{Variable Copying}
+Antiabhängigkeiten kann man u.U. durch eine vorab erstellte Hilfskopie
+des Arrays einfach eliminieren.
+
+\paragraph{Beispiel}
+\begin{minipage}{.4\textwidth}
+\begin{procedure}[H]
+\SetAlgoLined
+\For{$i=0$ \KwTo $n$}{
+        $A[i]$ = ... \\
+		   = $A[i] + A[i+1]$ \\
+}
+\end{procedure}
+\end{minipage}
+\qquad $\leadsto$ \qquad
+\begin{minipage}{.5\textwidth}
+\begin{procedure}[H]
+\SetAlgoLined
+\For{$i=0$ \KwTo $n$}{
+        $A^\prime[i]$ = $A[i+1]$ \\
+}
+\end{procedure}
+
+\begin{procedure}[H]
+\SetAlgoLined
+\For{$i=0$ \KwTo $n$}{
+                $A[i]$ = ... \\
+		   = $A[i] + A^\prime[i]$ \\
+}
+\end{procedure}
+\end{minipage}
+
+
+\subsection{Index Set Splitting}
+Wenn die Abhängigkeit in unterschiedlichen Teilen des Indexraumes
+verschieden ist, dann kann man u.U. die Schleifen so aufteilen, daß
+schleifengetragene Abhängigkeiten eliminiert werden.
+
+
+\subsection{Single-Assignment-Konversion}
+\begin{enumerate}
+	\item Feautriers Abhängigkeitanalyse laufen lassen  \( \leadsto \) \glqq Datenfluss\grqq
+	\item Jedes \glqq write\grqq\ wird zu einem neuen \glqq write\grqq\ in ein neues, voll indiziertes Array.
+	\item Jedes \glqq read\grqq\ wird ersetzt durch sein \dots %fehlt
+	gemäß Datenfluss
+\end{enumerate}
+
+
+\subsection{Weitere Möglichkeiten}
+Node splitting (komplexe Statements aufbrechen), loop peeling,
+unrolling, rerolling (Unregelmäßigkeiten in den Schleifen eliminieren
+und vorgegebene Statement-Reihenfolge ermöglichen) und idom recognition
+(Mustererkennung zum Einsatz von Reduktionen).

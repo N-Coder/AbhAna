@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{scrartcl}
+\documentclass[a4paper,10pt,ngerman]{scrartcl}
 
 % IMPORTS
 \usepackage{amsfonts}
@@ -7,7 +7,7 @@
 \usepackage{graphicx}
 \usepackage{titlesec}
 \usepackage{wrapfig}
-\usepackage[ngerman]{babel}
+\usepackage{babel}
 \usepackage[utf8x]{inputenc}
 \usepackage{pdfpages}
 \usepackage{placeins}
@@ -46,6 +46,21 @@
 \tableofcontents
 \newpage
 
+\include{1-Mathematische-Grundlagen}
+\include{2-Abhaengigkeitsanalyse-im-Ueberblick}
+\include{3-Methoden-zur-Abhaengigkeitsanalyse}
+\include{4-Banerjee}
+\include{5-Feautrier-Datenflussanalyse}
+\include{6-CfFada}
+\include{7-Vereinfachte-Abhaengigkeitsanalyse}
+\include{8-Normalisierung-der-Array-Indizes}
+\include{9-Eliminieren-von-Abhaengigkeiten}
+\include{10-Ausgewaehlte-Parallelisierungstechniken}
+
+\appendix
+
+\phantomsection
+\addcontentsline{toc}{section}{Literatur}
 \nocite{Ban93}
 \nocite{Ban94}
 \nocite{Ban97}
@@ -61,9 +76,4 @@
 Bibliotheks-Signaturen: 80/ST 265 [B215 $|$ W855 $|$ Z71] und 80/SS 4800-715.
 
 
-\include{1-Mathematische-Grundlagen}
-\include{2-Abhaengigkeitsanalyse-im-Ueberblick}
-\include{3-Methoden-zur-Abhaengigkeitsanalyse}
-
 \end{document}
-

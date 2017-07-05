@@ -1,0 +1,168 @@
+%!TEX root = Zusammenfassung.tex
+
+\section{Datenflußanalyse nach Feautrier \cite{Fea91}}
+Die Datenflußanalyse nach Feautrier \cite{Fea91} ist aufwendiger als die von Banerjee, berücksichtigt aber auch die Optimierung.
+
+
+\subsection{Ansatz}
+Im Gegensatz zu Banerjee werden nicht alle Abhängigkeiten gesucht,
+sondern nur echte Datenflußabhängigkeiten. Daher werden nicht alle
+Zugriffspaare untersucht, sondern zu jedem Lesezugriff werden alle
+Schreibzugriffe als mögliche Quellen betrachtet. Der Lesezugriff ist
+damit die Senke; der Typ der Abhängigkeiten ist \emph{flow}.
+
+Durch diesen Ansatz wird die Existenz des Lesezugriffs zu einer immer
+erfüllten Voraussetzung, die für das Konfliktgleichungssystem und die
+Existenz der Quelle oder auch die Optimierung zusätzliche Informationen
+bedeutet.
+
+Das System aus Konfliktgleichungen, Existenzungleichungen und
+Ordnungsungleichungen wird einem Tool zur parametrisierten, ganzzahlig
+linearen Optimierung (z.B. PIP) in einem Aufwasch präsentiert.
+
+Die (lokal bereits optimierten) Lösungsergebnisse werden in einem
+zweiten Arbeitsgang ``gemischt''.
+
+Resultat: für Polyeder: eindeutige Quellen je Lesezugriff.
+
+
+\subsection{Single-Assignment-Konversion}
+\begin{enumerate}
+\item einmalige Zuweisung durch ``Umleiten'' der Schreibzugriffe in
+  neue Arrays, die voll indiziert sind.
+\item Wiederherstellung der Semantik durch Einsetzen der Quelle in den
+  Lesezugriffen.
+\end{enumerate}
+
+
+\subsection{Verfahren von Feautrier}
+Bei Feautrier ist die Ordnung das \emph{Input Kriterium}. Damit sind alle Gleichungen in ein System pro Dimension aufstellbar. (Für die Antiabhängigkeiten (wg. der Inputvernachlässigung) gibt es keine derartige Optimierung, da man nicht überlesen kann.)
+\entrymodifiers={++[][]}
+
+\xymatrix{
+*+[F]{x = \dots} \ar[d] |{Datenfluss}
+          \ar@/^6pc/[ddd]|{Banerjee-Abh.}\\
+*+[F]{\dots = x} \ar[d] |{Anti-Abh.} \\
+*+[F]{x = \dots} \ar[d] |{Datenfluss}\\
+*+[F]{\dots = x}
+}
+
+~\\[0.5cm]
+\emph{Konfliktgleichungssystem:} gleich Banerjee\\[0.2cm]
+\emph{Existenz-Ungleichungen:} Welche \glqq Writes \grqq schreiben den an der aktuellen Stelle gelesenen Wert? Welches \glqq Write \grqq ist das letzte? $\leftarrow$ Optimierung\\[0.2cm]
+\emph{Read-Existenz:} Kontext für die Analyse, Feautrier liefert nur optimierten True-Deps., also die Flow-Dependences.\\[0.2cm]
+\emph{Folge:} die Ordnung wird Input des Verfahrens:\\
+als Ungleichungssysteme (je Fall für die lexikographiesche Ordnung eine)
+
+
+\subsection{Beispiel}
+
+\paragraph{Programmcode:}~\\
+\begin{procedure}[H]
+\SetAlgoLined
+\For{$i=0$ \KwTo $n$}{
+    \textbf{R:} $A[0,0] := ...$\\
+    \textbf{S:} $X[i]   := A[i,0]$\\
+    \For{$j=1$ \KwTo $n$}{
+        \For{$k=1$ \KwTo $n$}{
+            \textbf{T:} $A[i+k-1,j-1]:=...$\\
+        }
+    }
+}
+\end{procedure}
+
+\paragraph{Frage:} Wer hat den Wert geschrieben, der in $\langle (i),S \rangle$ gelesen wird?\\
+
+\paragraph{S-T-Konflikt}
+\begin{enumerate}
+    \item \textit{Instanz:} $\langle (i), S \rangle$, $\langle (i^\prime, j^\prime, k^\prime), T) \rangle$
+
+    \item \textit{Konfliktgleichungssystem:} \\
+        $\begin{array}{cc}
+        \left.
+        \begin{array}{c@= l}
+            i & i^\prime + k^\prime-1\\
+            0 & j^\prime -1
+        \end{array} \right\} & \Leftrightarrow
+        \begin{array}{c@= l}
+            k^\prime & i-i^\prime +1 \\
+            j^\prime & 1
+        \end{array}
+        \end{array}$
+
+
+    \item \textit{Existenzungleichungen:} nur für $i^\prime, j^\prime, k^\prime$\\
+        \begin{align*}
+        0 &\leq i^\prime \leq n \\
+        1 &\leq j^\prime \leq n \\
+        1 &\leq k^\prime \leq n
+        \end{align*}
+        Kontext: $0 \leq i \leq n$\\
+        (Da hier kein Interesse für Anti-Abhängigkeiten besteht, erfolgt alles im Kontext von i. \glqq Ich bin Statement S, welche Iteration hat geschrieben, was ich gerade lese?\grqq)
+    \item \textit{Ordnung:} soll $\langle ( i^\prime, j^\prime, k^\prime), T \rangle \rightarrow \langle (i), S \rangle$\\
+
+    $(i^\prime < i) \lor \underbrace{(i^\prime = i \land \text{T textuell vor S})}_{false}$
+
+
+$
+\begin{array}{cc}
+% \begin{array}{cc}
+% \left.
+\begin{array}{cccccc}
+i^\prime & j^\prime & k^\prime & i & n & 1  \\
+-1       & 0        & -1       & 1 & 0 & 1  \\
+1        & 0        & 1        & -1& 0 & -1 \\
+0        & 1        & 0        & 0 & 0 & -1 \\
+0        & -1       & 0        & 0 & 0 & 1  \\
+% \end{array}\right\} & Konfliktgleichungen\\
+% \left.
+% \begin{array}{cccccc}
+1        & 0        & 0        & 0 & 0 & 0  \\
+-1       & 0        & 0        & 0 & 1 & 0  \\
+0        & 1        & 0        & 0 & 0 & -1 \\
+0        & -1       & 0        & 0 & 1 & 0  \\
+0        & 0        & 1        & 0 & 0 & -1 \\
+0        & 0        & -1       & 0 & 1 & 0  \\
+% \end{array} \right\} & Existenzungleichungen\\
+% \left.
+% \begin{array}{cccccc}
+0        & 0        & 0        & 1 & 0 & 0  \\
+0        & 0        & 0        &-1 & 1 & 0  \\
+% \end{array} \right\} & Kontext\\
+% \left.
+% \begin{array}{cccccc}
+-1       & 0        & 0        & 1 & 0 &-1
+% \end{array} \right\} & Ordnung i^\prime < i\\
+\end{array}
+& \geq 0
+\end{array}$\\
+
+(Die ersten vier Zeilen sind das Konfliktgleichungssystem, dann folgen 6 Zeilen lang das Existenzungleichungssystem, dem sich dann eine Kontextzeile und eine Ordnung (\( i^\prime < i \)) anschließt.)
+Lösung des Gleichungssystems mit FM.\\
+
+Zwischenergebnis: \\$\langle (i^\prime, 1, i-i^\prime+1), T \rangle \rightarrow \langle (i), S \rangle *\\$ für $ 0 \leq i^\prime < i \leq n \text{, } 1\leq i-i^\prime + 1 \leq n \\
+\text{ für Kontext } 0\leq i \leq n$
+
+\item \textit{Optimierung}\\
+    gesucht: letzte (lex. größte) Instanz von T mit *, die vor $\langle (i), S \rangle$ ausgeführt wird. \\
+    Lösung: $i^\prime = i-1\\
+            \Rightarrow \langle (i-1,1,2), T \rangle \rightarrow \langle (i), S \rangle$ für $i \geq 1$
+\end{enumerate}
+
+\paragraph{S-R-Konflikt}
+\begin{enumerate}
+    \item $\langle (i), S \rangle \text{,} \langle(i^\prime), R \rangle$
+    \item $0=i \land 0 = 0$
+    \item $0 \leq i^\prime \leq n \text{ im Kontext } 0 \leq i \leq n$
+    \item $i^\prime < i \lor (i^\prime = i \land \text{ R vor S}) \Leftrightarrow i^\prime \leq i$
+    \item $i^\prime = i \\
+        \Rightarrow \langle (i),R \rangle \rightarrow \langle (i), S \rangle \text{ für } i=0 \\
+        \Rightarrow \langle (0),R \rangle \rightarrow \langle (0), S \rangle$
+\end{enumerate}
+
+\paragraph{Datenfluss}~\\
+\begin{procedure}
+    src($ \langle (i), S \rangle $) =\\ \eIf{$i=0$}{$\langle (0), R \rangle$}{$\langle (i-1,1,2),T \rangle$}
+\end{procedure}
+
+\paragraph{Vorsicht} Falls die Bedingungen der Schleifenindizes nicht disjunkt sind, geht die Abhängigkeit von Maximum der Quellen (bzgl. der Ausführungsordnung) aus.

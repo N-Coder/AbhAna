@@ -1,0 +1,196 @@
+%!TEX root = Zusammenfassung.tex
+
+\section{Normalisierung der Array-Indizes}
+
+Einfache Abhängigkeitsanalyse macht keine symbolische Auswertung,
+insbesondere setzt sie Skalarvariablen, die als Arrayindizes auftreten,
+nicht ein, obwohl man deren Wert manchmal bestimmen kann. Beispielsweise
+wäre im folgenden Programm jede Instanz der Array-Zuweisung von jeder
+anderen ausgabeabhängig, weil der Arrayindex $x$ als unbekannt
+angenommen wird:
+
+% {\sf\begin{tabbing}
+% \ins\=\ins\=\ins\=\ins\=\ins\=\kill
+%   for $i := 1$ to $n$ do\\
+%   \> $x := 2*i+4$;\\
+%   \> $A[x] := ...$;\\
+%   enddo
+% \end{tabbing}}
+
+\begin{procedure}
+\SetAlgoLined
+\For{$i:= 1$ \KwTo $n$}{
+     $x := 2 \cdot i+4$;\\
+     $A[x] := ...$;\\
+}
+\end{procedure}
+
+\subsection{Skalar-Vorwärts-Ersetzung}
+\label{sec:sve}
+
+Direktes Einsetzen der Definition des Skalars in den Arrayindex liefert
+das linke Programm. ACHTUNG: Gültigkeitsbereiche beachten! Im rechten
+Programm ist das Ersetzen des Arrayindexes $j$ durch seine Definition
+$i+1$ \emph{verboten} (vgl. \cite{Zima90}, S.~178 f.):\\[1cm]
+\begin{minipage}{.4\textwidth}
+    \begin{algorithm}[H]
+        \For{\( i:= 1 \) \KwTo \( n \)}{
+               $x := 2 \cdot i+4$;\\
+               $A[2 \cdot i+4] := ...$;\\
+        }
+    \end{algorithm}
+\end{minipage}
+\begin{minipage}{.4\textwidth}
+    \begin{algorithm}[H]
+    $j := i+1$;\\
+    $i := 0$;\\
+    $A[j] := ...$;\\
+    \end{algorithm}
+\end{minipage}
+
+\paragraph{Beispiel}
+
+\begin{procedure}[H]
+\SetAlgoLined
+\For{$i=..$ \KwTo $n$}{
+	$x=2i+4$ \\
+		 ...  = \(A[x]\)  \\
+}
+\end{procedure}
+Abhängigkeit: $i \rightarrow i+1$ schon wegen $x$
+
+$\leadsto$
+
+\begin{procedure}[H]
+\SetAlgoLined
+\For{$i=1$ \KwTo $1000$}{
+	 	   ... = \(A[2i+4]\)
+}
+\end{procedure}
+
+$\Rightarrow$ keine Abhängigkeit
+
+
+\subsection{Wrap-Around-Variablen-Ersetzung}
+\label{sec:wave}
+
+Ähnlich zu Fall \ref{sec:sve}; allerdings ist die Skalar-Definitioin
+textuell nach dem Arrayzugriff.
+
+Das Problem ist einfach mit \emph{loop rerolling} zu lösen, wenn die
+Initialisierung ``zum Schleifenprogramm paßt''; im allgemeinen ist aber
+\emph{loop peeling} nötig, um Unregelmäßigkeiten an den Schleifengrenzen
+zu beseitigen. Den Hauptanwendungsbereich für diese Transformation
+bilden zyklische Arrays (daher wrap-around; vgl. \cite{Zima90}, S.~183).
+
+Beispiel: Wenn $c=2$ ist, dann ist das linke Programm  äquivalent zu dem
+mittleren; ansonsten ist es nur äquivalent zu dem rechten Programm:\\
+
+\begin{minipage}[c]{4cm}
+\begin{algorithm}[H]
+    \( x := c \);\\
+    \For{\( i:= 0 \) \KwTo \( n \)}{
+        \( A[x] := \dots \);\\
+        \( x := 2 \cdot i + 4 \);
+    }
+\end{algorithm}
+% {\sf\begin{tabbing}
+% \ins\=\ins\=\ins\=\ins\=\ins\=\kill
+%   $x := c$;\\
+%   for $i := 0$ to $n$ do\\
+%   \> $A[x] := ...$;\\
+%   \> $x := 2*i+4$;\\
+%   enddo\\
+% \end{tabbing}}
+\end{minipage}
+\begin{minipage}[c]{4cm}
+\begin{algorithm}[H]
+    \For{\( i:= 0 \) \KwTo n}{
+        \( x := 2 \cdot i + 4 - 2 \);\\
+        \( A[x] := \dots \);
+    }
+    \( x := 2 \cdot n + 4 \);
+\end{algorithm}
+% {\sf\begin{tabbing}
+% \ins\=\ins\=\ins\=\ins\=\ins\=\kill
+%   for $i := 0$ to $n$ do\\
+%   \> $x := 2*i+4-2$;\\
+%   \> $A[x] := ...$;\\
+%   enddo\\
+%   $x := 2*n+4$;\\
+% \end{tabbing}}
+\end{minipage}
+\begin{minipage}[c]{4cm}
+    \begin{algorithm}[H]
+        \( A[c] := \dots \);\\
+        \For{\( i := 1 \) \KwTo \( n \)}{
+            \( x := 2 \cdot i + 4 - 2 \);\\
+            \( A[X] := \dots \);
+        }
+        \( x := 2 \cdot n + 4 \);
+    \end{algorithm}
+% {\sf\begin{tabbing}
+% \ins\=\ins\=\ins\=\ins\=\ins\=\kill
+%   $A[c] := ...$;\\
+%   for $i := 1$ to $n$ do\\
+%   \> $x := 2*i+4-2$;\\
+%   \> $A[x] := ...$;\\
+%   enddo\\
+%   $x := 2*n+4$;
+% \end{tabbing}}
+\end{minipage}
+
+
+\subsection{Induktions-Variablen-Ersetzung}
+\label{sec:ive}
+
+Einfache Induktionsvariablen sind Variablen, denen nur durch (ggfs.
+mehrere) Terme $v := v + c_0$ Werte zugewiesen werden; allgemeine
+Induktionsvariablen sind Variablen, denen einmalig mit einem Term der
+Form $v':= c_1*v + c_2$ ein Wert zugewiesen wird, wobei $v$ eine
+einfache Induktionsvariable sein muß.  Sie können stets durch einen
+affinen Ausdruck in den Schleifenindizes
+ersetzt werden:\\
+
+\begin{minipage}[c]{4cm}
+    \begin{algorithm}[H]
+        \( x:= 2 \);\\
+        \For{\( i:=0 \) \KwTo \( n \)}{
+            \( x := x+2 \);\\
+            \( A[x] := \dots \);
+        }
+    \end{algorithm}
+% {\sf\begin{tabbing}
+% \ins\=\ins\=\ins\=\ins\=\ins\=\kill
+%   $x := 2$;\\
+%   for $i := 0$ to $n$ do\\
+%   \> $x := x+2$;\\
+%   \> $A[x] := ...$;\\
+%   enddo
+% \end{tabbing}}
+\end{minipage}
+%
+\begin{minipage}[c]{4cm}
+\centerline{ist äquivalent zu}
+\end{minipage}
+%
+\begin{minipage}[c]{4cm}
+    \begin{algorithm}[H]
+        \For{\( i:= 0 \) \KwTo \( n \)}{
+            \( x:= 2 \cdot i + 4 \);\\
+            \( A[x] := \dots \);
+        }
+    \end{algorithm}
+% {\sf\begin{tabbing}
+% \ins\=\ins\=\ins\=\ins\=\ins\=\kill
+%   for $i := 0$ to $n$ do\\
+%   \> $x := 2*i+4$;\\
+%   \> $A[x] := ...$;\\
+%   enddo
+% \end{tabbing}}
+\end{minipage}
+
+\bigskip
+Anschließend an \ref{sec:wave} und \ref{sec:ive} kann man \ref{sec:sve}
+anwenden, und schließlich kann man das entstandene Programm mit Hilfe von
+\emph{Dead-Code-Eliminierung} noch vereinfachen.
