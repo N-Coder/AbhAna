@@ -66,6 +66,11 @@ Die Berechnung erfolgt entlang des Parsebaums (bottom-up) durch \emph{Datenfluss
 \subsubsection{Das ursprüngliche Modell}
 \label{sec:orig-mod}
 
+Der Schnitt von endlich vielen Halbräumen ist ein Polyeder.
+Ein beschränkter Polyeder heißt Polytop.
+Durch Schnitt von Hyperebenen durch Räume entstehen Halbräume.
+Hyperebenen sind $n-1$-dimensionale Ebenen im $n$-dimensionalen Raum
+
 \begin{enumerate}
 \item Restriktionen:
 \begin{enumerate}
@@ -745,11 +750,6 @@ Da die Quelle für \( (0,0) \) nicht gefunden wird, kann nicht vorab abgebrochen
         \item ...
         \item Single-Assignment-Konversion
     \end{itemize}
-\subsubsection{Vereinfachte Abhängigkeitsanalyse}
-    \begin{itemize}
-        \item GCD (einfach und erweitert)
-        \item Extreme-Value-Test
-    \end{itemize}
 
 %\newpage
 %\setcounter{section}{6}
@@ -1042,12 +1042,13 @@ Der Omega-Test kombiniert ein eigenständiges Eliminationsverfahren für
 ganzzahlige Gleichungen mit einer Erweiterung des Fourier-Motzkin
 Verfahrens.
 
+\paragraph{Phase A: Ganzzahliges Gleichungssystem}
 \begin{enumerate}
 \item Wenn in einer Gleichung ein Koeffizient einer Variablen
   betragsmäßig gleich eins ist, dann löse nach dieser Variablen auf
   und setze sie in allen anderen Gleichungen ein. Dadurch reduziert
   sich die Zahl der Gleichungen um eins. Gehe zu 1.
-\item Ansonsten:
+\item Ansonsten \emph{Substitutionsverfahren}:
   \begin{enumerate}
   \item Sei $k$ der Index der Variablen mit dem betragsmäßig kleinsten
     Koeffizienten $|a_k|$ mit $a_k\not=0$.
@@ -1071,11 +1072,18 @@ Verfahrens.
   \item Falls noch Gleichungen vorhanden sind, gehe zu 1. \\
     Ansonsten gibt es nur noch Ungleichungen!
   \end{enumerate}
-\item Bei widersprüchlichen Ungleichungen: Unlösbar. Stop.
+\newcounter{enumTemp}
+\setcounter{enumTemp}{\theenumi}
+\end{enumerate}
+
+\paragraph{Phase B: Ungleichungssystem}
+\begin{enumerate}
+\setcounter{enumi}{\theenumTemp}
+\item Bei widersprüchlichen Ungleichungen: Unlösbar. \textbf{Stop.}
 \item Bei gegengleichen Ungleichungen: behandle sie als Gleichung.
   (Aus Effizienzgründen beim Suchen nach gegengleichen Ungleichungen
   auch gleich: eliminiere trivial redundante Ungleichungen.)
-\item Falls nun höchtens eine Variable: Ganzzahlig lösbar. Stop.
+\item Falls nun höchtens eine Variable: Ganzzahlig lösbar. \textbf{Stop.}
 \item Sonst: Dimensionsreduktion durch Fourier-Motzkin. Achtung:
   ganzzahlige Variante:
   \begin{enumerate}
@@ -1085,14 +1093,14 @@ Verfahrens.
   \item Berechne mit FM den ``reellen Schatten'': für jedes der Paare
     $a*x\leq \alpha$ und $b*x\geq \beta$ eliminiere $x$ durch $b*\alpha - a*\beta \geq 0$.
   \item Wenn keine ganzzahlige Lösung im reellen Schatten, dann
-      ganzzahlig unlösbar. Stop.
+      ganzzahlig unlösbar. \textbf{Stop.}
   \item Berechne den ``dunklen Schatten'' mit FM aus den Ungleichungen
     $b*\alpha - a*\beta \geq (a\!-\!1)*(b\!-\!1)$ für jedes der Paare
     $a*x\leq \alpha$ und $b*x\geq \beta$. [Anmerkung: $a*(x\!+\!1)\leq \alpha$ und
     $b*(x\!-\!1)\geq \beta$, also umgeformt $b*\alpha - a*\beta \geq 2*a*b$,
     produzieren einen ``noch dunkleren Schatten''.]
   \item Wenn ganzzahlige Lösungen im dunklen Schatten, dann ganzzahlig
-    lösbar. Stop.
+    lösbar. \textbf{Stop.}
   \item Wenn reeller und dunkler Schatten identisch (\emph{exakte
       Projektion}), dann siehe Lösbarkeit am reellen Schatten -- etwa
     für $a=1$ oder $b=1$.
