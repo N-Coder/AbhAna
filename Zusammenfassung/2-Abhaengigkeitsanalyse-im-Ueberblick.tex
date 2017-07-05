@@ -2,43 +2,33 @@
 
 \section{Abhängigkeitsanalyse im Überblick}
 \subsection{Programm-Modell}
-\subsubsection{Datentypen:}
-  \begin{enumerate}
-  \item Als Datentypen erlauben wir nur (mehrdimensionale) Arrays
-    mit beliebigen Einträgen. Beachte: Skalare sind 0-dimensionale
-    Arrays.
-  \item Lediglich Indizes von Schleifen werden nicht als 0-dimensionale
-    Arrays, sondern wirklich als Integers betrachtet.
-  \item Darüberhinaus gibt es symbolische Konstanten vom Typ Integer,
-    die oft auch als Strukturparameter bezeichnet werden.
-  \end{enumerate}
+
+\subsubsection{Datentypen}
+\begin{enumerate}
+  \item Als Datentypen erlauben wir nur (mehrdimensionale) Arrays mit beliebigen Einträgen.
+    Beachte: Skalare sind 0-dimensionale Arrays.
+  \item Lediglich Indizes von Schleifen werden nicht als 0-dimensionale Arrays, sondern wirklich als Integers betrachtet.
+  \item Darüberhinaus gibt es symbolische Konstanten vom Typ Integer, die oft auch als Strukturparameter bezeichnet werden.
+\end{enumerate}
+
 \subsubsection{Kontrollstrukturen}
-  \begin{enumerate}
+\begin{enumerate}
   \item Das Basiselement ist die Zuweisung an ein Arrayelement.
-  \item Die einzige Kontrollstruktur ist die Schleife (beliebig
-    verschachtelte Anwendung willkommen).
-  \item Als Schleifenunter- bzw. -obergrenzen sind im originalen
-    Programm-Modell nur Maxima bzw. Minima affiner Ausdrücke in
-    umgebenden Schleifenindizes und in Strukturparametern
-    erlaubt; das wird auch der Schwerpunkt der Vorlesung sein,
-    wenngleich diese Restriktionen mittlerweile theoretisch aufgelöst
-    wurden.
-  \end{enumerate}
-\subsubsection{Iterationen:}
+  \item Die einzige Kontrollstruktur ist die Schleife (beliebig verschachtelte Anwendung willkommen).
+  \item Als Schleifenunter- bzw. -obergrenzen sind im originalen Programm-Modell nur Maxima bzw. Minima affiner Ausdrücke in umgebenden Schleifenindizes und in Strukturparametern erlaubt; das wird auch der Schwerpunkt der Vorlesung sein, wenngleich diese Restriktionen mittlerweile theoretisch aufgelöst wurden.
+\end{enumerate}
+
+\subsubsection{Iterationen}
   \begin{enumerate}
-  \item Durch die Schleifen entstehen verschiedene Instanzen von
-    Zuweisungen (Operations).
-  \item Identifiziert werden Operations durch Angabe des Statements und
-    des Iterationsvektors (Vektor, der sich aus den Werten der Indizes der
-    umgebenden Schleifenindizes zusammensetzt).
-  \item Der Raum aller Operations heißt Index- oder Iterationsraum aller 
-    Statements. (Manchmal werden wir die Indexräume von verschiedenen
-    Statements auch übereinanderlegen und somit nur einen Indexraum für
-    mehrere Statements erhalten, falls die Statements dieselben
-    umgebenden Schleifen besitzen.)
-  \end{enumerate}
-\subsubsection{Ausführungsreihenfolge:}
-  \begin{enumerate}
+  \item Durch die Schleifen entstehen verschiedene Instanzen von Zuweisungen (Operations).
+  \item Identifiziert werden Operations durch Angabe des Statements und des Iterationsvektors (Vektor, der sich aus den Werten der Indizes der umgebenden Schleifenindizes zusammensetzt).
+  \item Der Raum aller Operations heißt Index- oder Iterationsraum aller Statements.
+    (Manchmal werden wir die Indexräume von verschiedenen Statements auch übereinanderlegen und somit nur einen Indexraum für mehrere Statements erhalten,
+    falls die Statements dieselben umgebenden Schleifen besitzen.)
+\end{enumerate}
+
+\subsubsection{Ausführungsreihenfolge}
+\begin{enumerate}
   \item Für sequentielle Schleifen gilt: In einem perfekt
     verschachtelten Schleifensatz (die Zuweisungen stehen alle in
     demselben Rumpf der innersten Schleife) werden verschiedene
@@ -50,118 +40,54 @@
     lexikographisch kleiner sind, oder diese Vektoren gleich sind und
     $a$ im Programmtext vor $b$ steht.
     %wenn nach dem Entfernen aller gemeinsam umgebenden (äußeren) Schleifen
-  \end{enumerate}
-\subsubsection{Abhängigkeiten:}
-  \begin{enumerate}
-  \item geben an, für welche Operations die Ausführungsreihenfolge
-    zwingend vorgeschrieben ist. Formale Definition: später.
-  \end{enumerate}
-\subsubsection{Abhängigkeitsgraphen:}
-  \begin{enumerate}
-  \item Iterationsabhängigkeitsgraph: je Operation (oder für jeweils
-    übereinandergelegte Operationen) ein Knoten mit Abhängigkeiten als
-    Kanten; sehr genau, aber u.U. unbeschränkt.
-  \item Statementabhängigkeitsgraph: nur je Statement ein Knoten;
-    kleiner, aber ungenauer.
-  \end{enumerate}
+\end{enumerate}
+
+\subsubsection{Abhängigkeiten}
+\begin{enumerate}
+  \item geben an, für welche Operations die Ausführungsreihenfolge zwingend vorgeschrieben ist. Formale Definition: später.
+\end{enumerate}
+
+\subsubsection{Abhängigkeitsgraphen}
+\begin{enumerate}
+  \item Iterationsabhängigkeitsgraph: je Operation (oder für jeweils übereinandergelegte Operationen) ein Knoten mit Abhängigkeiten als Kanten; sehr genau, aber u.U. unbeschränkt.
+  \item Statementabhängigkeitsgraph: nur je Statement ein Knoten; kleiner, aber ungenauer.
+\end{enumerate}
+
 \subsubsection{Parallelisierung}
-  \begin{enumerate}
+\begin{enumerate}
   \item wirklich notwendige Ordnung von den Abhängigkeiten vorgeschrieben
   \item paralleles Programm (Herleitung später)
-  \end{enumerate}
+\end{enumerate}
+
+
 
 \subsection{Abhängigkeiten im allgemeinen}
-
 Abhängigkeiten in einem Programm spiegeln die durch das Programm
 zwingend vorgeschriebene Ausführungsreihenfolge von \emph{Instanzen von
 Anweisungen} wider. In imperativen Programmen erfolgt ihre Berechnung
 üblicherweise durch die Ermittlung von Speicherstellen, auf die mehrfach
-zugegriffen wird. 
+zugegriffen wird.
 
-\subsubsection{Bedingungen (Speicherkonflikt, Existenz, Ordnung, Optimierung, Bernsteinzusatz)}
-\paragraph{Bedingungen}
+\subsubsection{Bedingungen}
+Eine Operation $o_t$ ist abhängig von einer Operation $o_s$, gdw. folgende Bedingungen erfüllt sind:
+\begin{description}
+\item[Speicherkonflikt] ~\\$o_s$ und $o_t$ müssen auf dieselbe Speicherzelle zugreifen.
+\item[Existenz] ~\\$o_s$ und $o_t$ müssen beide durch das Programm wirklich generiert werden.
+\item[Ordnung] ~\\$o_s$ wird gem. der sequentiellen Ausführungsreihenfolge vor $o_t$ ausgeführt---es kann nur eine später ausgeführte Instanz von einer früher ausgeführten Instanz abhängig sein.
+\item[Optimierung] ~\\Zwischen den zwei Instanzen wird der Wert der Speicherzelle nicht mehr modifiziert, d.h., es besteht eine ``direkte Abhängigkeit'.
+\item[Bernsteinzusatz] ~\\Mindestens einer der in Konflikt stehenden Zugriffe muß schreibend sein.
+\end{description}
 
-Eine Operation $o_t$ ist abhängig von einer Operation $o_s$, gdw.
-folgende Bedingungen erfüllt sind:
-\begin{enumerate}
-\item $o_s$ und $o_t$ müssen auf dieselbe
-  Speicherzelle zugreifen (\emph{Speicherkonflikt}).
-\item $o_s$ und $o_t$ müssen beide durch
-  das Programm wirklich generiert werden (\emph{Existenz}).
-\item $o_s$ wird gem. der sequentiellen Ausführungsreihenfolge vor $o_t$ 
-  ausgeführt---es kann nur eine später ausgeführte Instanz von einer früher
-  ausgeführten Instanz abhängig sein (\emph{Ordnung}).
-\item Zwischen den zwei Instanzen wird der Wert der Speicherzelle nicht
-  mehr modifiziert, d.h., es besteht eine ``direkte Abhängigkeit''
-  (\emph{Optimierung}).
-\item Mindestens einer der in Konflikt stehenden Zugriffe muß schreibend
-  sein (\emph{Bernsteinzusatz}).
-\end{enumerate}
+\paragraph{Bemerkungen:} Die Optimierung wird bei der praktischen Berechnung oft vernachlässigt.
 
-\paragraph{Bemerkungen:} Die Optimierung wird bei der praktischen
-Berechnung oft vernachlässigt. 
-
-%\paragraph{Bemerkung:} 
 Die Bernstein-Bedingungen werden i.a. explizit angegeben (3 Fälle) und
 beinhalten Ordnung, Existenz und Speicherkonflikt implizit. Je nach
 Analyse-Methode wird die Zusatzbedingung von Bernstein implizit bei der
 Auswahl der zu betrachtenden Zugriffspaare berücksichtigt.
 
-\subsection{Abhängigkeiten in Schleifenprogrammen}
-
-Die Abhängigkeits-Analysetechniken sind für verschachtelte
-Schleifenprogramme mit Arrays als einziger Datenstruktur relativ gut
-entwickelt (Skalar-Variable können dabei als null-dimensionale Arrays
-interpretiert werden). 
-
-\noindent
-Damit ergibt sich:
-
-\begin{enumerate}
-\item Instanzen von Anweisungen sind durch die Anweisung selbst und den
-  zugehörigen Iterationsvektor (Vektor der Werte aller umgebenden
-  Schleifenindizes) eindeutig charakterisiert.
-\item Der Indexraum einer Anweisung ist die Menge aller durch das
-  Schleifenprogramm aufgezählten Indexvektoren für diese Anweisung.
-\item Die sequentielle Ausführungsreihenfolge von zwei Instanzen ist
-  gegeben durch die lexikographische Ordnung auf dem gemeinsamen Präfix
-  ihrer Iterationsvektoren und---bei deren Gleichheit---durch die
-  textuelle Reihenfolge der Anweisungen im Programmtext.
-\item Speicherkonflikt liegt genau dann vor, wenn zwei Instanzen auf
-  dasselbe Array zugreifen und für jede Array-Dimension auch denselben
-  Index liefern. ACHTUNG: Nicht die Schleifen-Indizes, sondern die
-  Array-Indizes nach dem Einsetzen der Schleifen-Indizes
-  (=Iterationsvektoren) müssen übereinstimmen.
-\end{enumerate}
-
-\paragraph{Beispiel:} 3 Schleifen, 2-dim. Arrays.
-
-\paragraph{Begriffe:}
-
-\begin{enumerate}
-\item Die Abhängigkeit geht von der \emph{Quelle} zum \emph{Ziel}.
-\item Im Fall von perfekt verschachtelten Schleifen ist der
-  \emph{Abhängigkeitsvektor} (oder \emph{Distanzvektor}) ist die Differenz: Ziel-Iterationsvektor minus
-  Quell-Iterationsvektor. Er ist also immer lexikographisch nicht-negativ (also hinsichtlich des zeitlichen Ablaufs).
-\item Eine Abhängigkeit heißt \emph{uniform}, wenn der Abhängigkeitsvektor an
-  jedem Punkt des Indexraumes identisch ist.
-\item Durch \emph{Richtungsvektoren}, in denen die Werte der
-  Abhängigkeitsvektoren durch ihr Signum ersetzt werden, kann man selbst
-  nicht-uniforme Abhängigkeiten (zu Lasten der Genauigkeit) effizient
-  darstellen. 
-\item Eine Abhängigkeit wird von derjenigen Verschachtelungstiefe
-  \emph{getragen}, deren erster Eintrag im Richtungsvektor größer als
-  null ist. Ist der Richtungsvektor gleich dem Nullvektor, so heißt die
-  Abhängigket \emph{schleifenunabhängig}.
-\end{enumerate}
 
 \subsection{Typen von Abhängigkeiten}
-
-Je nachdem, ob das Ziel oder die Quelle ein lesender oder ein
-schreibender Zugriff ist, werden verschiedene \emph{Typen} von
-Abhängigkeiten unterschieden: 
-
-\smallskip
+Je nachdem, ob das Ziel oder die Quelle ein lesender oder ein schreibender Zugriff ist, werden verschiedene \emph{Typen} von Abhängigkeiten unterschieden:
 
 \begin{center}
 \begin{tabular}{||r|cc||}
@@ -175,18 +101,15 @@ schreibt & anti & output\\
 \end{tabular}
 \end{center}
 
-\paragraph{Bemerkungen:} 
-
+\paragraph{Bemerkungen:}
 \begin{enumerate}
-\item I.A. werden input dependences wegen der Bernstein-Zusatzbedinung
+\item i.A. werden input dependences wegen der Bernstein-Zusatzbedinung
   vernachlässigt.
-\item True dependences, die das Optimierungskriterium erfüllen, heißen
-  auch flow dependences. (ACHTUNG: Diese Begriffe werden in der Literatur
-  uneinheitlich verwendet.)
+\item true dependences, die das Optimierungskriterium erfüllen, heißen auch flow dependences.
+  (ACHTUNG: Diese Begriffe werden in der Literatur uneinheitlich verwendet.)
 \end{enumerate}
 
 \paragraph{Graphische Darstellung:}
-
 Die graphische Darstellung erfolgt entweder durch den
 \emph{Iterations-Abhängigkeitsgraphen} oder den
 \emph{Statement-Abhängigkeitsgraphen}.

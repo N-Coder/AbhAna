@@ -161,6 +161,51 @@ Erweiterungen:
 \end{enumerate}
 
 
+\subsection{Abhängigkeiten in Schleifenprogrammen}
+Die Abhängigkeits-Analysetechniken sind für verschachtelte
+Schleifenprogramme mit Arrays als einziger Datenstruktur relativ gut
+entwickelt (Skalar-Variable können dabei als null-dimensionale Arrays
+interpretiert werden).
+
+Damit ergibt sich:
+\begin{enumerate}
+\item Instanzen von Anweisungen sind durch die Anweisung selbst und den
+  zugehörigen Iterationsvektor (Vektor der Werte aller umgebenden
+  Schleifenindizes) eindeutig charakterisiert.
+\item Der Indexraum einer Anweisung ist die Menge aller durch das
+  Schleifenprogramm aufgezählten Indexvektoren für diese Anweisung.
+\item Die sequentielle Ausführungsreihenfolge von zwei Instanzen ist
+  gegeben durch die lexikographische Ordnung auf dem gemeinsamen Präfix
+  ihrer Iterationsvektoren und---bei deren Gleichheit---durch die
+  textuelle Reihenfolge der Anweisungen im Programmtext.
+\item Speicherkonflikt liegt genau dann vor, wenn zwei Instanzen auf
+  dasselbe Array zugreifen und für jede Array-Dimension auch denselben
+  Index liefern. ACHTUNG: Nicht die Schleifen-Indizes, sondern die
+  Array-Indizes nach dem Einsetzen der Schleifen-Indizes
+  (=Iterationsvektoren) müssen übereinstimmen.
+\end{enumerate}
+
+\paragraph{Beispiel:} 3 Schleifen, 2-dim. Arrays.
+
+\paragraph{Begriffe:}
+\begin{enumerate}
+\item Die Abhängigkeit geht von der \emph{Quelle} zum \emph{Ziel}.
+\item Im Fall von perfekt verschachtelten Schleifen ist der
+  \emph{Abhängigkeitsvektor} (oder \emph{Distanzvektor}) ist die Differenz: Ziel-Iterationsvektor minus
+  Quell-Iterationsvektor. Er ist also immer lexikographisch nicht-negativ (also hinsichtlich des zeitlichen Ablaufs).
+\item Eine Abhängigkeit heißt \emph{uniform}, wenn der Abhängigkeitsvektor an
+  jedem Punkt des Indexraumes identisch ist.
+\item Durch \emph{Richtungsvektoren}, in denen die Werte der
+  Abhängigkeitsvektoren durch ihr Signum ersetzt werden, kann man selbst
+  nicht-uniforme Abhängigkeiten (zu Lasten der Genauigkeit) effizient
+  darstellen.
+\item Eine Abhängigkeit wird von derjenigen Verschachtelungstiefe
+  \emph{getragen}, deren erster Eintrag im Richtungsvektor größer als
+  null ist. Ist der Richtungsvektor gleich dem Nullvektor, so heißt die
+  Abhängigket \emph{schleifenunabhängig}.
+\end{enumerate}
+
+
 \subsubsection{Banerjee}
 
 \paragraph{Normalisierung des Schleifenkopfes}
