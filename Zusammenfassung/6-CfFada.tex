@@ -44,27 +44,27 @@ Dieses weiteres Verfahren wird motiviert durch die Existenz von \glqq if-Stateme
 
 
 \subsection{Beispiel}
-\begin{wrapfigure}{r}{0.4\textwidth}
-    \begin{flushright}
-        \includegraphics[width=0.4\textwidth]{images/cffada.png}
+\begin{figure}[h]
+    \begin{subfigure}[c]{.5\linewidth}
+        \paragraph{Programmcode}~\\
+        \begin{procedure}[H]
+        \SetAlgoLined
+        \For{$i=0$ \KwTo $N$}{
+            \For{$j=0$ \KwTo $N$}{
+                \textbf{3:} $A[i+j+1]$ = ... \\
+                \eIf{$P$}
+                    {\textbf{6:} $A[i+j]$ = ...\\}{}
+                \textbf{7:} ... = $A[i+j]$
+            }
+        }
+        \end{procedure}
+        \caption{Programmcode}
+    \end{subfigure}
+    \begin{subfigure}[c]{.5\linewidth}
+        \includegraphics[width=\linewidth]{images/cffada.png}
         \caption{Ablaufgraph}
-    \end{flushright}
-\end{wrapfigure}
-
-\paragraph{Programmcode}~\\
-\begin{procedure}[H]
-\SetAlgoLined
-\For{$i=0$ \KwTo $N$}{
-    \For{$j=0$ \KwTo $N$}{
-
-        \textbf{3:} $A[i+j+1]$ = ... \\
-        \eIf{$P$}
-            {\textbf{6:} $A[i+j]$ = ...\\}{}
-        \textbf{7:} ... = $A[i+j]$
-
-    }
-}
-\end{procedure}
+    \end{subfigure}
+\end{figure}
 
 \paragraph{Kontext}~\\
 Read-Statement 7\\
