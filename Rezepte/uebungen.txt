@@ -1,0 +1,9 @@
+3  Klassische AbhAna (gen, kill, in, out)
+4  Diophantische GLS lösen
+4  Fourier-Motzkin
+6  Banerjee
+7  Feautrier
+7  Single Assignment
+8  Schnelltest/Vereinfachungen (GCD- und Extreme Value Test)
+9  CfFada
+10 Omega
