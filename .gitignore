@@ -3,4 +3,6 @@
 !*.dot
 !*.tex
 !*.md
+!*.svg
+!*.eps
 
