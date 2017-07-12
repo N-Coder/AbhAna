@@ -1,6 +1,7 @@
 \documentclass[a4paper,10pt,ngerman]{scrartcl}
 
 % IMPORTS
+\usepackage{listings}
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -35,6 +36,12 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{0.5em}
 \setcounter{tocdepth}{3}
+
+\lstset{%
+    language=C,
+    basicstyle=\ttfamily,
+    keywordstyle=\bfseries
+}
 
 \title{Abhängigkeitsanalyse}
 

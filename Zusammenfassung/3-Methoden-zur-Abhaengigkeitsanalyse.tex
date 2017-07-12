@@ -22,6 +22,87 @@
 
 Die Berechnung erfolgt entlang des Parsebaums (bottom-up) durch \emph{Datenflussgleichungen} -- oder allgemein durch Fixpunktiteration.
 
+\subsubsection{Aufstellen des Parsebaums aus Pseudocode}
+
+\begin{itemize}
+    \item Hintereinanderausführungen erzeugen einen Konkatenationsoperator (;) mit
+        erstem Statement als linken, zweitem Statement als rechten Kindknoten
+    \item \texttt{if}-Statements erzeugen einen if-Knoten mit drei Kindknoten:
+        der Bedingung, dem then-Zweig (links) und dem else-Zweig (rechts).
+    \item \texttt{do}-Schleifen erzeugen einen do-Knoten mit Schleifenkörper und
+        Bedingung als Kindknoten.
+\end{itemize}
+
+\textit{Siehe Abbildung \ref{convent:ast}.}
+\begin{figure}
+    \hfill
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \begin{lstlisting}
+int x, a, s;
+x = 42; // d0
+a = 1; // d1
+s = 0; // d2
+if (E1) {
+    do {
+        x = a + s; // d3
+        s = s + x; // d4
+    } while (E2);
+} else
+    x = x + 1; //d5
+}
+        \end{lstlisting}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.5\textwidth}
+        \includegraphics[scale=0.5]{images/convent-ast.pdf}
+    \end{minipage}
+    \hfill
+    \caption{Überführung von Pseudocode in einen Syntaxbaum}
+    \label{convent:ast}
+\end{figure}
+
+
+\subsubsection{Bestimmung der \textit{gen}- und \textit{kill}-Mengen}
+
+\begin{itemize}
+    \item Beginne bei den Blättern. Überschriebene Ausdrücke landen in der kill-Menge,
+        Geschriebene in der gen-Menge.
+    \item Bei einer Konkatenation ist die gen-Menge gen-Menge des zweiten Kindknotens
+        und die Ausdrücke der gen-Menge des ersten Knotens, die nicht in der kill-Menge
+        des zweiten liegen.
+    \item Bei einem do-Knoten sind gen- und kill-Mengen die des Schleifenkörpers.
+    \item Bei einem if-Knoten ist die gen-Menge Vereinigung der gen-Mengen der Kinder,
+        die kill-Menge Schnitt der kill-Mengen
+\end{itemize}
+\textit{Siehe Abbildung \ref{convent:genkill}.}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.45]{images/convent-genkill.pdf}
+    \caption{Bestimmung der gen- und kill-Mengen}
+    \label{convent:genkill}
+\end{figure}
+
+\subsubsection{Bestimmung der \textit{in}- und \textit{out}-Mengen}
+
+\begin{itemize}
+    \item Beginne bei der Wurzel. Die in-Menge ist $\emptyset$.
+    \item Bei einer Konkatenation ist die in-Menge des ersten Kindes die des Elternknotens,
+        die des zweiten die out-Menge des ersten und die out-Menge des Elternknotens die des
+        zweiten Kindes.
+    \item Bei einem Blattknoten ist $out = gen \cup (in \setminus kill)$.
+    \item Bei einem if-Knoten ist die out-Menge Vereinigung der out-Mengen der Kinder.
+    \item Bei einem do-Knoten ist die out-Menge die des Schleifenkörpers.
+\end{itemize}
+
+\textit{Siehe Abbildung \ref{convent:inout}.}
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.45]{images/convent-inout.pdf}
+    \caption{Bestimmung der in- und out-Mengen}
+    \label{convent:inout}
+\end{figure}
+
 \begin{figure}[p]
   \centering
   \includegraphics[scale=0.2]{images/bild1-3.png}
