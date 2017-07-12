@@ -44,11 +44,10 @@ Dieses weiteres Verfahren wird motiviert durch die Existenz von \glqq if-Stateme
 
 
 \subsection{Beispiel}
-\begin{wrapfigure}{r}{0.6\textwidth}
+\begin{wrapfigure}{r}{0.4\textwidth}
     \begin{flushright}
-        \includegraphics[scale=0.5]{images/cffada.png}
+        \includegraphics[width=0.4\textwidth]{images/cffada.png}
         \caption{Ablaufgraph}
-        \vspace{+40pt}
     \end{flushright}
 \end{wrapfigure}
 
@@ -67,15 +66,13 @@ Dieses weiteres Verfahren wird motiviert durch die Existenz von \glqq if-Stateme
 }
 \end{procedure}
 
-\smallskip
-
 \paragraph{Kontext}~\\
 Read-Statement 7\\
 Operationen: $\langle (i,j), 7 \rangle$ für $0 \leq i, j \leq N$
 
 \paragraph{Annotierung}~\\
 Statement 3\\
-Operationen: \(\langle (i^\prime,j^\prime), 3 \rangle\) für \( \underbrace{0 \leq i^\prime, j^\prime \leq N}_{Existenz} \land \underbrace{i^\prime + j^\prime + 1 = i + j}_{Konflikt}\)\\
+Operationen: $\langle (i^\prime,j^\prime), 3 \rangle\) für \( \underbrace{0 \leq i^\prime, j^\prime \leq N}_{Existenz} \land \underbrace{i^\prime + j^\prime + 1 = i + j}_{Konflikt}$\\
 Statement 6\\
 Operationen: \dots\\
 
