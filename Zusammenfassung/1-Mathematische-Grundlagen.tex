@@ -116,6 +116,15 @@ Hier:
 	% \item keine 2 Variables mit \psi_- und \psi_+
 \end{enumerate}
 
+\paragraph{Algorithmus}
+
+Löse Gleichung $Ax=c$ nach $x$.\begin{enumerate}
+    \item Führe ganzzahlige Gauß-Elimination durch, um $(A^T|E)$ in Zeilenstufenform
+        $(S|U)$ zu überführen
+    \item Löse $t^TS=c^T$ nach $t^T$ auf
+    \item Bestimme $x=t^TU$
+\end{enumerate}
+
 
 \paragraph{Beispiel}~\\
 Ziel: Eine ganzzahlige Lösung ist gewünscht~\\
