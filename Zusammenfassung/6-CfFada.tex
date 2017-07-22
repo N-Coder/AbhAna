@@ -30,6 +30,42 @@ Dieses weiteres Verfahren wird motiviert durch die Existenz von \glqq if-Stateme
 \end{enumerate}
 
 
+\subsection{Algorithmus}
+\subsubsection{Zeichnen des Kontrollflussgraphen}
+Der Kontrollflussgraph ist ein gerichteter Graph.
+\begin{enumerate}
+    \item Zeichne einen Knoten für den Programmstart
+    \item Zeichne für eine for-Schleife drei Knoten (Kopf, Iteration, Ausstieg) verbunden durch zwei Kanten Kopf $\rightarrow$ Iteration und Kopf $\rightarrow$ Ausstieg
+    \item Zeichne für eine if-else-Fallunterscheidung vier Knoten (Bedingung, true-Pfad, false-Pfad, Ende), die rautenförmig verbunden sind (bis auf weitere Satements in den true- und false-Pfaden).
+    \item Zeichne für jede Zuweisung $S$ eine passend beschriftete Kante $S$, die in einem neuen Knoten endet
+    \item Verbinde aufeinanderfolgende Anweisungen mit Vorwärts-, Schleifenwiederholungen durch Rüchwärtskanten.
+        Solche Kanten, die nicht zu einem benannten (Zuweisungs-) Statement wie $S$ oder $T$ gehören werden bei 1 beginnend durchnummeriert. Die Reihenfolge spielt dabei keine Rolle.
+    \item Der Pfad zum Programmende (üblicherweise der letzte Schleifenausstieg) erhält einen Endknoten
+\end{enumerate}
+
+\subsubsection{Bestimmen der Quellen pro Abhängigkeit}
+In diesem Schritt werden die möglichen Quellen \textit{src} pro Leseoperation bestimmt. Zunächst werden die Quellen des Lesevorgangs mit $\bot$ (Bottom, keine Quelle vorhanden / undefinierter Wert) identifiziert und nach und nach aufgefüllt.
+
+Währenddessen wird die \textit{Ordnung} zwischen den Indizes der Leseoperation und denen der momentan betrachteten Schleifeniterationen modifiziert. Die Ordnung $(=,<)$ bedeutet etwa, dass für die Indizes $i=i'\wedge j<j'$ gilt, wobei $i$ und $j$ die Schreiboperation, $i'$ und $j'$ die Leseoperation indzieren.
+\begin{enumerate}
+    \item Setze $\mathit{src}={\bot}$ und beginne mit der Ordnung $(=,=)$.
+    \item Laufe Kante für Kante rückwärts durch den Kontrollflussgraphen, beginnend bei der zu untersuchenden Leseoperation.
+        \begin{enumerate}
+            \item Bei einer Schreiboperation wird geprüft, ob der Konflikt zur Leseoperation mit der Momentanen Ordnung vereinbar ist. Falls ja, wird die (Konflikt-)Bedingung für die Abhängigkeit ausgewertet und \textit{src} entsprechend angepasst.
+
+                Immer wenn sich \textit{src} ändert, muss eine Mischoperation (Merge) durchgeführt werden, bei dem aus zwei Schreiboperationen auf die gleiche Speicherzelle die spätere (überschreibende) ausgewählt wird.
+            \item Bei der Verzweigung an einem Schleifenkopf wird die Rückwärtskante gewählt, falls die Schleife noch nicht behandelt wurde oder sich bei ihrem letzten Durchlauf die Ordnung geändert hat. Ansonsten wird sie über die Eingangskante verlassen.
+
+                Wird eine Schleife verlassen, so wird die Ordnung in der Schleifenvariablen auf $*$ (beliebig) gesetzt.
+            \item An einer if-else-Verzweigung werden beide Pfade durchlaufen, die Einträge in \textit{src} mit
+                den entsprechenden Prädikaten $P$ versehen und beim Erreichen des Bedingungsknotens ein \textit{Merge} durchgeführt.
+            \item Bei der Rückwärtskante einer Schleife wird die Ordnung angepasst: Zählt die Schleife hoch, wechselt die Ordnung in der jeweiligen Variable von $=$ auf $<$.
+            \item Leere Kanten werden übersprungen.
+        \end{enumerate}
+    \item Der Algorithmus terminiert, sobald für kein Indextupel $(i,j)$ mehr $\bot$ als Quelle auftritt.
+\end{enumerate}
+
+
 \subsection{Anmerkungen}
 \begin{enumerate}
   \item Implementierung mit Omega (Presburger Arithmetik) \( \rightarrow \) Genauigkeit
