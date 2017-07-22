@@ -12,7 +12,7 @@
 \item[Basisfall] Synthetisierte Attribute für Zuweisungen im Parsebaum
 \item[gen$\lbrack S \rbrack$] die Definitionen eines Statements $S$
 \item[kill$\lbrack S \rbrack$] solche Definitionen, die von Statement $S$ überschrieben werden.
-\item[zusammengesetzte Anweisungen] Verallgemeinerung von $gen[S]$ und $kill[S]$ auf zusammengesetzte Anweisungen wie Sequenz, Konditional und Schleife.
+\item[zusammengesetzte Anweisungen] Verallgemeinerung von $gen[S]$ und $kill[S]$ auf zusammengesetzte Anweisungen wie Sequenz, Konditional und Schleife.\\
   Dafür ist eine Abschätzung notwendig:
   \begin{description}
     \item[$gen$] es \emph{könnte} generiert worden sein.
@@ -21,6 +21,28 @@
 \end{description}
 
 Die Berechnung erfolgt entlang des Parsebaums (bottom-up) durch \emph{Datenflussgleichungen} -- oder allgemein durch Fixpunktiteration.
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.2]{images/bild1-3.png}
+  % \caption{Datenflussgleichungen für \glqq erreichende Definitionen\grqq\ }
+  \caption{Datenflussgleichungen für zusammengesetzte Anweisungen}
+  \label{fig:datenflussgleichungen}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.2]{images/bild3-1.png}
+  \caption{Beispielprogramm}
+  \label{fig:beispielprogramm}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.2]{images/bild2-1.png}
+  \caption{Resultat der konventionellen Abhängigkeitsanalyse}
+  \label{fig:resultat}
+\end{figure}
 
 \subsubsection{Aufstellen des Parsebaums aus Pseudocode}
 
@@ -34,7 +56,7 @@ Die Berechnung erfolgt entlang des Parsebaums (bottom-up) durch \emph{Datenfluss
 \end{itemize}
 
 \textit{Siehe \Cref{convent:ast}.}
-\begin{figure}
+\begin{figure}[p]
     \hfill
     \begin{minipage}{0.4\textwidth}
         \centering
@@ -76,9 +98,9 @@ if (E1) {
         die kill-Menge Schnitt der kill-Mengen
 \end{itemize}
 \textit{Siehe \Cref{convent:genkill}.}
-\begin{figure}
+\begin{figure}[p]
     \centering
-    \includegraphics[scale=0.45]{images/convent-genkill.pdf}
+    \includegraphics[scale=0.4]{images/convent-genkill.pdf}
     \caption{Bestimmung der gen- und kill-Mengen}
     \label{convent:genkill}
 \end{figure}
@@ -96,33 +118,11 @@ if (E1) {
 \end{itemize}
 
 \textit{Siehe \Cref{convent:inout}.}
-\begin{figure}
+\begin{figure}[p]
     \centering
-    \includegraphics[scale=0.45]{images/convent-inout.pdf}
+    \includegraphics[scale=0.4]{images/convent-inout.pdf}
     \caption{Bestimmung der in- und out-Mengen}
     \label{convent:inout}
-\end{figure}
-
-\begin{figure}[p]
-  \centering
-  \includegraphics[scale=0.2]{images/bild1-3.png}
-  % \caption{Datenflussgleichungen für \glqq erreichende Definitionen\grqq\ }
-  \caption{Datenflussgleichungen für zusammengesetzte Anweisungen}
-  \label{fig:datenflussgleichungen}
-\end{figure}
-
-\begin{figure}[p]
-  \centering
-  \includegraphics[scale=0.2]{images/bild3-1.png}
-  \caption{Beispielprogramm}
-  \label{fig:beispielprogramm}
-\end{figure}
-
-\begin{figure}[p]
-  \centering
-  \includegraphics[scale=0.2]{images/bild2-1.png}
-  \caption{Resultat der konventionellen Abhängigkeitsanalyse}
-  \label{fig:resultat}
 \end{figure}
 
 \subsubsection{Nachteile dieses Verfahrens}
