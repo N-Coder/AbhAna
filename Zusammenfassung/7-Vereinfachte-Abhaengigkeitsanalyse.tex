@@ -24,7 +24,7 @@ Eindimensionale Arrays: Seien $X(a_1*i_1+\cdots+a_m*i_m+a_0)$ und
 $X(b_1*i_1+\cdots+b_n*i_n+b_0)$ die zu untersuchenden Arrayzugriffe.
 Wenn gcd($a_1,\cdots,a_m,b_1,\cdots,b_n$) die Differenz $(b_0-a_0)$
 nicht teilt, dann kann es die vermutete Abhängigkeit nicht geben
-(Kapitel 3, Punkt 2.(g)).
+(\Cref{sec:gls-algorithmus} \Cref{itm:gls-rueckfuehrung}).
 
 \smallskip
 Mehrdimensionale Arrays: Führe den einfachen GCD-Test unabhängig für
@@ -76,11 +76,10 @@ Wir hatten: Statt \(x \cdot A = b  \) \\
 \end{enumerate}
 
 
-\subsection{Verallgemeinerter gcd-Test:} Berechne die in Kapitel 3, Punkt 2.(i)
-angegebene Existenz von $t$, stoppe aber dann mit der genauen
-Berechnung der Abhängigkeiten. (Damit werden auch die Räume nicht
-überprüft.)  Dies garantiert die gleichzeitige Erfüllung aller
-GCD-Tests für sämtliche Arraydimensionen.
+\subsection{Verallgemeinerter gcd-Test:}
+Berechne die in \Cref{sec:gls-algorithmus} \Cref{itm:gls-formeln} angegebene Existenz von $t$, stoppe aber dann mit der genauen Berechnung der Abhängigkeiten.
+(Damit werden auch die Räume nicht überprüft.)
+Dies garantiert die gleichzeitige Erfüllung aller GCD-Tests für sämtliche Arraydimensionen.
 
 \paragraph{Beispiel}
 Kein Interesse an den Werten von x, somit Abbruch nach Berechnung von t. Das ist erlaubt, da U unimodular und damit \glqq ganzzahligkeitserhaltend\grqq .

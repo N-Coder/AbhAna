@@ -97,7 +97,7 @@ Hier:
 \end{enumerate}
 
 
-\subsubsection{ganzzahlig-lineare Gleichungssysteme}
+\subsubsection{ganzzahlig-lineare Gleichungssysteme}\label{sec:gls-algorithmus}
 \begin{enumerate}
 	\item ``normale'' Gauß-Elimination liefert alle rationalen Lösungen
 	\item Einsetzen der frei wählbaren Variablen führt i.A. zu Brüchen in den nicht frei wählbaren Variablen
@@ -111,8 +111,10 @@ Hier:
 		Daher ab sofort:
 	\item Variablenvektor $x$ von links multiplizieren (damit Matrizen transponiert) und Zeilen-Stufen-Transformation.
 		Also: $x*A = c$. Dann gilt für eine einzelne Gleichung $x*a=c$ nach unimodularer Zeilen-Stufen-Transformation des Spaltenvektors $a$:
+		\label{itm:gls-rueckfuehrung}
 	\item Menge aller Lösungen: $(x_1,\cdots,x_m) = (c/g,t_2,\cdots,t_m)* U$
 	\item Verallgemeinerung: $x*A = c$ lösbar gdw. $\exists t: t*S = c$. Menge aller Lösungen: $x = t*U$.
+		\label{itm:gls-formeln}
 	% \item keine 2 Variables mit \psi_- und \psi_+
 \end{enumerate}
 
