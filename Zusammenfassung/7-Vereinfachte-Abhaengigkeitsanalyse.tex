@@ -146,18 +146,20 @@ Bsp. Dim. 1). Damit: für jeden der drei Fälle neu testen und ggfs. in
 die nächsten Dimensionen weiterverfeinern.
 
 \paragraph{Beispiel}
-Konfliktlgiechung: \( -M + i - i^\prime = 0 \) \\
-Grenzen:
-\begin{align*}
-   1 & \leq M \\
+\subparagraph{Konfliktgleichung:} \( -M + i - i^\prime = 0 \)
+\subparagraph{Grenzen:}
+$\begin{array}{lll}
+   1 & \leq M & \\
    0 & \leq i & \leq 9 \\
-   0 & \leq i & \leq 9
-\end{align*}
+   0 & \leq i^\prime & \leq 9
+\end{array}$
 
-Vorgehen:
-1) Eliminiere in der Konfliktgleichung eine Variable (auflösen eine nach der anderen, indem die Grenzen maximiert bzw. minimiert wird.)\\
-2) Teste, ob die rechte Seite von der Konfliktgleichung in den Grenzen liegt.\\
-
+\subparagraph{Vorgehen:}
+\begin{enumerate}
+\item Eliminiere in der Konfliktgleichung eine Variable (auflösen eine nach der anderen, indem die Grenzen maximiert bzw. minimiert wird.)
+\item Teste, ob die rechte Seite von der Konfliktgleichung in den Grenzen liegt.
+\end{enumerate}
+\begin{center}
 \begin{tabular}{c|c|c}
 lower & upper & elim \\
 \hline
@@ -169,32 +171,28 @@ lower & upper & elim \\
 \hline
 \( -\infty \) & \(8\) & \\
 \end{tabular}
+\end{center}
 
-Weil \( 0 \in ] - \infty, 8 ] \Rightarrow \) potenziell abhängig. \\
+Weil \( 0 \in ] - \infty, 8 ] \Rightarrow \) potenziell abhängig.
 
-Beschränkungen: \\
+\subparagraph{Beschränkungen:}
 \begin{enumerate}
 	\item maximal eine Untergrenze und eine Obergrenze je Variable
 % Grafik einfuegen
 	\item Sortierung der Variablen so, dass die Grenzen der einen Variable unabhängig von den anderen sind. (aus Aufwandsgründen ist hier die Verwendung von FM nicht zu empfehlen)
 \end{enumerate}
 
-Erweiterung: Hinzunahme der Ordnung \\
-wir nehmen
-
-\begin{align*}
-\text{ } & i &< i^\prime \\
-\text{oder } & i &= i^\prime \\
-\text{oder } & i &> i^\prime
-\end{align*}
-
-zu den Grenzen hinzu.
+\subparagraph{Erweiterung:} Hinzunahme der Ordnung\\
+wir nehmen $\begin{array}{lll}
+             & i & < i^\prime \\
+\text{oder } & i & = i^\prime \\
+\text{oder } & i & > i^\prime
+\end{array}$ zu den Grenzen hinzu.
 
 In unserem Beispiel angewandt:
-
 \begin{align*}
 0 \leq i < i^\prime  \leq 9 \\
-0 \leq i \\
+0 \leq i
 \end{align*}
 \[
 \left.
@@ -235,6 +233,7 @@ Wegen (2) darf man nur bei einem Konfliktpaar \( i < i^\prime \) verwenden.
 \end{array}
 \]
 
+\begin{center}
 \begin{tabular}{c|c|c}
 lower & upper & elim \\
 \hline
@@ -246,6 +245,7 @@ lower & upper & elim \\
 \hline
 \( -\infty \) & \(-2\) & \\
 \end{tabular}
+\end{center}
 
 \( \Rightarrow \) Keine Abhängigkeit da \( 0 \notin ] - \infty , -2 ] \)
 
@@ -255,8 +255,7 @@ Bei mehreren Arraydimensionen:
 	\item Keine Abhängigkeit wenn mindestens ein Test fehlschlägt
 \end{enumerate}
 
-Beispiel % Grafik einfuegen
-
+\subparagraph{Beispiel}\todo{Grafik einfuegen}~\\
 Bei mehreren Schleifendimensionen:\\
 Im Prinzip: \(\left\{ <, =, > \right\} ^{d \leftarrow \text{Anzahl Schleifen}} \) somit \(3^d\) Fälle
 
