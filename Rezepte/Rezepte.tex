@@ -17,6 +17,7 @@
 \usepackage{xcolor}
 \usepackage{subcaption}
 \usepackage{hyperref}
+\usepackage{cleveref}
 \usepackage{stix}
 \usepackage[margin=2cm]{geometry}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
@@ -53,6 +54,17 @@
 \input{GLS-example}
 
 \section{Fourier-Motzkin (Übung 4)}
+Ordne Variablen aufsteigend nach Anzahl der Gleichungen (äußerste Schleifenvariable zuletzt),
+anschließend sukzessive Elimination der einzelnen Variablen: sei $x_j$ die zu eliminierende Variable
+\begin{enumerate}
+	\item \label{itm:fm-aufl} Löse die Gleichungen nach $x_j$ auf\\
+		$\Rightarrow$ Ergebnis: untere Schranken für $x_j$, obere Schranken für $x_j$ und Ungleichungen, die $x_j$ nicht beinhalten
+	\item \label{itm:fm-elim} Lösche die $x_j$ beschränkenden Ungleichungen und füge stattdessen die Paare aller möglichen Ungleichungskombinationen ein, die sich ergibt, wenn man alle Unterschranken von $x_j$ allen Oberschranken von $x_j$ gegenüberstellt
+	\item Weiter mit $x_{j+1}$ und den Ungleichungen aus \Cref{itm:fm-aufl}, die $x_j$ nicht beinhalten, und den kombinierten Ungleichungen aus \Cref{itm:fm-elim}.
+\end{enumerate}
+\textbf{erfolgreiche Termination:} keine Ungleichung oder keine Variable geblieben\\
+\textbf{erfolglose Termination:} die letzte Ungleichung (ohne Variable) ist nicht erfüllt
+
 \section{Banerjee (Übung 6)}
 \section{Feautrier (Übung 7)}
 \section{Single Assignment (Übung 7)}
