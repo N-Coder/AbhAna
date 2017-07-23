@@ -17,6 +17,7 @@
 \usepackage{xcolor}
 \usepackage{subcaption}
 \usepackage{hyperref}
+\usepackage{stix}
 \usepackage[margin=2cm]{geometry}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 
@@ -33,6 +34,30 @@
 % -----------------------------------------------------------------------------
 \begin{document}
 
-\input{S-Graphentheorie}
+% \input{S-Graphentheorie}
+% \section{Klassische AbhAna (gen, kill, in, out) (Übung 3)}
+
+\section{Diophantische GLS lösen (Übung 4)}
+\begin{center}
+\begin{tabular}{rc|c|c}
+\textbf{Gesucht:}                      & $x$   & $A * x = c$              & $\hrectangle * \vrectangleblack = \vrectangleblack$ \\
+\hline
+\textbf{Umformung Zeilenstufenform:}   & $S$   & $U * A^T = S$            & $\square * \vrectangle = \vrectangle$\\
+                                       &       & $(A^T|I) \leadsto (S|U)$ & $(\vrectangle | \square)$ \\
+\hline
+\textbf{Ganzzahlige Lösungsparameter:} & $t$   & $t * S = c^T$            & $\hrectangleblack * \vrectangle = \hrectangleblack$ \\
+\hline
+\textbf{Lösung:}                       & $x$   & $t * U = x^T$              & $\hrectangleblack * \square = \hrectangleblack$ \\
+\end{tabular}
+\end{center}
+\input{GLS-example}
+
+\section{Fourier-Motzkin (Übung 4)}
+\section{Banerjee (Übung 6)}
+\section{Feautrier (Übung 7)}
+\section{Single Assignment (Übung 7)}
+\section{Schnelltest/Vereinfachungen (GCD- und Extreme Value Test) (Übung 8)}
+\section{CfFada (Übung 9)}
+\section{Omega (Übung 10)}
 
 \end{document}
