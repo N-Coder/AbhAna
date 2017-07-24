@@ -206,22 +206,42 @@ Währenddessen wird die \textit{Ordnung} zwischen den Indizes der Leseoperation 
 
 \section{Omega-Test (Übung 10)}
 
-\textbf{Ziel:} (Meist) schnelle Bestimmung der Lösbarkeit von Gleichungs-Ungleichungssystemen. Dazu Auflösen der Gleichungen, einsetzen in die Ungleichungen, Vereinfachen, Fourier-Motzkin, wiederholen.
+\textbf{Ziel:} (Meist) schnelle Bestimmung der Lösbarkeit von Gleichungs-Ungleichungssystemen. Dazu Auflösen der Gleichungen, einsetzen in die Ungleichungen, Vereinfachen, Fourier-Motzkin mit Tricks.
 
-\textbf{Falls Gleichungen vorhanden sind:}
+\smallskip\smallskip
+\textbf{Solange Gleichungen vorhanden sind:}
+\vspace*{-0.3em}
 \begin{enumerate}
     \item Löse eine Gleichung nach der Variablen mit dem kleinsten Koeffizienten auf.
         \begin{itemize}
             \item Falls ein Koeffizient gleich 1 ist oder durch Ganzzahldivision der Gleichung auf 1 gebracht werden kann, einfach.
-            \item Sonst: TODO mod
+            \item Sonst sei $m=a_k$ der Betragsmäßig kleinste Koeffizient in der Gleichung.
+                 Führe eine neue Variable $\alpha$ ein mit
+                \[m\alpha = \sum_i(a_i\,\widehat\mathrm{mod}\,m)x_i,\]
+                löse nach $x_k$ (der Variablen mit besagtem kleinsten Koeffizienten) auf und setze ein. Dabei ist
+                \[a,\widehat\mathrm{mod}\,b\;=\;a-b\cdot\left\lfloor\frac a b+\frac12\right\rfloor\]
+                Das reduziert die größe des Koeffizienten um mindestens $\frac23$, ggf. wiederholen bis ein Koeffizient 1 ist.
         \end{itemize}
-    \item Setze die Lösung in alle anderen Gleichugnen und Ungleichungen ein.
+    \item Setze die Lösung in alle anderen Gleichungen und Ungleichungen ein.
 \end{enumerate}
 
-\textbf{Falls keine Gleichungen vorhanden sind:}
+\textbf{Falls mindestens zwei Ungleichungen, aber keine Gleichungen vorhanden sind:}
+\vspace*{-0.3em}
 \begin{enumerate}
     \item Entferne redundante Ungleichungen falls möglich
-    \item TODO
+        \vspace*{-0.3em}
+        \begin{itemize}
+            \item Gegengleiche Ungleichungen zu Gleichung zusammenfassen, eliminieren wie oben
+            \item Widersprüchliche Ungleichungen $\Rightarrow$ \textbf{unlösbar}
+            \item Nur noch eine Variable $\Rightarrow$ \textbf{ganzzahlig lösbar}
+        \end{itemize}
+    \item Wähle eine Variable $x$ zur Elimination aus
+    \item \label{reellerschatten} Bestimme den \textit{reellen Schatten}: Für jedes Paar aus unteren Schranken $b\cdot x\geq\beta$ und oberen Schranken $a\cdot x\leq\alpha$ bilde die Ungleichung $b\cdot \alpha-a\cdot \beta\geq0$ und eliminiere $x$. Hat dieses System keine ganzzahlige Lösung, ist das Ursprungsproblem \textbf{unlösbar}.
+    \item Bestimme den \textit{dunklen Schatten}: Bilde wie bei \ref{reellerschatten} Ungleichungen $b\cdot \alpha-a\cdot\beta\geq(a-1)\cdot(b-1)$. Sind diese ganzzahlig lösbar, ist das Ursprungsproblem \textbf{ganzzahlig lösbar}.
+    \item Sind reeller und dunkler Schatten identisch, ist das Ursprungssystem \textbf{genau dann lösbar}, wenn für den reellen Schatten eine ganzzahlige Lösung existiert.
+    \item \textit{Nightmare:} Füge dem Ursprungsproblem die Gleichung $b\cdot x=\beta+i$ hinzu, eliminiere $x$ und bestimme die Lösbarkeit des Systems für alle $i\in\{a,\lfloor\frac{ab-a-b}a\rfloor\}$. Dabei ist $\beta$ eine Untergrenze $\beta\leq b\cdot x$ von $x$ und $a$ der größte Koeffizient für $x$, der in einer oberen Schranke vorkommt. Das Ursprungsproblem ist \textbf{genau dann lösbar}, wenn das System für mindestens eins dieser $i$ lösbar ist.
 \end{enumerate}
+
+Falls nur noch eine Ungleichung übrig ist, ist das System \textbf{ganzzahlig lösbar}.
 
 \end{document}
