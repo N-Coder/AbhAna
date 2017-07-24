@@ -1,0 +1,18 @@
+Cffada:
+    - Neue (innere) Schleife wie im Übungsbeispiel betreten -> Ordnung dort (*)
+    - Bei </* -Durchlauf muss nochmal vollständig durchlaufen werden, um Überschreiben / Reordering abzubilden
+    - = - Durchläufe können abgebrochen werden, wenn ⊥ nicht mehr in src vorkommt
+    - Merge bei Überschneidung: Bedingung für frühren Write (!(der spätere) && (der frühere))
+    - Lexikografisch Maximieren: FM, innersten Index zuerst maximieren
+
+Omega:
+    - Keine Ungleichungen aus Gleichunen konstruieren (weniger Komplexität)
+    - Gleichungen Auflösen und Einsetzen killt je eine Variable -> FM einfacher
+    - Reeller Schatten: (Reelle Projektion) kann evtl. Lösungen erhalten, obwohl es keine ganzzahligen gibt. (Kann Existenz einer Lösung widerlegen)
+    - Dunkler Schatten: So verkleinern, dass eine ganzzahlige Lösung eine ganzzahlige Lösung des Ursprungssystems impliziert (Kann Existenz einer Lösung beweisen).
+
+Versus:
+    - Banerjee kann nur perfekt verschachtelte affine Schleifen ohne ifs, findet transitive Abhängigkeiten
+    - Feautrier kann nur Flow-Dependencies, dafür aber nicht-perfekt verschachtelte affine Schleifen, leicht auf ifs erweiterbar, Optimierung klammert transitive aus
+    - CfFada kann nicht perfekt verschachtelte affine Schleifen mit nicht-affinen komplexen Bedingungen, klammert transitive aus
+    - Vorverarbeitung kann Scope der Verfahren evtl. erweitern
