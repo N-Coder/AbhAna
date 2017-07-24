@@ -52,6 +52,7 @@ Währenddessen wird die \textit{Ordnung} zwischen den Indizes der Leseoperation 
     \item Laufe Kante für Kante rückwärts durch den Kontrollflussgraphen, beginnend bei der zu untersuchenden Leseoperation.
         \begin{enumerate}
             \item Bei einer Schreiboperation wird geprüft, ob der Konflikt zur Leseoperation mit der Momentanen Ordnung vereinbar ist. Falls ja, wird die (Konflikt-)Bedingung für die Abhängigkeit ausgewertet und \textit{src} entsprechend angepasst.
+            Hinzugefügt wird die neue Quelle zusammen mit 1) der momentanen Ordnung als Bedingung und 2) den Bedingungen der umgebenden if-else-Verzweigungen (die rückwärts betreten und bisher noch nicht verlassen wurden).
 
                 Immer wenn sich \textit{src} ändert, muss eine Mischoperation (Merge) durchgeführt werden, bei dem aus zwei Schreiboperationen auf die gleiche Speicherzelle die spätere (überschreibende) ausgewählt wird.
             \item Bei der Verzweigung an einem Schleifenkopf wird die Rückwärtskante gewählt, falls die Schleife noch nicht behandelt wurde oder sich bei ihrem letzten Durchlauf die Ordnung geändert hat. Ansonsten wird sie über die Eingangskante verlassen.
@@ -62,7 +63,7 @@ Währenddessen wird die \textit{Ordnung} zwischen den Indizes der Leseoperation 
             \item Bei der Rückwärtskante einer Schleife wird die Ordnung angepasst: Zählt die Schleife hoch, wechselt die Ordnung in der jeweiligen Variable von $=$ auf $<$.
             \item Leere Kanten werden übersprungen.
         \end{enumerate}
-    \item Der Algorithmus terminiert, sobald für kein Indextupel $(i,j)$ mehr $\bot$ als Quelle auftritt.
+    \item Der Algorithmus terminiert, sobald für kein Indextupel $(i,j)$ mehr $\bot$ als Quelle auftritt, oder das Programmende erreicht wurde.
 \end{enumerate}
 
 
