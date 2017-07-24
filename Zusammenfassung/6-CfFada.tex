@@ -48,22 +48,20 @@ In diesem Schritt werden die möglichen Quellen \textit{src} pro Leseoperation b
 
 Währenddessen wird die \textit{Ordnung} zwischen den Indizes der Leseoperation und denen der momentan betrachteten Schleifeniterationen modifiziert. Die Ordnung $(=,<)$ bedeutet etwa, dass für die Indizes $i=i'\wedge j<j'$ gilt, wobei $i$ und $j$ die Schreiboperation, $i'$ und $j'$ die Leseoperation indzieren.
 \begin{enumerate}
-    \item Setze $\mathit{src}={\bot}$ und beginne mit der Ordnung $(=,=)$.
+    \item Setze $\mathit{src}={\bot}$ und beginne mit der Ordnung $(=,=,=,\ldots)$.
     \item Laufe Kante für Kante rückwärts durch den Kontrollflussgraphen, beginnend bei der zu untersuchenden Leseoperation.
         \begin{enumerate}
             \item Bei einer Schreiboperation wird geprüft, ob der Konflikt zur Leseoperation mit der Momentanen Ordnung vereinbar ist. Falls ja, wird die (Konflikt-)Bedingung für die Abhängigkeit ausgewertet und \textit{src} entsprechend angepasst.
-            Hinzugefügt wird die neue Quelle zusammen mit 1) der momentanen Ordnung als Bedingung und 2) den Bedingungen der umgebenden if-else-Verzweigungen (die rückwärts betreten und bisher noch nicht verlassen wurden).
+            Hinzugefügt wird die neue Quelle zusammen mit 1) der momentanen Ordnung als Bedingung und 2) den Bedingungen der umgebenden if-else-Verzweigungen (die rückwärts betreten und bisher noch nicht verlassen wurden; also den zu untersuchenden Lesezugriff nicht enthalten).
 
-                Immer wenn sich \textit{src} ändert, muss eine Mischoperation (Merge) durchgeführt werden, bei dem aus zwei Schreiboperationen auf die gleiche Speicherzelle die spätere (überschreibende) ausgewählt wird.
-            \item Bei der Verzweigung an einem Schleifenkopf wird die Rückwärtskante gewählt, falls die Schleife noch nicht behandelt wurde oder sich bei ihrem letzten Durchlauf die Ordnung geändert hat. Ansonsten wird sie über die Eingangskante verlassen.
-
-                Wird eine Schleife verlassen, so wird die Ordnung in der Schleifenvariablen auf $*$ (beliebig) gesetzt.
+                Immer wenn sich \textit{src} ändert oder zwei unterschiedliche Pfade wieder zusammengeführt wurden (also an den ersten Knoten von Bedingungen und Schleifen), muss eine Mischoperation (Merge) durchgeführt werden, bei dem aus zwei Schreiboperationen auf die gleiche Speicherzelle die spätere (überschreibende) ausgewählt wird. (Vereinfachung: Ist die Ordnung $=$ kann die neue Operation einfach angehängt werden, ist die Ordnung $<$ oder $*$ muss geprüft werden, welcher Konflikt als letztes auftritt.)
+            \item Bei der Verzweigung an einem Schleifenkopf wird die Rückwärtskante gewählt, falls die Schleife noch nicht vollständig behandelt wurde (also die Ordnungen $=$ und $<$ bzw. $*$). Ansonsten wird sie über die Eingangskante verlassen. Bei inneren Schleifen (die den zu untersuchenden Lesezugriff nicht enthalten) wird $*$ als weitere Ordnung angehängt, bei äußeren Schleifen wechselt die Ordnung im entsprechenden Level von $=$ zu $<$.
             \item An einer if-else-Verzweigung werden beide Pfade durchlaufen, die Einträge in \textit{src} mit
                 den entsprechenden Prädikaten $P$ versehen und beim Erreichen des Bedingungsknotens ein \textit{Merge} durchgeführt.
-            \item Bei der Rückwärtskante einer Schleife wird die Ordnung angepasst: Zählt die Schleife hoch, wechselt die Ordnung in der jeweiligen Variable von $=$ auf $<$.
+            % \item Bei der Rückwärtskante einer Schleife wird die Ordnung angepasst: Zählt die Schleife hoch, wechselt die Ordnung in der jeweiligen Variable von $=$ auf $<$.
             \item Leere Kanten werden übersprungen.
         \end{enumerate}
-    \item Der Algorithmus terminiert, sobald für kein Indextupel $(i,j)$ mehr $\bot$ als Quelle auftritt, oder das Programmende erreicht wurde.
+    \item Der Algorithmus terminiert frühzeitig, sobald für kein Indextupel $(i,j)$ mehr $\bot$ als Quelle auftritt und die Ordnung nur aus $=$ besteht (ansonsten könnten weiter oben im Programmcode noch Konflikte gefunden werden, die bereits gefundene überschreiben). Ansonsten Termination sobald das Programmende erreicht wurde.
 \end{enumerate}
 
 
