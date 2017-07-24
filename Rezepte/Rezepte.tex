@@ -69,7 +69,102 @@ anschließend sukzessive Elimination der einzelnen Variablen: sei $x_j$ die zu e
 \section{Feautrier (Übung 7)}
 \section{Single Assignment (Übung 7)}
 \section{Schnelltest/Vereinfachungen (GCD- und Extreme Value Test) (Übung 8)}
+
+\textbf{Reihenfolge:}
+\begin{enumerate}
+    \item Einfacher GCD
+    \item Extreme-Value-Test
+    \item Erweiterter GCD
+\end{enumerate}
+
+\subsection{Einfacher GCD}
+
+Der einfache GCD-Test verwirft unlösbare Gleichungssysteme, indem er jede Gleichung auf potentielle Lösbarkeit überprüft.
+
+Gleichungen der Form
+\[a_1x_1 + a_2x_2 + a_3x_3 = a_0\]
+sind unlösbar, wenn
+\[\gcd(a_1, a_2, a_3) \nmid a_0\]
+
+\subsection{Extreme-Value-Test}
+
+Der Extreme-Value-Test überprüft, ob die Wertemenge eines Terms
+\[a_1x_1 + a_2x_2 + a_3x_3\]
+$a_0$ enthalten kann. Dazu werden bekannte obere und untere Schranken für $x_i$ herangezogen.
+
+\subsubsection*{Beispiel}
+\textbf{Konfliktgleichung:} \( -M + i - i^\prime = 0 \)
+
+\textbf{Grenzen:}
+$\begin{array}{lll}
+   1 & \leq M & \\
+   0 & \leq i & \leq 9 \\
+   0 & \leq i^\prime & \leq 9
+\end{array}$
+
+\textbf{Vorgehen:}
+\begin{enumerate}
+\item Eliminiere in der Konfliktgleichung eine Variable (auflösen eine nach der anderen, indem die Grenzen maximiert bzw. minimiert wird.)
+\item Teste, ob die rechte Seite von der Konfliktgleichung in den Grenzen liegt.
+\end{enumerate}
+\begin{center}
+\begin{tabular}{c|c|c}
+lower & upper & elim \\
+\hline
+\( -M + i - i^\prime \) & \( -M+i-i^\prime\) & \(i^\prime \) \\
+\hline
+\( -M+ i - 9 \) & \( -M + i -0 \) & \( i \) \\
+\hline
+\(-M -9 \) & \( -M +9 \) & \( M \) \\
+\hline
+\( -\infty \) & \(8\) & \\
+\end{tabular}
+\end{center}
+
+Weil \( 0 \in ] - \infty, 8 ] \Rightarrow \) potenziell abhängig.
+\subsection{Erweiterter GCD}
+
+Stelle das LGS $x^TA^T=c^T$ auf und bestimme die Zeielenstufenform $S$ von $A^T$.
+Besitzt $t^TA^T=c^T$ keine ganzzahligen Lösungen, so ist auch die ursprüngliche Gleichung unlösbar.
+
+Die Lösbarkeit kann also widerlegt werden, ohne $U$ zu bestimmen. Das fuktioniert, weil $U$ unimodular ist und somit die Ganzzahligkeit erhält.
+
 \section{CfFada (Übung 9)}
+
+\subsubsection{Zeichnen des Kontrollflussgraphen}
+Der Kontrollflussgraph ist ein gerichteter Graph.
+\begin{enumerate}
+    \item Zeichne einen Knoten für den Programmstart
+    \item Zeichne für eine for-Schleife drei Knoten (Kopf, Iteration, Ausstieg) verbunden durch zwei Kanten Kopf $\rightarrow$ Iteration und Kopf $\rightarrow$ Ausstieg
+    \item Zeichne für eine if-else-Fallunterscheidung vier Knoten (Bedingung, true-Pfad, false-Pfad, Ende), die rautenförmig verbunden sind (bis auf weitere Satements in den true- und false-Pfaden).
+    \item Zeichne für jede Zuweisung $S$ eine passend beschriftete Kante $S$, die in einem neuen Knoten endet
+    \item Verbinde aufeinanderfolgende Anweisungen mit Vorwärts-, Schleifenwiederholungen durch Rüchwärtskanten.
+        Solche Kanten, die nicht zu einem benannten (Zuweisungs-) Statement wie $S$ oder $T$ gehören werden bei 1 beginnend durchnummeriert. Die Reihenfolge spielt dabei keine Rolle.
+    \item Der Pfad zum Programmende (üblicherweise der letzte Schleifenausstieg) erhält einen Endknoten
+\end{enumerate}
+
+\subsubsection{Bestimmen der Quellen pro Abhängigkeit}
+In diesem Schritt werden die möglichen Quellen \textit{src} pro Leseoperation bestimmt. Zunächst werden die Quellen des Lesevorgangs mit $\bot$ (Bottom, keine Quelle vorhanden / undefinierter Wert) identifiziert und nach und nach aufgefüllt.
+
+Währenddessen wird die \textit{Ordnung} zwischen den Indizes der Leseoperation und denen der momentan betrachteten Schleifeniterationen modifiziert. Die Ordnung $(=,<)$ bedeutet etwa, dass für die Indizes $i=i'\wedge j<j'$ gilt, wobei $i$ und $j$ die Schreiboperation, $i'$ und $j'$ die Leseoperation indzieren.
+\begin{enumerate}
+    \item Setze $\mathit{src}={\bot}$ und beginne mit der Ordnung $(=,=)$.
+    \item Laufe Kante für Kante rückwärts durch den Kontrollflussgraphen, beginnend bei der zu untersuchenden Leseoperation.
+        \begin{enumerate}
+            \item Bei einer Schreiboperation wird geprüft, ob der Konflikt zur Leseoperation mit der Momentanen Ordnung vereinbar ist. Falls ja, wird die (Konflikt-)Bedingung für die Abhängigkeit ausgewertet und \textit{src} entsprechend angepasst.
+
+                Immer wenn sich \textit{src} ändert, muss eine Mischoperation (Merge) durchgeführt werden, bei dem aus zwei Schreiboperationen auf die gleiche Speicherzelle die spätere (überschreibende) ausgewählt wird.
+            \item Bei der Verzweigung an einem Schleifenkopf wird die Rückwärtskante gewählt, falls die Schleife noch nicht behandelt wurde oder sich bei ihrem letzten Durchlauf die Ordnung geändert hat. Ansonsten wird sie über die Eingangskante verlassen.
+
+                Wird eine Schleife verlassen, so wird die Ordnung in der Schleifenvariablen auf $*$ (beliebig) gesetzt.
+            \item An einer if-else-Verzweigung werden beide Pfade durchlaufen, die Einträge in \textit{src} mit
+                den entsprechenden Prädikaten $P$ versehen und beim Erreichen des Bedingungsknotens ein \textit{Merge} durchgeführt.
+            \item Bei der Rückwärtskante einer Schleife wird die Ordnung angepasst: Zählt die Schleife hoch, wechselt die Ordnung in der jeweiligen Variable von $=$ auf $<$.
+            \item Leere Kanten werden übersprungen.
+        \end{enumerate}
+    \item Der Algorithmus terminiert, sobald für kein Indextupel $(i,j)$ mehr $\bot$ als Quelle auftritt.
+\end{enumerate}
+
 \section{Omega (Übung 10)}
 
 \end{document}

@@ -1,2 +1,2 @@
-Rezepte.pdf: Rezepte.tex S-*.tex
+Rezepte.pdf: Rezepte.tex
 	latexmk -pdf "$<" < /dev/null
