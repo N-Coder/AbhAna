@@ -21,6 +21,7 @@
 \usepackage{stix}
 \usepackage[margin=2cm]{geometry}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\usepackage{listings}
 
 % CONFIG
 \clubpenalty = 9000
@@ -66,8 +67,46 @@ anschließend sukzessive Elimination der einzelnen Variablen: sei $x_j$ die zu e
 \textbf{erfolglose Termination:} die letzte Ungleichung (ohne Variable) ist nicht erfüllt
 
 \section{Banerjee (Übung 6)}
+
+\begin{enumerate}
+    \item Stelle das Konfliktgleichungssystem für zwei Zugriffe auf das selbe Array auf
+    \item Bestimme die (ganzzahlige) Lösungsmenge des KGS
+    \item Bestimme die Existenzungleichungen des Konflikts aus den Schleifengrenzen
+    \item Setze die Lösungen des KGS in das EUGS ein und entscheide via Fourier-Motzkin, ob das EUGS eine Lösung hat
+    \item Bestimme die Ordnung (TODO)
+\end{enumerate}
+
 \section{Feautrier (Übung 7)}
+
+\begin{enumerate}
+    \item Stelle das Konfliktgleichungssystem für zwei Zugriffe auf das selbe Array auf
+    \item Bestimme die (ganzzahlige) Lösungsmenge des KGS
+    \item Sammle alle relevanten Ungleichungen:\begin{enumerate}
+        \item Die Existenzungleichungen des Konflikts aus den Schleifengrenzen und die Ordnung (TODO)
+        \item Gleichungen des KGS $a=b$ als Paar von Ungleichungen $a\leq b\wedge a\geq b$
+        \item Die Ungleichungen der Ordnung
+    \end{enumerate}
+    \item Löse das UGS mittels Fourier-Motzkin nach dem Indextupel \textit{eines} Zugriffs (bspw. entweder $i,j$ \textit{oder} $i',j'$.
+    \item Optimierung (TODO)
+\end{enumerate}
+
 \section{Single Assignment (Übung 7)}
+
+Gegeben zwei Statements $S$ und $T$ mit
+\begin{lstlisting}
+S:  ... = A[g(i,j)]
+T:  A[f(i,j)] = ...
+\end{lstlisting}
+
+\begin{enumerate}
+    \item Bestimme die letzte Zuweisung an ein Arrayelement vor dem Lesezugriff mittels Feautrier
+    \item Ersetze im obigen Code wie folgt, wobei $r(i,j)$ den Index des letzten Schreibzugriffs vor dem Lesezugriff in $S$ beschreibt:
+\begin{lstlisting}
+S:  ... = T[r(i,j)]
+T:  T[i,j] = ...
+\end{lstlisting}
+\end{enumerate}
+
 \section{Schnelltest/Vereinfachungen (GCD- und Extreme Value Test) (Übung 8)}
 
 \textbf{Reihenfolge:}
@@ -125,7 +164,7 @@ Weil \( 0 \in ] - \infty, 8 ] \Rightarrow \) potenziell abhängig.
 \subsection{Erweiterter GCD}
 
 Stelle das LGS $x^TA^T=c^T$ auf und bestimme die Zeielenstufenform $S$ von $A^T$.
-Besitzt $t^TA^T=c^T$ keine ganzzahligen Lösungen, so ist auch die ursprüngliche Gleichung unlösbar.
+Besitzt $t^TS=c^T$ keine ganzzahligen Lösungen, so ist auch die ursprüngliche Gleichung unlösbar.
 
 Die Lösbarkeit kann also widerlegt werden, ohne $U$ zu bestimmen. Das fuktioniert, weil $U$ unimodular ist und somit die Ganzzahligkeit erhält.
 
