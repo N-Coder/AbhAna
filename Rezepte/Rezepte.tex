@@ -204,6 +204,24 @@ Währenddessen wird die \textit{Ordnung} zwischen den Indizes der Leseoperation 
     \item Der Algorithmus terminiert, sobald für kein Indextupel $(i,j)$ mehr $\bot$ als Quelle auftritt.
 \end{enumerate}
 
-\section{Omega (Übung 10)}
+\section{Omega-Test (Übung 10)}
+
+\textbf{Ziel:} (Meist) schnelle Bestimmung der Lösbarkeit von Gleichungs-Ungleichungssystemen. Dazu Auflösen der Gleichungen, einsetzen in die Ungleichungen, Vereinfachen, Fourier-Motzkin, wiederholen.
+
+\textbf{Falls Gleichungen vorhanden sind:}
+\begin{enumerate}
+    \item Löse eine Gleichung nach der Variablen mit dem kleinsten Koeffizienten auf.
+        \begin{itemize}
+            \item Falls ein Koeffizient gleich 1 ist oder durch Ganzzahldivision der Gleichung auf 1 gebracht werden kann, einfach.
+            \item Sonst: TODO mod
+        \end{itemize}
+    \item Setze die Lösung in alle anderen Gleichugnen und Ungleichungen ein.
+\end{enumerate}
+
+\textbf{Falls keine Gleichungen vorhanden sind:}
+\begin{enumerate}
+    \item Entferne redundante Ungleichungen falls möglich
+    \item TODO
+\end{enumerate}
 
 \end{document}
