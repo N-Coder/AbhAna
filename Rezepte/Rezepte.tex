@@ -66,14 +66,16 @@ anschließend sukzessive Elimination der einzelnen Variablen: sei $x_j$ die zu e
 \textbf{erfolgreiche Termination:} keine Ungleichung oder keine Variable geblieben\\
 \textbf{erfolglose Termination:} die letzte Ungleichung (ohne Variable) ist nicht erfüllt
 
-\section{Banerjee (Übung 6)}
+\section{Banerjee (Übung 6)}\label{sec:banerjee}
 
 \begin{enumerate}
-    \item Stelle das Konfliktgleichungssystem für zwei Zugriffe auf das selbe Array auf
+    \item Stelle das Konfliktgleichungssystem (KGS) für zwei Zugriffe auf das selbe Array auf
     \item Bestimme die (ganzzahlige) Lösungsmenge des KGS
-    \item Bestimme die Existenzungleichungen des Konflikts aus den Schleifengrenzen
+    \item Bestimme die Existenzungleichungen des Konflikts aus den Schleifengrenzen (EUG-System)
     \item Setze die Lösungen des KGS in das EUGS ein und entscheide via Fourier-Motzkin, ob das EUGS eine Lösung hat
-    \item Bestimme die Ordnung (TODO)
+    \item Bestimme die Ordnung(-en) durch Vergleichen der konflikterzeugenden Schleifenindizes\\(z.B. bei
+    $S[i,j] \rightarrow T[i',j'] \Leftrightarrow (i<i') \vee (i=i' \wedge j<j') \vee (i=i' \wedge j=j' \wedge \textit{ ``S vor T''}) \Leftrightarrow \neg (T[i',j'] \rightarrow S[i,j])$)
+    \label{itm:banerjee-ordnung}
 \end{enumerate}
 
 \section{Feautrier (Übung 7)}
@@ -82,7 +84,7 @@ anschließend sukzessive Elimination der einzelnen Variablen: sei $x_j$ die zu e
     \item Stelle das Konfliktgleichungssystem für zwei Zugriffe auf das selbe Array auf
     \item Bestimme die (ganzzahlige) Lösungsmenge des KGS
     \item Sammle alle relevanten Ungleichungen:\begin{enumerate}
-        \item Die Existenzungleichungen des Konflikts aus den Schleifengrenzen und die Ordnung (TODO)
+        \item Die Existenzungleichungen des Konflikts aus den Schleifengrenzen und der Ordnung (die \emph{true/flow}-Dependency existiert nur bei einer bestimmten Ordnung von $S$ und $T$, so z.B. die Gleichung aus \Cref{sec:banerjee} \Cref{itm:banerjee-ordnung} als weitere Existenzbedingung für $S \rightarrow T$)
         \item Gleichungen des KGS $a=b$ als Paar von Ungleichungen $a\leq b\wedge a\geq b$
         \item Die Ungleichungen der Ordnung
     \end{enumerate}
