@@ -66,6 +66,7 @@ anschließend sukzessive Elimination der einzelnen Variablen: sei $x_j$ die zu e
 \textbf{erfolgreiche Termination:} keine Ungleichung oder keine Variable geblieben\\
 \textbf{erfolglose Termination:} die letzte Ungleichung (ohne Variable) ist nicht erfüllt
 
+\newpage
 \section{Banerjee (Übung 6)}\label{sec:banerjee}
 
 \begin{enumerate}
@@ -89,7 +90,7 @@ anschließend sukzessive Elimination der einzelnen Variablen: sei $x_j$ die zu e
         \item Die Ungleichungen der Ordnung
     \end{enumerate}
     \item Löse das UGS mittels Elimination der Quellindizes (\textit{ohne} Einsetzen der Konfliktgleichungen).
-    \item Optimierung: Finde den \textit{letzten} Schreibzugriff zu jedem Read. 
+    \item Optimierung: Finde den \textit{letzten} Schreibzugriff zu jedem Read.
 \end{enumerate}
 
 \section{Single Assignment (Übung 7)}
@@ -109,6 +110,7 @@ T:  T[i,j] = ...
 \end{lstlisting}
 \end{enumerate}
 
+\newpage
 \section{Schnelltest/Vereinfachungen (GCD- und Extreme Value Test) (Übung 8)}
 
 \textbf{Reihenfolge:}
@@ -170,9 +172,10 @@ Besitzt $t^TS=c^T$ keine ganzzahligen Lösungen, so ist auch die ursprüngliche 
 
 Die Lösbarkeit kann also widerlegt werden, ohne $U$ zu bestimmen. Das fuktioniert, weil $U$ unimodular ist und somit die Ganzzahligkeit erhält.
 
+\newpage
 \section{CfFada (Übung 9)}
 
-\subsubsection{Zeichnen des Kontrollflussgraphen}
+\subsection{Zeichnen des Kontrollflussgraphen}
 Der Kontrollflussgraph ist ein gerichteter Graph.
 \begin{enumerate}
     \item Zeichne einen Knoten für den Programmstart
@@ -184,7 +187,7 @@ Der Kontrollflussgraph ist ein gerichteter Graph.
     \item Der Pfad zum Programmende (üblicherweise der letzte Schleifenausstieg) erhält einen Endknoten
 \end{enumerate}
 
-\subsubsection{Bestimmen der Quellen pro Abhängigkeit}
+\subsection{Bestimmen der Quellen pro Abhängigkeit}
 In diesem Schritt werden die möglichen Quellen \textit{src} pro Leseoperation bestimmt. Zunächst werden die Quellen des Lesevorgangs mit $\bot$ (Bottom, keine Quelle vorhanden / undefinierter Wert) identifiziert und nach und nach aufgefüllt.
 
 Währenddessen wird die \textit{Ordnung} zwischen den Indizes der Leseoperation und denen der momentan betrachteten Schleifeniterationen modifiziert. Die Ordnung $(=,<)$ bedeutet etwa, dass für die Indizes $i=i'\wedge j<j'$ gilt, wobei $i$ und $j$ die Schreiboperation, $i'$ und $j'$ die Leseoperation indzieren.
@@ -205,6 +208,7 @@ Währenddessen wird die \textit{Ordnung} zwischen den Indizes der Leseoperation 
     \item Der Algorithmus terminiert frühzeitig, sobald für kein Indextupel $(i,j)$ mehr $\bot$ als Quelle auftritt und die Ordnung nur aus $=$ besteht (ansonsten könnten weiter oben im Programmcode noch Konflikte gefunden werden, die bereits gefundene überschreiben). Ansonsten Termination sobald das Programmende erreicht wurde.
 \end{enumerate}
 
+\newpage
 \section{Omega-Test (Übung 10)}
 
 \textbf{Ziel:} (Meist) schnelle Bestimmung der Lösbarkeit von Gleichungs-Ungleichungssystemen. Dazu Auflösen der Gleichungen, einsetzen in die Ungleichungen, Vereinfachen, Fourier-Motzkin mit Tricks.
@@ -244,5 +248,51 @@ Währenddessen wird die \textit{Ordnung} zwischen den Indizes der Leseoperation 
 \end{enumerate}
 
 Falls nur noch eine Ungleichung übrig ist, ist das System \textbf{ganzzahlig lösbar}.
+
+
+
+\newpage
+\begin{minipage}{.66\linewidth}
+\section*{Diophantische GLS lösen}
+\begin{center}
+\begin{tabular}{rc|c|c}
+\textbf{Gesucht:}                      & $x$   & $A * x = c$              & $\hrectangle * \vrectangleblack = \vrectangleblack$ \\
+\hline
+\textbf{Umformung Zeilenstufenform:}   & $S$   & $U * A^T = S$            & $\square * \vrectangle = \vrectangle$\\
+                                       &       & $(A^T|I) \leadsto (S|U)$ & $(\vrectangle | \square)$ \\
+\hline
+\textbf{Ganzzahlige Lösungsparameter:} & $t$   & $t * S = c^T$            & $\hrectangleblack * \vrectangle = \hrectangleblack$ \\
+\hline
+\textbf{Lösung:}                       & $x$   & $t * U = x^T$              & $\hrectangleblack * \square = \hrectangleblack$ \\
+\end{tabular}
+\end{center}
+
+\section*{Omega-Test}
+\subsection*{Gleichungssysteme}
+\[m\alpha = \sum_i(a_i\,\widehat\mathrm{mod}\,m)x_i \quad \text{ mit } m=|a_k|+1\]
+\[a,\widehat\mathrm{mod}\,b\;=\;a-b\cdot\left\lfloor\frac a b+\frac12\right\rfloor\]
+
+
+\subsection*{Unleichungssysteme}
+\subsubsection*{reeller Schatten}
+\begin{tabular}{rl}
+untere Schranke & $b\cdot x\geq\beta$ \\
+obere Schranke  & $a\cdot x\leq\alpha$
+\end{tabular}
+\[b\cdot \alpha-a\cdot \beta\geq0\]
+keine ganzzahlige Lösung $\Rightarrow$ Ursprungsproblem \textbf{unlösbar}
+
+
+\subsubsection*{dunklen Schatten}
+\[b\cdot \alpha-a\cdot\beta\geq(a-1)\cdot(b-1)\]
+ganzzahlig lösbar $\Rightarrow$ Ursprungsproblem \textbf{ganzzahlig lösbar}.
+
+
+\subsubsection*{Nightmare}
+\[b\cdot x=\beta+i \quad \text{ mit } \quad  i\in\{0,\hdots,\lfloor\frac{ab-a-b}a\rfloor\}\]
+Ursprungsproblem \textbf{lösbar} $\Leftrightarrow$ System für mindestens ein $i$ lösbar
+\end{minipage}
+
+
 
 \end{document}
