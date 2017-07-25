@@ -216,14 +216,14 @@ Währenddessen wird die \textit{Ordnung} zwischen den Indizes der Leseoperation 
     \item Löse eine Gleichung nach der Variablen mit dem kleinsten Koeffizienten auf.
         \begin{itemize}
             \item Falls ein Koeffizient gleich 1 ist oder durch Ganzzahldivision der Gleichung auf 1 gebracht werden kann, einfach.
-            \item Sonst sei $m=a_k$ der Betragsmäßig kleinste Koeffizient in der Gleichung.
+            \item Sonst sei $m=|a_k|+1$ der Betragsmäßig kleinste Koeffizient in der Gleichung.
                  Führe eine neue Variable $\alpha$ ein mit
                 \[m\alpha = \sum_i(a_i\,\widehat\mathrm{mod}\,m)x_i,\]
                 löse nach $x_k$ (der Variablen mit besagtem kleinsten Koeffizienten) auf und setze ein. Dabei ist
                 \[a,\widehat\mathrm{mod}\,b\;=\;a-b\cdot\left\lfloor\frac a b+\frac12\right\rfloor\]
                 Das reduziert die größe des Koeffizienten um mindestens $\frac23$, ggf. wiederholen bis ein Koeffizient 1 ist.
         \end{itemize}
-    \item Setze die Lösung in alle anderen Gleichungen und Ungleichungen ein.
+    \item Setze die Lösung in die ursprüngliche Gleichung ein. Ist kein Koeffizient gleich 1, wiederhole.
 \end{enumerate}
 
 \textbf{Falls mindestens zwei Ungleichungen, aber keine Gleichungen vorhanden sind:}
